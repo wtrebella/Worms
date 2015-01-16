@@ -47,9 +47,13 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Board.cs" />
-     <Compile Include="Assets\Scripts\Direction.cs" />
+     <Compile Include="Assets\Scripts\BoardDirection.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\IntVector2.cs" />
      <Compile Include="Assets\Scripts\Tile.cs" />
-     <Compile Include="Assets\Scripts\TileConnection.cs" />
+     <Compile Include="Assets\Scripts\TileEdge.cs" />
+     <Compile Include="Assets\Scripts\TilePassage.cs" />
+     <Compile Include="Assets\Scripts\TileWall.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCamera.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraAnchor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraUtil.cs" />

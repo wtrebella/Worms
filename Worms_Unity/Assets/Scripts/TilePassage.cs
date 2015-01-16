@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TileConnection : MonoBehaviour {
-	public Tile parentTile;
-	public Tile connectedTile;
+public class TilePassage : TileEdge {
 
 	void Start () {
 	
