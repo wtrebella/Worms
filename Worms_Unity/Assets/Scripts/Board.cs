@@ -57,6 +57,14 @@ public class Board : MonoBehaviour {
 		return tiles[coordinates.x, coordinates.y];
 	}
 
+	public Vector3 GetTilePosition(IntVector2 coordinates) {
+		Vector3 pos = new Vector3();
+		pos.x = (coordinates.x + 0.5f - size.x / 2f) * tileSize;
+		pos.y = (coordinates.y + 0.5f - size.y / 2f) * tileSize;
+		pos.z = 0;
+		return pos;
+	}
+
 	public bool ContainsCoordinates(IntVector2 coordinate) {
 		return coordinate.x >= 0 && coordinate.x < size.x && coordinate.y >= 0 && coordinate.y < size.y;
 	}
@@ -83,11 +91,7 @@ public class Board : MonoBehaviour {
 		newTile.name = "Tile " + coordinates.x + ", " + coordinates.y;
 		newTile.coordinates = coordinates;
 		newTile.transform.parent = transform;
-		Vector3 pos = new Vector3();
-		pos.x = (coordinates.x + 0.5f - size.x / 2f) * tileSize;
-		pos.y = (coordinates.y + 0.5f - size.y / 2f) * tileSize;
-		pos.z = transform.position.z;
-		newTile.transform.position = pos;
+		newTile.transform.position = GetTilePosition(coordinates);
 
 		return newTile;
 	}

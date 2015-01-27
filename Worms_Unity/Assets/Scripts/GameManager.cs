@@ -3,8 +3,10 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 	public Board boardPrefab;
+	public Worm wormPrefab;
 	
-	private Board boardInstance;
+	private Board board;
+	private Worm worm;
 
 	private void Start () {
 		BeginGame();
@@ -15,12 +17,15 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	private void BeginGame () {
-		boardInstance = Instantiate(boardPrefab) as Board;
-		boardInstance.Generate();
+		board = Instantiate(boardPrefab) as Board;
+		board.Generate();
+
+		worm = Instantiate(wormPrefab) as Worm;
+		worm.Initialize(board, new IntVector2(3, 0));
 	}
 	
 	private void RestartGame () {
-		Destroy(boardInstance.gameObject);
+		Destroy(board.gameObject);
 		BeginGame();
 	}
 }
