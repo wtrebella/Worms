@@ -32,6 +32,7 @@ public class Board : MonoBehaviour {
 				Tile tile = GetTile(new IntVector2(x, y));
 				for (int i = 0; i < BoardDirections.Count; i++) {
 					BoardDirection direction = (BoardDirection)i;
+					if (tile.GetDirectionIsInitialized(direction)) continue;
 						
 					IntVector2 neighborCoordinates = tile.coordinates + direction.ToIntVector2();
 					if (ContainsCoordinates(neighborCoordinates)) {
