@@ -9,15 +9,18 @@ public class Worm : MonoBehaviour {
 	private WormHead head;
 	private List<WormBodyPart> bodyParts;
 
-	public void Initialize(Board board, IntVector2 startCoordinates) {
+	public void Initialize(IntVector2 startCoordinates, BoardDirection startDirection) {
+		transform.parent = Board.instance.transform;
+		transform.localPosition = Vector3.zero;
+
 		bodyParts = new List<WormBodyPart>();
 
 		head = Instantiate(wormHeadPartPrefab) as WormHead;
-		head.Initialize(this, startCoordinates, BoardDirection.Up); 
+		head.Initialize(this, startCoordinates, startDirection); 
 		head.transform.parent = transform;
 		head.transform.position = Board.instance.GetTilePosition(startCoordinates);
 
-		PlaceBodyPart(startCoordinates, BoardDirection.Down);
+		PlaceBodyPart(startCoordinates, startDirection.GetOpposite());
 	}
 
 	public void PlaceBodyPart(IntVector2 coordinates, BoardDirection direction) {
@@ -27,33 +30,25 @@ public class Worm : MonoBehaviour {
 		bodyPart.transform.position = Board.instance.GetTilePosition(coordinates);
 		bodyParts.Add(bodyPart);
 	}
-
-	public void Move(BoardDirection direction) {
+	
+	public void ProposeMove(BoardDirection direction) {
 		head.SetDirection(direction);
 
 		TileEdge edge = head.currentTile.GetEdge(direction);
 		Tile otherTile = null;
 		if (edge is TilePassage) otherTile = edge.otherTile;
-
+		
 		if (otherTile != null) {
-			bool occupied = Board.instance.GetTileIsOccupied(otherTile.coordinates);
-
-			if (!occupied) {
-				PlaceBodyPart(head.currentTile.coordinates, direction);
-				head.SetPosition(otherTile.coordinates);
-				PlaceBodyPart(head.currentTile.coordinates, direction.GetOpposite());
-			}
+			head.ProposePosition(otherTile.coordinates);
 		}
 	}
 
-	void Start () {
-	
-	}
-	
-	void Update () {
-		if (Input.GetKeyDown(KeyCode.UpArrow)) Move(BoardDirection.Up);
-		else if (Input.GetKeyDown(KeyCode.RightArrow)) Move(BoardDirection.Right);
-		else if (Input.GetKeyDown(KeyCode.DownArrow)) Move(BoardDirection.Down);
-		else if (Input.GetKeyDown(KeyCode.LeftArrow)) Move(BoardDirection.Left);
+	public void CommitMove() {
+		IntVector2 prevCoords = head.coordinates;
+
+		if (head.CommitPosition()) {
+			PlaceBodyPart(prevCoords, head.direction);
+			PlaceBodyPart(head.coordinates, head.direction.GetOpposite());
+		}
 	}
 }

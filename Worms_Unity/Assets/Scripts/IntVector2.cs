@@ -1,6 +1,11 @@
 ﻿[System.Serializable]
 public struct IntVector2 {
-	
+	public static IntVector2 zero {
+		get {
+			return new IntVector2(0, 0);
+		}
+	}
+
 	public int x, y;
 	
 	public IntVector2 (int x, int z) {

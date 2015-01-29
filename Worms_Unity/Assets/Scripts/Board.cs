@@ -12,7 +12,10 @@ public class Board : MonoBehaviour {
 	public TileWall wallPrefab;
 
 	public Tile[,] tiles;
-	public int[,] tileBitmasks;	
+	public int[,] tileBitmasks;
+	public int[,] tempTileBitmasks;
+
+	private GameObject tileHolder;
 
 	void Awake() {
 		instance = this;
@@ -27,6 +30,10 @@ public class Board : MonoBehaviour {
 	}
 
 	public void Generate() {
+		tileHolder = new GameObject("Tiles");
+		tileHolder.transform.parent = transform;
+		tileHolder.transform.localPosition = Vector3.zero;
+
 		tiles = new Tile[size.x, size.y];
 		for (int x = 0; x < size.x; x++) {
 			for (int y = 0; y < size.y; y++) {
@@ -60,6 +67,17 @@ public class Board : MonoBehaviour {
 				tileBitmasks[x,y] = 0;
 			}
 		}
+
+		tempTileBitmasks = new int[size.x, size.y];
+		ResetTempTileBitmasks();
+	}
+
+	public void ResetTempTileBitmasks() {
+		for (int x = 0; x < size.x; x++) {
+			for (int y = 0; y < size.y; y++) {
+				tempTileBitmasks[x,y] = tileBitmasks[x,y];
+			}
+		}
 	}
 
 	public IntVector2 RandomCoordinates {
@@ -68,30 +86,35 @@ public class Board : MonoBehaviour {
 		}
 	}
 
-	public void AddObject(IntVector2 coordinates, ObjectType objectType) {
+	public void AddObject(int[,] bitmaskArray, IntVector2 coordinates, ObjectType objectType) {
 		if (!ContainsCoordinates(coordinates)) return;
 
-		int bitmask = tileBitmasks[coordinates.x, coordinates.y];
+		int bitmask = bitmaskArray[coordinates.x, coordinates.y];
 		bitmask |= (int)objectType;
-		tileBitmasks[coordinates.x, coordinates.y] = bitmask;
+		bitmaskArray[coordinates.x, coordinates.y] = bitmask;
 	}
 
-	public void RemoveObject(IntVector2 coordinates, ObjectType objectType) {
+	public void RemoveObject(int[,] bitmaskArray, IntVector2 coordinates, ObjectType objectType) {
 		if (!ContainsCoordinates(coordinates)) return;
 
-		int bitmask = tileBitmasks[coordinates.x, coordinates.y];
+		int bitmask = bitmaskArray[coordinates.x, coordinates.y];
 		bitmask &= ~((int)objectType);
-		tileBitmasks[coordinates.x, coordinates.y] = bitmask;
+		bitmaskArray[coordinates.x, coordinates.y] = bitmask;
 	}
 
-	public int GetTileBitmask(IntVector2 coordinates) {
+	public int GetTileBitmask(int[,] bitmaskArray, IntVector2 coordinates) {
 		if (!ContainsCoordinates(coordinates)) return 0;
 
-		return tileBitmasks[coordinates.x, coordinates.y];
+		return bitmaskArray[coordinates.x, coordinates.y];
 	}
 
-	public bool GetTileIsOccupied(IntVector2 coordinates) {
-		return GetTileBitmask(coordinates) != 0;
+	public bool GetTileIsOccupied(int[,] bitmaskArray, IntVector2 coordinates) {
+		return GetTileBitmask(bitmaskArray, coordinates) != 0;
+	}
+
+	public bool GetTileContains(int[,] bitmaskArray, IntVector2 coordinates, ObjectType objectType) {
+		int bitmask = GetTileBitmask(bitmaskArray, coordinates);
+		return (bitmask & (int)objectType) == (int)objectType;
 	}
 
 	public Tile GetTile(IntVector2 coordinates) {
@@ -132,7 +155,7 @@ public class Board : MonoBehaviour {
 		tiles[coordinates.x, coordinates.y] = newTile;
 		newTile.name = "Tile " + coordinates.x + ", " + coordinates.y;
 		newTile.coordinates = coordinates;
-		newTile.transform.parent = transform;
+		newTile.transform.parent = tileHolder.transform;
 		newTile.transform.position = GetTilePosition(coordinates);
 
 		return newTile;
