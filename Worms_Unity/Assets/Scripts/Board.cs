@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class Board : MonoBehaviour {
+	public static Board instance;
+
 	public int tileSize = 100;
 	public IntVector2 size;
 
@@ -10,6 +12,11 @@ public class Board : MonoBehaviour {
 	public TileWall wallPrefab;
 
 	public Tile[,] tiles;
+	public int[,] tileBitmasks;	
+
+	void Awake() {
+		instance = this;
+	}
 
 	void Start () {
 
@@ -37,13 +44,20 @@ public class Board : MonoBehaviour {
 					IntVector2 neighborCoordinates = tile.coordinates + direction.ToIntVector2();
 					if (ContainsCoordinates(neighborCoordinates)) {
 						Tile otherTile = GetTile(neighborCoordinates);
-						if (Random.value > 0.025f) CreatePassage(tile, otherTile, direction);
+						if (Random.value > 0.035f) CreatePassage(tile, otherTile, direction);
 						else CreateWall(tile, otherTile, direction);
 					}
 					else {
 						CreateWall(tile, null, direction);
 					}
 				}
+			}
+		}
+
+		tileBitmasks = new int[size.x, size.y];
+		for (int x = 0; x < size.x; x++) {
+			for (int y = 0; y < size.y; y++) {
+				tileBitmasks[x,y] = 0;
 			}
 		}
 	}
@@ -54,8 +68,35 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	public void AddObject(IntVector2 coordinates, ObjectType objectType) {
+		if (!ContainsCoordinates(coordinates)) return;
+
+		int bitmask = tileBitmasks[coordinates.x, coordinates.y];
+		bitmask |= (int)objectType;
+		tileBitmasks[coordinates.x, coordinates.y] = bitmask;
+	}
+
+	public void RemoveObject(IntVector2 coordinates, ObjectType objectType) {
+		if (!ContainsCoordinates(coordinates)) return;
+
+		int bitmask = tileBitmasks[coordinates.x, coordinates.y];
+		bitmask &= ~((int)objectType);
+		tileBitmasks[coordinates.x, coordinates.y] = bitmask;
+	}
+
+	public int GetTileBitmask(IntVector2 coordinates) {
+		if (!ContainsCoordinates(coordinates)) return 0;
+
+		return tileBitmasks[coordinates.x, coordinates.y];
+	}
+
+	public bool GetTileIsOccupied(IntVector2 coordinates) {
+		return GetTileBitmask(coordinates) != 0;
+	}
+
 	public Tile GetTile(IntVector2 coordinates) {
-		return tiles[coordinates.x, coordinates.y];
+		if (!ContainsCoordinates(coordinates)) return null;
+		else return tiles[coordinates.x, coordinates.y];
 	}
 
 	public Vector3 GetTilePosition(IntVector2 coordinates) {

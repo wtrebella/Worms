@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\BoardDirection.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\IntVector2.cs" />
+     <Compile Include="Assets\Scripts\ObjectType.cs" />
      <Compile Include="Assets\Scripts\Tile.cs" />
      <Compile Include="Assets\Scripts\TileEdge.cs" />
      <Compile Include="Assets\Scripts\TilePassage.cs" />
