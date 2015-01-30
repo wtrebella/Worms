@@ -84,52 +84,9 @@ public class Board : MonoBehaviour {
 		return coordinate.x >= 0 && coordinate.x < size.x && coordinate.y >= 0 && coordinate.y < size.y;
 	}
 
-	private void CreatePassage(Tile tile, Tile otherTile, BoardDirection direction) {
-		TilePassage passage = Instantiate(passagePrefab) as TilePassage;
-		passage.Initialize(tile, otherTile, direction);
-		passage = Instantiate(passagePrefab) as TilePassage;
-		passage.Initialize(otherTile, tile, direction.GetOpposite());
-	}
-	
-	private void CreateWall(Tile tile, Tile otherTile, BoardDirection direction) {
-		TileWall wall = Instantiate(wallPrefab) as TileWall;
-		wall.Initialize(tile, otherTile, direction);
-		if (otherTile != null) {
-			wall = Instantiate(wallPrefab) as TileWall;
-			wall.Initialize(otherTile, tile, direction.GetOpposite());
-		}
-	}
-	
-	private Tile CreateTile(IntVector2 coordinates) {
-		Tile newTile = Instantiate(tilePrefab) as Tile;
-		tiles[coordinates.x, coordinates.y] = newTile;
-		newTile.name = "Tile " + coordinates.x + ", " + coordinates.y;
-		newTile.coordinates = coordinates;
-		newTile.transform.parent = tileHolder.transform;
-		newTile.transform.position = GetTilePosition(coordinates);
-		
-		return newTile;
-	}
-
-	public void MoveTileEntities(Tile tile, BoardDirection direction) {
-		TileEdge edge = tile.GetEdge(direction);
-		if (edge is TileWall) return;
-
-		List<TileEntity> tileEntitiesToMove = new List<TileEntity>();
-		Tile newTile = edge.otherTile;
-		
-		foreach (TileEntity t in tile.tileEntities) {
-			if (t.CanMoveToTile(newTile)) tileEntitiesToMove.Add(t);
-		}
-		
-		foreach (TileEntity t in tileEntitiesToMove) {
-			t.GoToTile(newTile, direction);
-		}
-	}
-
 	public void Move(BoardDirection direction) {
 		Tile tile;
-
+		
 		if (direction == BoardDirection.Up) {
 			for (int y = size.y - 2; y >= 0; y--) {
 				for (int x = 0; x < size.x; x++) {
@@ -164,35 +121,81 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	private void CreatePassage(Tile tile, Tile otherTile, BoardDirection direction) {
+		TilePassage passage = Instantiate(passagePrefab) as TilePassage;
+		passage.Initialize(tile, otherTile, direction);
+		passage = Instantiate(passagePrefab) as TilePassage;
+		passage.Initialize(otherTile, tile, direction.GetOpposite());
+	}
+	
+	private void CreateWall(Tile tile, Tile otherTile, BoardDirection direction) {
+		TileWall wall = Instantiate(wallPrefab) as TileWall;
+		wall.Initialize(tile, otherTile, direction);
+		if (otherTile != null) {
+			wall = Instantiate(wallPrefab) as TileWall;
+			wall.Initialize(otherTile, tile, direction.GetOpposite());
+		}
+	}
+	
+	private Tile CreateTile(IntVector2 coordinates) {
+		Tile newTile = Instantiate(tilePrefab) as Tile;
+		tiles[coordinates.x, coordinates.y] = newTile;
+		newTile.name = "Tile " + coordinates.x + ", " + coordinates.y;
+		newTile.coordinates = coordinates;
+		newTile.transform.parent = tileHolder.transform;
+		newTile.transform.position = GetTilePosition(coordinates);
+		
+		return newTile;
+	}
+
 	public void AttemptToAddEnemy(EnemyManager enemyManager, BoardDirection direction) {
-		Tile tile = null;
-		int x, y;
+		if (direction == BoardDirection.Up) AttemptToAddEnemyToRow(enemyManager, 0);
+		else if (direction == BoardDirection.Down) AttemptToAddEnemyToRow(enemyManager, size.y - 1);
+		else if (direction == BoardDirection.Right) AttemptToAddEnemyToColumn(enemyManager, 0);
+		else if (direction == BoardDirection.Left) AttemptToAddEnemyToColumn(enemyManager, size.x - 1);
+	}
 
-		if (direction == BoardDirection.Up) {
-			x = Random.Range(0, size.x);
-			y = 0;
-			tile = GetTile(new IntVector2(x, y));
-			if (tile.IsEmpty()) enemyManager.AddEnemy(tile);
+	private void MoveTileEntities(Tile tile, BoardDirection direction) {
+		TileEdge edge = tile.GetEdge(direction);
+		if (edge is TileWall) return;
+		
+		List<TileEntity> tileEntitiesToMove = new List<TileEntity>();
+		Tile newTile = edge.otherTile;
+		
+		foreach (TileEntity t in tile.tileEntities) {
+			if (t.CanMoveToTile(newTile)) tileEntitiesToMove.Add(t);
 		}
-		else if (direction == BoardDirection.Down) {
-			x = Random.Range(0, size.x);
-			y = size.y - 1;
-			tile = GetTile(new IntVector2(x, y));
-			if (tile.IsEmpty()) enemyManager.AddEnemy(tile);
+		
+		foreach (TileEntity t in tileEntitiesToMove) {
+			t.GoToTile(newTile, direction);
 		}
-		else if (direction == BoardDirection.Right) {
-			x = 0;
-			y = Random.Range(0, size.y);
-			tile = GetTile(new IntVector2(x, y));
-			if (tile.IsEmpty()) enemyManager.AddEnemy(tile);
-		}
-		else if (direction == BoardDirection.Left) {
-			x = size.x - 1;
-			y = Random.Range(0, size.y);
-			tile = GetTile(new IntVector2(x, y));
-			if (tile.IsEmpty()) enemyManager.AddEnemy(tile);
-		}
+	}
 
-		Debug.Log(tile.coordinates.x + ", " + tile.coordinates.y + ", " + direction.ToString());
+	private void AttemptToAddEnemyToRow(EnemyManager enemyManager, int row) {
+		List<Tile> potentialTiles = new List<Tile>();
+
+		for (int x = 0; x < size.x; x++) {
+			Tile tile = GetTile(new IntVector2(x, row));
+			if (tile.IsEmpty()) potentialTiles.Add(tile);
+		}
+		
+		if (potentialTiles.Count > 0) {
+			Tile tile = potentialTiles[Random.Range(0, potentialTiles.Count)];
+			enemyManager.AddEnemy(tile);
+		}
+	}
+	
+	private void AttemptToAddEnemyToColumn(EnemyManager enemyManager, int column) {
+		List<Tile> potentialTiles = new List<Tile>();
+
+		for (int y = 0; y < size.y; y++) {
+			Tile tile = GetTile(new IntVector2(column, y));
+			if (tile.IsEmpty()) potentialTiles.Add(tile);
+		}
+		
+		if (potentialTiles.Count > 0) {
+			Tile tile = potentialTiles[Random.Range(0, potentialTiles.Count)];
+			enemyManager.AddEnemy(tile);
+		}
 	}
 }
