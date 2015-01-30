@@ -61,7 +61,6 @@
      <Compile Include="Assets\Scripts\Worm.cs" />
      <Compile Include="Assets\Scripts\WormBodyPart.cs" />
      <Compile Include="Assets\Scripts\WormHead.cs" />
-     <Compile Include="Assets\Scripts\WormPart.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCamera.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraAnchor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraUtil.cs" />

@@ -19,4 +19,10 @@ public class EnemyManager : MonoBehaviour {
 		enemy.Initialize(this, tile);
 		enemies.Add(enemy);
 	}
+
+	public void RemoveEnemy(Enemy enemy) {
+		enemy.RemoveFromTile();
+		enemies.Remove(enemy);
+		Destroy(enemy.gameObject);
+	}
 }

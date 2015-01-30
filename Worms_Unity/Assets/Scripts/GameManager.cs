@@ -2,13 +2,19 @@
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
+	public static GameManager instance;
+
 	public Board boardPrefab;
 	public Worm wormPrefab;
 	public EnemyManager enemyManagerPrefab;
 	
-	private Board board;
-	private Worm worm;
-	private EnemyManager enemyManager;
+	public Board board;
+	public Worm worm;
+	public EnemyManager enemyManager;
+
+	private void Awake() {
+		instance = this;
+	}
 
 	private void Start () {
 		BeginGame();
@@ -26,7 +32,7 @@ public class GameManager : MonoBehaviour {
 
 		if (direction != BoardDirection.NONE) {
 			board.Move(direction);
-			board.AttemptToAddEnemy(enemyManager, direction);
+			board.AttemptToAddEnemy(direction);
 		}
 	}
 	

@@ -11,10 +11,26 @@ public class Board : MonoBehaviour {
 	public Tile tilePrefab;
 	public TilePassage passagePrefab;
 	public TileWall wallPrefab;
+	public tk2dSprite enemyIndicatorPrefab;
 
 	public Tile[,] tiles;
 
 	private GameObject tileHolder;
+
+	private IntVector2 nextEnemyCoordsLeftSide;
+	private IntVector2 nextEnemyCoordsRightSide;
+	private IntVector2 nextEnemyCoordsTopSide;
+	private IntVector2 nextEnemyCoordsBottomSide;
+
+	private List<Tile> enemyEntryTilesLeftSide;
+	private List<Tile> enemyEntryTilesRightSide;
+	private List<Tile> enemyEntryTilesTopSide;
+	private List<Tile> enemyEntryTilesBottomSide;
+
+	private tk2dSprite enemyIndicatorLeftSide;
+	private tk2dSprite enemyIndicatorRightSide;
+	private tk2dSprite enemyIndicatorTopSide;
+	private tk2dSprite enemyIndicatorBottomSide;
 
 	void Awake() {
 		instance = this;
@@ -50,7 +66,7 @@ public class Board : MonoBehaviour {
 					IntVector2 neighborCoordinates = tile.coordinates + direction.ToIntVector2();
 					if (ContainsCoordinates(neighborCoordinates)) {
 						Tile otherTile = GetTile(neighborCoordinates);
-						if (Random.value > 0.035f) CreatePassage(tile, otherTile, direction);
+						if (Random.value > 0.2f) CreatePassage(tile, otherTile, direction);
 						else CreateWall(tile, otherTile, direction);
 					}
 					else {
@@ -59,6 +75,8 @@ public class Board : MonoBehaviour {
 				}
 			}
 		}
+
+		UpdateNextEnemyPositions();
 	}
 
 	public IntVector2 RandomCoordinates {
@@ -120,6 +138,60 @@ public class Board : MonoBehaviour {
 			}
 		}
 	}
+	
+	private void UpdateNextEnemyPositions() {
+		if (enemyIndicatorLeftSide == null) enemyIndicatorLeftSide = Instantiate(enemyIndicatorPrefab) as tk2dSprite;
+		if (enemyIndicatorRightSide == null) enemyIndicatorRightSide = Instantiate(enemyIndicatorPrefab) as tk2dSprite;
+		if (enemyIndicatorTopSide == null) enemyIndicatorTopSide = Instantiate(enemyIndicatorPrefab) as tk2dSprite;
+		if (enemyIndicatorBottomSide == null) enemyIndicatorBottomSide = Instantiate(enemyIndicatorPrefab) as tk2dSprite;
+
+		if (enemyEntryTilesLeftSide == null) enemyEntryTilesLeftSide = new List<Tile>();
+		if (enemyEntryTilesRightSide == null) enemyEntryTilesRightSide = new List<Tile>();
+		if (enemyEntryTilesTopSide == null) enemyEntryTilesTopSide = new List<Tile>();
+		if (enemyEntryTilesBottomSide == null) enemyEntryTilesBottomSide = new List<Tile>();
+
+		enemyEntryTilesLeftSide.Clear();
+		enemyEntryTilesRightSide.Clear();
+		enemyEntryTilesTopSide.Clear();
+		enemyEntryTilesBottomSide.Clear();
+
+		for (int y = 0; y < size.y; y++) {
+			Tile tile = GetTile(new IntVector2(0, y));
+			if (tile.IsEmpty()) enemyEntryTilesLeftSide.Add(tile);
+		}
+
+		for (int y = 0; y < size.y; y++) {
+			Tile tile = GetTile(new IntVector2(size.x - 1, y));
+			if (tile.IsEmpty()) enemyEntryTilesRightSide.Add(tile);
+		}
+
+		for (int x = 0; x < size.x; x++) {
+			Tile tile = GetTile(new IntVector2(x, size.y - 1));
+			if (tile.IsEmpty()) enemyEntryTilesTopSide.Add(tile);
+		}
+		
+		for (int x = 0; x < size.x; x++) {
+			Tile tile = GetTile(new IntVector2(x, 0));
+			if (tile.IsEmpty()) enemyEntryTilesBottomSide.Add(tile);
+		}
+
+		if (enemyEntryTilesLeftSide.Count > 0) nextEnemyCoordsLeftSide = enemyEntryTilesLeftSide[Random.Range(0, enemyEntryTilesLeftSide.Count)].coordinates;
+		else nextEnemyCoordsLeftSide = new IntVector2(-10, -10);
+
+		if (enemyEntryTilesRightSide.Count > 0) nextEnemyCoordsRightSide = enemyEntryTilesRightSide[Random.Range(0, enemyEntryTilesRightSide.Count)].coordinates;
+		else nextEnemyCoordsRightSide = new IntVector2(-10, -10);
+
+		if (enemyEntryTilesTopSide.Count > 0) nextEnemyCoordsTopSide = enemyEntryTilesTopSide[Random.Range(0, enemyEntryTilesTopSide.Count)].coordinates;
+		else nextEnemyCoordsTopSide = new IntVector2(-10, -10);
+
+		if (enemyEntryTilesBottomSide.Count > 0) nextEnemyCoordsBottomSide = enemyEntryTilesBottomSide[Random.Range(0, enemyEntryTilesBottomSide.Count)].coordinates;
+		else nextEnemyCoordsBottomSide = new IntVector2(-10, -10);
+
+		enemyIndicatorLeftSide.transform.position = GetTilePosition(new IntVector2(nextEnemyCoordsLeftSide.x - 1, nextEnemyCoordsLeftSide.y));
+		enemyIndicatorRightSide.transform.position = GetTilePosition(new IntVector2(nextEnemyCoordsRightSide.x + 1, nextEnemyCoordsRightSide.y));
+		enemyIndicatorTopSide.transform.position = GetTilePosition(new IntVector2(nextEnemyCoordsTopSide.x, nextEnemyCoordsTopSide.y + 1));
+		enemyIndicatorBottomSide.transform.position = GetTilePosition(new IntVector2(nextEnemyCoordsBottomSide.x, nextEnemyCoordsBottomSide.y - 1));
+	}
 
 	private void CreatePassage(Tile tile, Tile otherTile, BoardDirection direction) {
 		TilePassage passage = Instantiate(passagePrefab) as TilePassage;
@@ -148,11 +220,18 @@ public class Board : MonoBehaviour {
 		return newTile;
 	}
 
-	public void AttemptToAddEnemy(EnemyManager enemyManager, BoardDirection direction) {
-		if (direction == BoardDirection.Up) AttemptToAddEnemyToRow(enemyManager, 0);
-		else if (direction == BoardDirection.Down) AttemptToAddEnemyToRow(enemyManager, size.y - 1);
-		else if (direction == BoardDirection.Right) AttemptToAddEnemyToColumn(enemyManager, 0);
-		else if (direction == BoardDirection.Left) AttemptToAddEnemyToColumn(enemyManager, size.x - 1);
+	public void AttemptToAddEnemy(BoardDirection direction) {
+//		if (direction == BoardDirection.Up) AttemptToAddEnemyToRow(0);
+//		else if (direction == BoardDirection.Down) AttemptToAddEnemyToRow(size.y - 1);
+//		else if (direction == BoardDirection.Right) AttemptToAddEnemyToColumn(0);
+//		else if (direction == BoardDirection.Left) AttemptToAddEnemyToColumn(size.x - 1);
+
+		if (direction == BoardDirection.Up) AddEnemy(nextEnemyCoordsBottomSide);
+		else if (direction == BoardDirection.Down) AddEnemy(nextEnemyCoordsTopSide);
+		else if (direction == BoardDirection.Right) AddEnemy(nextEnemyCoordsLeftSide);
+		else if (direction == BoardDirection.Left) AddEnemy(nextEnemyCoordsRightSide);
+
+		UpdateNextEnemyPositions();
 	}
 
 	private void MoveTileEntities(Tile tile, BoardDirection direction) {
@@ -171,7 +250,7 @@ public class Board : MonoBehaviour {
 		}
 	}
 
-	private void AttemptToAddEnemyToRow(EnemyManager enemyManager, int row) {
+	private void AttemptToAddEnemyToRow(int row) {
 		List<Tile> potentialTiles = new List<Tile>();
 
 		for (int x = 0; x < size.x; x++) {
@@ -181,11 +260,11 @@ public class Board : MonoBehaviour {
 		
 		if (potentialTiles.Count > 0) {
 			Tile tile = potentialTiles[Random.Range(0, potentialTiles.Count)];
-			enemyManager.AddEnemy(tile);
+			GameManager.instance.enemyManager.AddEnemy(tile);
 		}
 	}
 	
-	private void AttemptToAddEnemyToColumn(EnemyManager enemyManager, int column) {
+	private void AttemptToAddEnemyToColumn(int column) {
 		List<Tile> potentialTiles = new List<Tile>();
 
 		for (int y = 0; y < size.y; y++) {
@@ -195,7 +274,14 @@ public class Board : MonoBehaviour {
 		
 		if (potentialTiles.Count > 0) {
 			Tile tile = potentialTiles[Random.Range(0, potentialTiles.Count)];
-			enemyManager.AddEnemy(tile);
+			GameManager.instance.enemyManager.AddEnemy(tile);
 		}
+	}
+
+	private void AddEnemy(IntVector2 coordinates) {
+		if (!ContainsCoordinates(coordinates)) return;
+
+		Tile tile = GetTile(coordinates);
+		GameManager.instance.enemyManager.AddEnemy(tile);
 	}
 }

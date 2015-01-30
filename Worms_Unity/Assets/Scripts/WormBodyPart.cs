@@ -18,6 +18,13 @@ public class WormBodyPart : TileEntity {
 		transform.localRotation = direction.ToRotation();
 	}
 
+	public override void RemoveFromTile() {
+		if (currentTile == null) return;
+		
+		currentTile.RemoveObject(this);
+		currentTile = null;
+	}
+
 	public override void GoToTile(Tile tile, BoardDirection newDirection) {
 		if (currentTile != null) {
 			Debug.LogWarning("this shouldn't happen! don't try to move a worm body part to another tile.");

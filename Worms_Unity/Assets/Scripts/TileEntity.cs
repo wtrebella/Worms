@@ -7,4 +7,5 @@ public abstract class TileEntity : MonoBehaviour {
 
 	public abstract bool CanMoveToTile(Tile tile);
 	public abstract void GoToTile(Tile tile, BoardDirection newDirection);
+	public abstract void RemoveFromTile();
 }

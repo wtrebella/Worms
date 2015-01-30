@@ -9,10 +9,17 @@ public class Enemy : TileEntity {
 	}
 
 	public override void GoToTile(Tile tile, BoardDirection newDirection) {
-		if (currentTile != null) currentTile.RemoveObject(this);
+		RemoveFromTile();
 		currentTile = tile;
 		currentTile.AddObject(this);
 		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
+	}
+
+	public override void RemoveFromTile() {
+		if (currentTile == null) return;
+		
+		currentTile.RemoveObject(this);
+		currentTile = null;
 	}
 
 	public override bool CanMoveToTile(Tile tile) {

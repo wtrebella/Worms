@@ -20,9 +20,8 @@ public class WormHead : TileEntity {
 
 	public override void GoToTile(Tile tile, BoardDirection newDirection) {
 		Tile previousTile = currentTile;
+		RemoveFromTile();
 		currentTile = tile;
-		
-		if (previousTile != null) previousTile.RemoveObject(this);
 		SetDirection(newDirection);
 		currentTile.AddObject(this);
 		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
@@ -30,6 +29,13 @@ public class WormHead : TileEntity {
 	}
 	
 	public override bool CanMoveToTile(Tile tile) {
-		return !(tile.Contains(TileEntityType.Enemy) || tile.Contains(TileEntityType.WormBodyPart));
+		return !(tile.Contains(TileEntityType.WormBodyPart));
+	}
+
+	public override void RemoveFromTile() {
+		if (currentTile == null) return;
+
+		currentTile.RemoveObject(this);
+		currentTile = null;
 	}
 }
