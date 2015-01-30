@@ -4,7 +4,8 @@ public enum BoardDirection {
 	Up,
 	Right,
 	Down,
-	Left
+	Left,
+	NONE
 }
 
 public static class BoardDirections {

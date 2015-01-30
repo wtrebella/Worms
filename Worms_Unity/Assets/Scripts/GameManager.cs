@@ -17,10 +17,17 @@ public class GameManager : MonoBehaviour {
 	private void Update () {
 		if (Input.GetKeyDown(KeyCode.Space)) RestartGame();
 
-		if (Input.GetKeyDown(KeyCode.UpArrow)) Move(BoardDirection.Up);
-		else if (Input.GetKeyDown(KeyCode.RightArrow)) Move(BoardDirection.Right);
-		else if (Input.GetKeyDown(KeyCode.DownArrow)) Move(BoardDirection.Down);
-		else if (Input.GetKeyDown(KeyCode.LeftArrow)) Move(BoardDirection.Left);
+		BoardDirection direction = BoardDirection.NONE;
+
+		if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
+		else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
+		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
+		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
+
+		if (direction != BoardDirection.NONE) {
+			board.Move(direction);
+			board.AttemptToAddEnemy(enemyManager, direction);
+		}
 	}
 	
 	private void BeginGame () {
@@ -34,25 +41,15 @@ public class GameManager : MonoBehaviour {
 		else if (startDirection == BoardDirection.Down) startCoordinates = new IntVector2(Random.Range(0, board.size.x), board.size.y - 1);
 		else if (startDirection == BoardDirection.Right) startCoordinates = new IntVector2(0, Random.Range(0, board.size.y));
 		else if (startDirection == BoardDirection.Left) startCoordinates = new IntVector2(board.size.x - 1, Random.Range(0, board.size.y));
-		worm.Initialize(startCoordinates, startDirection);
+		Tile startTile = board.GetTile(startCoordinates);
+		worm.Initialize(startTile, startDirection);
 
 		enemyManager = Instantiate(enemyManagerPrefab) as EnemyManager;
 		enemyManager.Initialize();
-		enemyManager.AddEnemy(new IntVector2(Random.Range(0, board.size.x), Random.Range(0, board.size.y)));
 	}
 	
 	private void RestartGame () {
 		Destroy(board.gameObject);
 		BeginGame();
-	}
-
-	private void Move(BoardDirection direction) {
-		enemyManager.ProposeMove(direction);
-		worm.ProposeMove(direction);
-
-		enemyManager.CommitMove();
-		worm.CommitMove();
-
-		board.ResetTempTileBitmasks();
 	}
 }

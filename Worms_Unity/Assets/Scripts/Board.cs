@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 	public static Board instance;
@@ -12,8 +13,6 @@ public class Board : MonoBehaviour {
 	public TileWall wallPrefab;
 
 	public Tile[,] tiles;
-	public int[,] tileBitmasks;
-	public int[,] tempTileBitmasks;
 
 	private GameObject tileHolder;
 
@@ -60,61 +59,12 @@ public class Board : MonoBehaviour {
 				}
 			}
 		}
-
-		tileBitmasks = new int[size.x, size.y];
-		for (int x = 0; x < size.x; x++) {
-			for (int y = 0; y < size.y; y++) {
-				tileBitmasks[x,y] = 0;
-			}
-		}
-
-		tempTileBitmasks = new int[size.x, size.y];
-		ResetTempTileBitmasks();
-	}
-
-	public void ResetTempTileBitmasks() {
-		for (int x = 0; x < size.x; x++) {
-			for (int y = 0; y < size.y; y++) {
-				tempTileBitmasks[x,y] = tileBitmasks[x,y];
-			}
-		}
 	}
 
 	public IntVector2 RandomCoordinates {
 		get {
 			return new IntVector2(Random.Range(0, size.x), Random.Range(0, size.y));
 		}
-	}
-
-	public void AddObject(int[,] bitmaskArray, IntVector2 coordinates, ObjectType objectType) {
-		if (!ContainsCoordinates(coordinates)) return;
-
-		int bitmask = bitmaskArray[coordinates.x, coordinates.y];
-		bitmask |= (int)objectType;
-		bitmaskArray[coordinates.x, coordinates.y] = bitmask;
-	}
-
-	public void RemoveObject(int[,] bitmaskArray, IntVector2 coordinates, ObjectType objectType) {
-		if (!ContainsCoordinates(coordinates)) return;
-
-		int bitmask = bitmaskArray[coordinates.x, coordinates.y];
-		bitmask &= ~((int)objectType);
-		bitmaskArray[coordinates.x, coordinates.y] = bitmask;
-	}
-
-	public int GetTileBitmask(int[,] bitmaskArray, IntVector2 coordinates) {
-		if (!ContainsCoordinates(coordinates)) return 0;
-
-		return bitmaskArray[coordinates.x, coordinates.y];
-	}
-
-	public bool GetTileIsOccupied(int[,] bitmaskArray, IntVector2 coordinates) {
-		return GetTileBitmask(bitmaskArray, coordinates) != 0;
-	}
-
-	public bool GetTileContains(int[,] bitmaskArray, IntVector2 coordinates, ObjectType objectType) {
-		int bitmask = GetTileBitmask(bitmaskArray, coordinates);
-		return (bitmask & (int)objectType) == (int)objectType;
 	}
 
 	public Tile GetTile(IntVector2 coordinates) {
@@ -149,7 +99,7 @@ public class Board : MonoBehaviour {
 			wall.Initialize(otherTile, tile, direction.GetOpposite());
 		}
 	}
-
+	
 	private Tile CreateTile(IntVector2 coordinates) {
 		Tile newTile = Instantiate(tilePrefab) as Tile;
 		tiles[coordinates.x, coordinates.y] = newTile;
@@ -157,7 +107,92 @@ public class Board : MonoBehaviour {
 		newTile.coordinates = coordinates;
 		newTile.transform.parent = tileHolder.transform;
 		newTile.transform.position = GetTilePosition(coordinates);
-
+		
 		return newTile;
+	}
+
+	public void MoveTileEntities(Tile tile, BoardDirection direction) {
+		TileEdge edge = tile.GetEdge(direction);
+		if (edge is TileWall) return;
+
+		List<TileEntity> tileEntitiesToMove = new List<TileEntity>();
+		Tile newTile = edge.otherTile;
+		
+		foreach (TileEntity t in tile.tileEntities) {
+			if (t.CanMoveToTile(newTile)) tileEntitiesToMove.Add(t);
+		}
+		
+		foreach (TileEntity t in tileEntitiesToMove) {
+			t.GoToTile(newTile, direction);
+		}
+	}
+
+	public void Move(BoardDirection direction) {
+		Tile tile;
+
+		if (direction == BoardDirection.Up) {
+			for (int y = size.y - 2; y >= 0; y--) {
+				for (int x = 0; x < size.x; x++) {
+					tile = GetTile(new IntVector2(x, y));
+					MoveTileEntities(tile, direction);
+				}
+			}
+		}
+		else if (direction == BoardDirection.Down) {
+			for (int y = 1; y < size.y; y++) {
+				for (int x = 0; x < size.x; x++) {
+					tile = GetTile(new IntVector2(x, y));
+					MoveTileEntities(tile, direction);
+				}
+			}
+		}
+		else if (direction == BoardDirection.Right) {
+			for (int x = size.x - 2; x >= 0; x--) {
+				for (int y = 0; y < size.y; y++) {
+					tile = GetTile(new IntVector2(x, y));
+					MoveTileEntities(tile, direction);
+				}
+			}
+		}
+		else if (direction == BoardDirection.Left) {
+			for (int x = 1; x < size.x; x++) {
+				for (int y = 0; y < size.y; y++) {
+					tile = GetTile(new IntVector2(x, y));
+					MoveTileEntities(tile, direction);
+				}
+			}
+		}
+	}
+
+	public void AttemptToAddEnemy(EnemyManager enemyManager, BoardDirection direction) {
+		Tile tile = null;
+		int x, y;
+
+		if (direction == BoardDirection.Up) {
+			x = Random.Range(0, size.x);
+			y = 0;
+			tile = GetTile(new IntVector2(x, y));
+			if (tile.IsEmpty()) enemyManager.AddEnemy(tile);
+		}
+		else if (direction == BoardDirection.Down) {
+			x = Random.Range(0, size.x);
+			y = size.y - 1;
+			tile = GetTile(new IntVector2(x, y));
+			if (tile.IsEmpty()) enemyManager.AddEnemy(tile);
+		}
+		else if (direction == BoardDirection.Right) {
+			x = 0;
+			y = Random.Range(0, size.y);
+			tile = GetTile(new IntVector2(x, y));
+			if (tile.IsEmpty()) enemyManager.AddEnemy(tile);
+		}
+		else if (direction == BoardDirection.Left) {
+			x = size.x - 1;
+			y = Random.Range(0, size.y);
+			tile = GetTile(new IntVector2(x, y));
+			if (tile.IsEmpty()) enemyManager.AddEnemy(tile);
+		}
+
+		Debug.Log(tile.coordinates.x + ", " + tile.coordinates.y + ", " + direction.ToString());
 	}
 }

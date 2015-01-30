@@ -13,18 +13,10 @@ public class EnemyManager : MonoBehaviour {
 		transform.position = Vector3.zero;
 	}
 
-	public void AddEnemy(IntVector2 coordinates) {
+	public void AddEnemy(Tile tile) {
 		Enemy enemy = Instantiate(enemyPrefab) as Enemy;
 		enemy.transform.parent = transform;
-		enemy.Initialize(this, coordinates);
+		enemy.Initialize(this, tile);
 		enemies.Add(enemy);
-	}
-
-	public void CommitMove() {
-		foreach (Enemy enemy in enemies) enemy.CommitMove();
-	}
-
-	public void ProposeMove(BoardDirection direction) {
-		foreach (Enemy enemy in enemies) enemy.ProposeMove(direction);
 	}
 }

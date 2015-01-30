@@ -9,46 +9,26 @@ public class Worm : MonoBehaviour {
 	private WormHead head;
 	private List<WormBodyPart> bodyParts;
 
-	public void Initialize(IntVector2 startCoordinates, BoardDirection startDirection) {
+	public void Initialize(Tile tile, BoardDirection direction) {
 		transform.parent = Board.instance.transform;
 		transform.localPosition = Vector3.zero;
 
 		bodyParts = new List<WormBodyPart>();
 
 		head = Instantiate(wormHeadPartPrefab) as WormHead;
-		head.Initialize(this, startCoordinates, startDirection); 
-		head.transform.parent = transform;
-		head.transform.position = Board.instance.GetTilePosition(startCoordinates);
-
-		PlaceBodyPart(startCoordinates, startDirection.GetOpposite());
+		head.Initialize(this, tile, direction); 
 	}
 
-	public void PlaceBodyPart(IntVector2 coordinates, BoardDirection direction) {
+	public void PlaceBodyPart(Tile tile, BoardDirection direction) {
 		WormBodyPart bodyPart = Instantiate(wormBodyPartPrefab) as WormBodyPart;
-		bodyPart.Initialize(this, coordinates, direction);
+		bodyPart.Initialize(this, tile, direction);
 		bodyPart.transform.parent = transform;
-		bodyPart.transform.position = Board.instance.GetTilePosition(coordinates);
+		bodyPart.transform.position = Board.instance.GetTilePosition(tile.coordinates);
 		bodyParts.Add(bodyPart);
 	}
 	
-	public void ProposeMove(BoardDirection direction) {
-		head.SetDirection(direction);
-
-		TileEdge edge = head.currentTile.GetEdge(direction);
-		Tile otherTile = null;
-		if (edge is TilePassage) otherTile = edge.otherTile;
-		
-		if (otherTile != null) {
-			head.ProposePosition(otherTile.coordinates);
-		}
-	}
-
-	public void CommitMove() {
-		IntVector2 prevCoords = head.coordinates;
-
-		if (head.CommitPosition()) {
-			PlaceBodyPart(prevCoords, head.direction);
-			PlaceBodyPart(head.coordinates, head.direction.GetOpposite());
-		}
+	public void HandleHeadMoved(Tile previousTile, Tile currentTile, BoardDirection direction) {
+		if (previousTile != null) PlaceBodyPart(previousTile, direction);
+		PlaceBodyPart(currentTile, direction.GetOpposite());
 	}
 }

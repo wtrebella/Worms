@@ -1,31 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WormBodyPart : MonoBehaviour {
+public class WormBodyPart : TileEntity {
 	public BoardDirection direction {get; private set;}
-	public IntVector2 coordinates {get; private set;}
-	public Tile tile {
-		get {
-			return Board.instance.GetTile(coordinates);
-		}
-	}
 
-	public void Initialize(Worm worm, IntVector2 newCoordinates, BoardDirection direction) {
-		coordinates = new IntVector2(-1, -1);
-		this.direction = direction;
+	private Worm worm;
+
+	public void Initialize(Worm worm, Tile tile, BoardDirection direction) {
+		this.worm = worm;
+		tileEntityType = TileEntityType.WormBodyPart;
 		transform.parent = worm.transform;
-		SetPosition(newCoordinates);
-		SetDirection(direction);
+		GoToTile(tile, direction);
 	}
 
-	public void SetPosition(IntVector2 newCoordinates) {
-		Board.instance.RemoveObject(Board.instance.tileBitmasks, this.coordinates, ObjectType.WormBodyPart);
-		this.coordinates = newCoordinates;
-		transform.position = Board.instance.GetTilePosition(this.coordinates);
-		Board.instance.AddObject(Board.instance.tileBitmasks, this.coordinates, ObjectType.WormBodyPart);
+	private void SetDirection(BoardDirection newDirection) {
+		direction = newDirection;
+		transform.localRotation = direction.ToRotation();
+	}
+
+	public override void GoToTile(Tile tile, BoardDirection newDirection) {
+		if (currentTile != null) {
+			Debug.LogWarning("this shouldn't happen! don't try to move a worm body part to another tile.");
+			currentTile.RemoveObject(this);
+		}
+		SetDirection(newDirection);
+		currentTile = tile;
+		currentTile.AddObject(this);
+		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
 	}
 	
-	public void SetDirection(BoardDirection direction) {
-		transform.localRotation = direction.ToRotation();
+	public override bool CanMoveToTile(Tile tile) {
+		return false;
 	}
 }

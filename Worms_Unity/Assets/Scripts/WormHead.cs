@@ -1,44 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WormHead : MonoBehaviour {
-	public IntVector2 coordinates {get; private set;}
-	public IntVector2 tempCoordinates {get; private set;}
+public class WormHead : TileEntity {
 	public BoardDirection direction {get; private set;}
-	public Tile currentTile {
-		get {
-			return Board.instance.GetTile(coordinates);
-		}
-	}
 
-	public void Initialize(Worm worm, IntVector2 startingCoordinates, BoardDirection startingDirection) {
-		this.coordinates = new IntVector2(-1, -1);
-		this.tempCoordinates = new IntVector2(-1, -1);
+	private Worm worm;
+
+	public void Initialize(Worm worm, Tile tile, BoardDirection direction) {
+		this.worm = worm;
+		tileEntityType = TileEntityType.WormHead;
 		transform.parent = worm.transform;
-		SetDirection(startingDirection);
-		ProposePosition(startingCoordinates);
-		CommitPosition();
+		GoToTile(tile, direction);
 	}
 
-	public void SetDirection(BoardDirection direction) {
-		this.direction = direction;
+	private void SetDirection(BoardDirection newDirection) {
+		direction = newDirection;
 		transform.localRotation = direction.ToRotation();
 	}
 
-	public void ProposePosition(IntVector2 newCoordinates) {
-		Board.instance.RemoveObject(Board.instance.tempTileBitmasks, this.coordinates, ObjectType.WormHead);
-		this.tempCoordinates = newCoordinates;
-		Board.instance.AddObject(Board.instance.tempTileBitmasks, this.tempCoordinates, ObjectType.WormHead);
+	public override void GoToTile(Tile tile, BoardDirection newDirection) {
+		Tile previousTile = currentTile;
+		currentTile = tile;
+		
+		if (previousTile != null) previousTile.RemoveObject(this);
+		SetDirection(newDirection);
+		currentTile.AddObject(this);
+		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
+		worm.HandleHeadMoved(previousTile, currentTile, newDirection);
 	}
-
-	public bool CommitPosition() {
-		if (Board.instance.GetTileContains(Board.instance.tempTileBitmasks, tempCoordinates, ObjectType.WormBodyPart) ||
-		    Board.instance.GetTileContains(Board.instance.tempTileBitmasks, tempCoordinates, ObjectType.Enemy)) return false;
-
-		Board.instance.RemoveObject(Board.instance.tileBitmasks, this.coordinates, ObjectType.WormHead);
-		this.coordinates = this.tempCoordinates;
-		Board.instance.AddObject(Board.instance.tileBitmasks, this.coordinates, ObjectType.WormHead);
-		transform.position = Board.instance.GetTilePosition(this.coordinates);
-		return true;
+	
+	public override bool CanMoveToTile(Tile tile) {
+		return !(tile.Contains(TileEntityType.Enemy) || tile.Contains(TileEntityType.WormBodyPart));
 	}
 }

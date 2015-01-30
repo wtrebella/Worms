@@ -1,14 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WormHead.cs">
     <Files>
-      <File FileName="Assets/Scripts/Enemy.cs" Line="23" Column="81" />
-      <File FileName="Assets/Scripts/EnemyManager.cs" Line="23" Column="25" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="55" Column="3" />
-      <File FileName="Assets/Scripts/WormHead.cs" Line="32" Column="3" />
-      <File FileName="Assets/Scripts/WormBodyPart.cs" Line="25" Column="57" />
-      <File FileName="Assets/Scripts/Board.cs" Line="117" Column="57" />
-      <File FileName="Assets/Scripts/Worm.cs" Line="50" Column="28" />
+      <File FileName="Assets/Scripts/Worm.cs" Line="36" Column="55" />
+      <File FileName="Assets/Scripts/Enemy.cs" Line="6" Column="41" />
+      <File FileName="Assets/Scripts/EnemyManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WormHead.cs" Line="15" Column="3" />
+      <File FileName="Assets/Scripts/WormBodyPart.cs" Line="10" Column="20" />
+      <File FileName="Assets/Scripts/Board.cs" Line="120" Column="24" />
+      <File FileName="Assets/Scripts/Tile.cs" Line="50" Column="16" />
+      <File FileName="Assets/Scripts/TileEntity.cs" Line="6" Column="61" />
+      <File FileName="Assets/Scripts/TileEntityType.cs" Line="2" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
