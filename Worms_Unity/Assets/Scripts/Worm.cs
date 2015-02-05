@@ -48,7 +48,8 @@ public class Worm : MonoBehaviour {
 		if (previousTile != null) PlaceBodyPart(previousTile, direction);
 		PlaceBodyPart(currentTile, direction.GetOpposite());
 
-		Enemy enemy = currentTile.GetEntity(TileEntityType.Enemy) as Enemy;
+		Enemy enemy = currentTile.GetTileEntity(TileEntityType.Enemy) as Enemy;
+		                                    
 		if (enemy != null) EatEnemy(enemy);
 	}
 

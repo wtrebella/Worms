@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WormBodyPart : TileEntity {
 	public BoardDirection direction {get; private set;}
-
-	private Worm worm;
-
-	public void Initialize(Worm worm, Tile tile, BoardDirection direction) {
-		this.worm = worm;
+	
+	public void Initialize(Worm worm, Tile tile, BoardDirection newDirection) {
 		tileEntityType = TileEntityType.WormBodyPart;
 		transform.parent = worm.transform;
-		GoToTile(tile, direction);
+		SetTile(tile);
+		SetDirection(newDirection);
 	}
 
 	private void SetDirection(BoardDirection newDirection) {
@@ -21,22 +20,24 @@ public class WormBodyPart : TileEntity {
 	public override void RemoveFromTile() {
 		if (currentTile == null) return;
 		
-		currentTile.RemoveObject(this);
+		if (currentTile.tileEntities.Contains(this)) currentTile.tileEntities.Remove(this);
 		currentTile = null;
 	}
 
-	public override void GoToTile(Tile tile, BoardDirection newDirection) {
-		if (currentTile != null) {
-			Debug.LogWarning("this shouldn't happen! don't try to move a worm body part to another tile.");
-			currentTile.RemoveObject(this);
-		}
-		SetDirection(newDirection);
+	public override void SetTile(Tile tile) {
+		RemoveFromTile();
 		currentTile = tile;
-		currentTile.AddObject(this);
+		if (!tile.tileEntities.Contains(this)) tile.tileEntities.Add(this);
 		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
 	}
 	
-	public override bool CanMoveToTile(Tile tile) {
+	public override void Move(BoardDirection newDirection) {
+		if (currentTile == null) Debug.LogError("can't move an entity before it has a tile");
+		
+		SetTile(Board.instance.GetTile(currentTile.coordinates + newDirection.ToIntVector2()));
+	}
+
+	public override bool CanEnterTileWithTileEntities(List<TileEntity> tileEntities) {
 		return false;
 	}
 }

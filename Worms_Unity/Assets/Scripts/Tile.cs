@@ -3,11 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Tile : MonoBehaviour {
+	public tk2dSprite tileSpritePrefab;
 	public IntVector2 coordinates;
 	public List<TileEntity> tileEntities;
 
 	private int initializedEdgeCount = 0;
-	
+
+	public void Initialize() {
+		tileEntities = new List<TileEntity>();
+	}
+
+	public void InitializeSprite() {
+		tk2dSprite s = Instantiate(tileSpritePrefab) as tk2dSprite;
+		s.transform.parent = transform;
+		s.transform.localPosition = Vector3.zero;
+	}
+
 	public bool IsFullyInitialized {
 		get {
 			return initializedEdgeCount == BoardDirections.Count;
@@ -16,15 +27,11 @@ public class Tile : MonoBehaviour {
 
 	private TileEdge[] edges = new TileEdge[BoardDirections.Count];
 
-	void Awake() {
-		tileEntities = new List<TileEntity>();
-	}
-
 	public TileEdge GetEdge (BoardDirection direction) {
 		return edges[(int)direction];
 	}
 	
-	public void SetEdge (BoardDirection direction, TileEdge edge) {
+	public void SetEdge(BoardDirection direction, TileEdge edge) {
 		edges[(int)direction] = edge;
 		initializedEdgeCount++;
 	}
@@ -33,37 +40,11 @@ public class Tile : MonoBehaviour {
 		return edges[(int)direction] != null;
 	}
 
-	public bool Contains(TileEntityType tileEntityType) {
-		foreach (TileEntity t in tileEntities) {
-			if (t.tileEntityType == tileEntityType) return true;
-		}
-		
-		return false;
-	}
-
-	public TileEntity GetEntity(TileEntityType tileEntityType) {
+	public TileEntity GetTileEntity(TileEntityType tileEntityType) {
 		foreach (TileEntity t in tileEntities) {
 			if (t.tileEntityType == tileEntityType) return t;
 		}
-		
-		return null;
-	}
 
-	public bool IsEmpty() {
-		return tileEntities.Count == 0;
-	}
-	
-	public void AddObject(TileEntity tileEntity) {
-		tileEntities.Add(tileEntity);
-	}
-	
-	public void RemoveObject(TileEntity tileEntity) {
-		for (int i = tileEntities.Count - 1; i >= 0; i--) {
-			TileEntity t = tileEntities[i];
-			if (tileEntity == t) {
-				tileEntities.RemoveAt(i);
-				return;
-			}
-		}
+		return null;
 	}
 }
