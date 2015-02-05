@@ -33,7 +33,9 @@ public class GameManager : MonoBehaviour {
 		if (direction != BoardDirection.NONE) {
 			if (board.TileEntityCanMove(worm.head, direction)) {
 				board.Move(direction);
-				board.AddEnemyIfPossible(direction);
+//				if (enemyManager.EnemyCount < 4) {
+					board.AddEnemyIfPossible(direction);
+//				}
 				board.ValidateNextEnemyPositions();
 			}
 		}

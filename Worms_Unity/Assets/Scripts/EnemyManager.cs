@@ -13,6 +13,12 @@ public class EnemyManager : MonoBehaviour {
 		transform.position = Vector3.zero;
 	}
 
+	public int EnemyCount {
+		get {
+			return enemies.Count;
+		}
+	}
+
 	public void AddEnemy(Tile tile) {
 		Enemy enemy = Instantiate(enemyPrefab) as Enemy;
 		enemy.transform.parent = transform;

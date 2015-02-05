@@ -47,4 +47,14 @@ public class Tile : MonoBehaviour {
 
 		return null;
 	}
+
+	public List<TileEntity> GetTileEntities(TileEntityType tileEntityType) {
+		List<TileEntity> entities = new List<TileEntity>();
+
+		foreach (TileEntity t in tileEntities) {
+			if (t.tileEntityType == tileEntityType) entities.Add(t);
+		}
+
+		return entities;
+	}
 }

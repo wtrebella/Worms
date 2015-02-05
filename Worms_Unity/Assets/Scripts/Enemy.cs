@@ -14,6 +14,19 @@ public class Enemy : TileEntity {
 		currentTile = tile;
 		if (!tile.tileEntities.Contains(this)) tile.tileEntities.Add(this);
 		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
+
+//		var wormBodyParts = currentTile.GetTileEntities(TileEntityType.WormBodyPart);
+//		if (wormBodyParts.Count > 0) {
+//			Worm worm = (wormBodyParts[0] as WormBodyPart).worm;
+//			int highestIndex = 0;
+//			for (int i = 0; i < worm.bodyParts.Count; i++) {
+//				WormBodyPart w = worm.bodyParts[i];
+//				if (wormBodyParts.Contains(w)) highestIndex = Mathf.Max(highestIndex, i);
+//			}
+//			for (int i = 0; i < highestIndex + 1; i++) {
+//				EatWormBodyPart(worm.bodyParts[0]);
+//			}
+//		}
 	}
 
 	public override void Move(BoardDirection newDirection) {
@@ -27,5 +40,9 @@ public class Enemy : TileEntity {
 		
 		if (currentTile.tileEntities.Contains(this)) currentTile.tileEntities.Remove(this);
 		currentTile = null;
+	}
+
+	public void EatWormBodyPart(WormBodyPart wormBodyPart) {
+		wormBodyPart.worm.RemoveBodyPart(wormBodyPart);
 	}
 }

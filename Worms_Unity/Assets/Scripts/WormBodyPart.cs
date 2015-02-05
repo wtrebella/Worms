@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WormBodyPart : TileEntity {
+	public Worm worm;
 	public BoardDirection direction {get; private set;}
 	
 	public void Initialize(Worm worm, Tile tile, BoardDirection newDirection) {
+		this.worm = worm;
 		tileEntityType = TileEntityType.WormBodyPart;
 		transform.parent = worm.transform;
 		SetTile(tile);
