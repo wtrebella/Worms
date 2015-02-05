@@ -28,12 +28,4 @@ public class Enemy : TileEntity {
 		if (currentTile.tileEntities.Contains(this)) currentTile.tileEntities.Remove(this);
 		currentTile = null;
 	}
-
-	public override bool CanEnterTileWithTileEntities(List<TileEntity> tileEntities) {
-		foreach (TileEntity t in tileEntities) {
-			if (t.tileEntityType == TileEntityType.Enemy || t.tileEntityType == TileEntityType.WormBodyPart || t.tileEntityType == TileEntityType.WormHead) return false;
-		}
-
-		return true;
-	}
 }

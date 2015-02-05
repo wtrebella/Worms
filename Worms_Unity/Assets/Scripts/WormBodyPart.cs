@@ -36,8 +36,4 @@ public class WormBodyPart : TileEntity {
 		
 		SetTile(Board.instance.GetTile(currentTile.coordinates + newDirection.ToIntVector2()));
 	}
-
-	public override bool CanEnterTileWithTileEntities(List<TileEntity> tileEntities) {
-		return false;
-	}
 }

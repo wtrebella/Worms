@@ -31,9 +31,11 @@ public class GameManager : MonoBehaviour {
 		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
 
 		if (direction != BoardDirection.NONE) {
-			if (board.TileEntityCanMove(worm.head, direction)) board.Move(direction);
-//			board.AttemptToAddEnemy(direction);
-//			board.ValidateNextEnemyPositions();
+			if (board.TileEntityCanMove(worm.head, direction)) {
+				board.Move(direction);
+				board.AddEnemyIfPossible(direction);
+				board.ValidateNextEnemyPositions();
+			}
 		}
 	}
 	
@@ -54,11 +56,10 @@ public class GameManager : MonoBehaviour {
 		enemyManager = Instantiate(enemyManagerPrefab) as EnemyManager;
 		enemyManager.Initialize();
 
-		board.AddEnemy(new IntVector2(Random.Range(0, board.size.x), Random.Range(0, board.size.y)));
-//		board.UpdateNextEnemyPositions(BoardDirection.Down);
-//		board.UpdateNextEnemyPositions(BoardDirection.Up);
-//		board.UpdateNextEnemyPositions(BoardDirection.Right);
-//		board.UpdateNextEnemyPositions(BoardDirection.Left);
+		board.UpdateNextEnemyPositions(BoardDirection.Down);
+		board.UpdateNextEnemyPositions(BoardDirection.Up);
+		board.UpdateNextEnemyPositions(BoardDirection.Right);
+		board.UpdateNextEnemyPositions(BoardDirection.Left);
 	}
 	
 	private void RestartGame () {

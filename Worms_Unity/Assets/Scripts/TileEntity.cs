@@ -9,5 +9,22 @@ public abstract class TileEntity : MonoBehaviour {
 	public abstract void SetTile(Tile tile);
 	public abstract void Move(BoardDirection newDirection);
 	public abstract void RemoveFromTile();
-	public abstract bool CanEnterTileWithTileEntities(List<TileEntity> tileEntities);
+
+	public static bool TileEntityTypeCanEnterTileWithTileEntities(TileEntityType tileEntityType, List<TileEntity> tileEntities) {
+		if (tileEntityType == TileEntityType.Enemy) {
+			foreach (TileEntity t in tileEntities) {
+				if (t.tileEntityType == TileEntityType.Enemy || t.tileEntityType == TileEntityType.WormBodyPart || t.tileEntityType == TileEntityType.WormHead) return false;
+			}
+		}
+		else if (tileEntityType == TileEntityType.WormHead) {
+			foreach (TileEntity t in tileEntities) {
+				if (t.tileEntityType == TileEntityType.Enemy || t.tileEntityType == TileEntityType.WormBodyPart || t.tileEntityType == TileEntityType.WormHead) return false;
+			}
+		}
+		else if (tileEntityType == TileEntityType.WormBodyPart) {
+			return false;
+		}
+		
+		return true;
+	}
 }
