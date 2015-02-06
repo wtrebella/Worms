@@ -6,7 +6,6 @@ public class Board : MonoBehaviour {
 	public static Board instance;
 
 	public int tileSize = 100;
-	public IntVector2 size;
 
 	public Tile tilePrefab;
 	public Tile blockedTilePrefab;
@@ -18,6 +17,8 @@ public class Board : MonoBehaviour {
 
 	private GameObject tileHolder;
 	private GameObject enemyIndicatorHolder;
+
+	private IntVector2 size;
 
 	private BoardDirection lastDirection = BoardDirection.NONE;
 
@@ -46,6 +47,46 @@ public class Board : MonoBehaviour {
 	
 	void Update () {
 	
+	}
+
+	public void Generate(PuzzleData puzzleData) {
+		size = puzzleData.size;
+
+		tileHolder = new GameObject("Tiles");
+		tileHolder.transform.parent = transform;
+		tileHolder.transform.localPosition = Vector3.zero;
+
+		tiles = new Tile[size.x, size.y];
+		for (int x = 0; x < size.x; x++) {
+			for (int y = 0; y < size.y; y++) {
+				MapEditorTileData tileData = puzzleData.tiles[x, y];
+
+				if (tileData.tileType == MapEditorTileType.BlockedTile) tiles[x, y] = CreateBlockedTile(new IntVector2(x, y), tileHolder.transform);
+				else if (tileData.tileType == MapEditorTileType.Tile) tiles[x, y] = CreateTile(new IntVector2(x, y), tileHolder.transform);
+			}
+		}
+		
+//		for (int x = 0; x < size.x; x++) {
+//			for (int y = 0; y < size.y; y++) {
+//				Tile tile = GetTile(new IntVector2(x, y));
+//				if (tile.tileType == TileType.BlockedTile) continue;
+//				for (int i = 0; i < BoardDirections.Count; i++) {
+//					BoardDirection direction = (BoardDirection)i;
+//					if (tile.GetDirectionIsInitialized(direction)) continue;
+//					
+//					IntVector2 neighborCoordinates = tile.coordinates + direction.ToIntVector2();
+//					if (ContainsCoordinates(neighborCoordinates)) {
+//						Tile otherTile = GetTile(neighborCoordinates);
+//						if (otherTile.tileType == TileType.BlockedTile) CreateWall(tile, null, direction);
+//						else if (Random.value < 0.2f) CreateWall(tile, otherTile, direction);
+//						else CreatePassage(tile, otherTile, direction);
+//					}
+//					else {
+//						CreateWall(tile, null, direction);
+//					}
+//				}
+//			}
+//		}
 	}
 
 	public void Generate() {

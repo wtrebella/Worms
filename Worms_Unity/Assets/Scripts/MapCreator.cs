@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEditor;
+using System.IO;
 
 public enum State {
 	Tile,
@@ -49,13 +51,18 @@ public class MapCreator : MonoBehaviour {
 	public void ExportData() {
 		PuzzleData puzzleData = ScriptableObjectUtility.CreateAsset<PuzzleData>();
 		puzzleData.size = size;
-		puzzleData.tileSize = tileSize;
 		puzzleData.tiles = new MapEditorTileData[puzzleData.size.x, puzzleData.size.y];
 		for (int x = 0; x < puzzleData.size.x; x++) {
 			for (int y = 0; y < puzzleData.size.y; y++) {
 				puzzleData.tiles[x, y] = tiles[x, y].GetDataVersion();
 			}
 		}
+		puzzleData.testString = "blah";
+		puzzleData.name = "Test";
+		AssetDatabase.SaveAssets();
+		AssetDatabase.Refresh();
+		EditorUtility.FocusProjectWindow ();
+		Selection.activeObject = puzzleData;
 	}
 
 	Vector3 GetPosition(IntVector2 coordinates) {

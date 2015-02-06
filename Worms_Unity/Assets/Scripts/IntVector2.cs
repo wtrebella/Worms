@@ -1,4 +1,7 @@
-﻿[System.Serializable]
+﻿using System;
+using UnityEngine;
+
+[Serializable]
 public struct IntVector2 {
 	public static IntVector2 zero {
 		get {
@@ -6,8 +9,10 @@ public struct IntVector2 {
 		}
 	}
 
+	[SerializeField]
 	public int x, y;
-	
+
+	[SerializeField]
 	public IntVector2 (int x, int z) {
 		this.x = x;
 		this.y = z;

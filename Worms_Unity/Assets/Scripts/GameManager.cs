@@ -4,6 +4,8 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 
+	public PuzzleData puzzleToLoad;
+
 	public Board boardPrefab;
 	public Worm wormPrefab;
 	public EnemyManager enemyManagerPrefab;
@@ -36,31 +38,31 @@ public class GameManager : MonoBehaviour {
 	
 	private void BeginGame () {
 		board = Instantiate(boardPrefab) as Board;
-		board.Generate();
+		board.Generate(puzzleToLoad);
 
-		Worm worm = Instantiate(wormPrefab) as Worm;
-		BoardDirection startDirection = BoardDirections.RandomValue;
-		IntVector2 startCoordinates = board.RandomCoordinates;
-		Tile startTile = board.GetTile(startCoordinates);
-		worm.Initialize(startTile, startDirection, new Color(0.1f, 0.3f, 0.9f));
-
-		worm = Instantiate(wormPrefab) as Worm;
-		startDirection = BoardDirections.RandomValue;
-		startCoordinates = board.RandomCoordinates;
-		startTile = board.GetTile(startCoordinates);
-		worm.Initialize(startTile, startDirection, new Color(0.9f, 0.1f, 0.2f));
-
-		worm = Instantiate(wormPrefab) as Worm;
-		startDirection = BoardDirections.RandomValue;
-		startCoordinates = board.RandomCoordinates;
-		startTile = board.GetTile(startCoordinates);
-		worm.Initialize(startTile, startDirection, new Color(0.1f, 0.8f, 0.4f));
-
-		worm = Instantiate(wormPrefab) as Worm;
-		startDirection = BoardDirections.RandomValue;
-		startCoordinates = board.RandomCoordinates;
-		startTile = board.GetTile(startCoordinates);
-		worm.Initialize(startTile, startDirection, new Color(0.6f, 0.1f, 0.6f));
+//		Worm worm = Instantiate(wormPrefab) as Worm;
+//		BoardDirection startDirection = BoardDirections.RandomValue;
+//		IntVector2 startCoordinates = board.RandomCoordinates;
+//		Tile startTile = board.GetTile(startCoordinates);
+//		worm.Initialize(startTile, startDirection, new Color(0.1f, 0.3f, 0.9f));
+//
+//		worm = Instantiate(wormPrefab) as Worm;
+//		startDirection = BoardDirections.RandomValue;
+//		startCoordinates = board.RandomCoordinates;
+//		startTile = board.GetTile(startCoordinates);
+//		worm.Initialize(startTile, startDirection, new Color(0.9f, 0.1f, 0.2f));
+//
+//		worm = Instantiate(wormPrefab) as Worm;
+//		startDirection = BoardDirections.RandomValue;
+//		startCoordinates = board.RandomCoordinates;
+//		startTile = board.GetTile(startCoordinates);
+//		worm.Initialize(startTile, startDirection, new Color(0.1f, 0.8f, 0.4f));
+//
+//		worm = Instantiate(wormPrefab) as Worm;
+//		startDirection = BoardDirections.RandomValue;
+//		startCoordinates = board.RandomCoordinates;
+//		startTile = board.GetTile(startCoordinates);
+//		worm.Initialize(startTile, startDirection, new Color(0.6f, 0.1f, 0.6f));
 	}
 	
 	private void RestartGame () {
