@@ -9,6 +9,7 @@ public class Board : MonoBehaviour {
 	public IntVector2 size;
 
 	public Tile tilePrefab;
+	public Tile blockedTilePrefab;
 	public TilePassage passagePrefab;
 	public TileWall wallPrefab;
 	public tk2dSprite enemyIndicatorPrefab;
@@ -59,13 +60,15 @@ public class Board : MonoBehaviour {
 		tiles = new Tile[size.x, size.y];
 		for (int x = 0; x < size.x; x++) {
 			for (int y = 0; y < size.y; y++) {
-				tiles[x, y] = CreateTile(new IntVector2(x, y), tileHolder.transform, true);
+				if (x == 0 && y == size.y - 1) tiles[x, y] = CreateBlockedTile(new IntVector2(x, y), tileHolder.transform);
+				else tiles[x, y] = CreateTile(new IntVector2(x, y), tileHolder.transform);
 			}
 		}
 
 		for (int x = 0; x < size.x; x++) {
 			for (int y = 0; y < size.y; y++) {
 				Tile tile = GetTile(new IntVector2(x, y));
+				if (tile.tileType == TileType.BlockedTile) continue;
 				for (int i = 0; i < BoardDirections.Count; i++) {
 					BoardDirection direction = (BoardDirection)i;
 					if (tile.GetDirectionIsInitialized(direction)) continue;
@@ -73,8 +76,9 @@ public class Board : MonoBehaviour {
 					IntVector2 neighborCoordinates = tile.coordinates + direction.ToIntVector2();
 					if (ContainsCoordinates(neighborCoordinates)) {
 						Tile otherTile = GetTile(neighborCoordinates);
-						if (Random.value > 0.2f) CreatePassage(tile, otherTile, direction);
-						else CreateWall(tile, otherTile, direction);
+						if (otherTile.tileType == TileType.BlockedTile) CreateWall(tile, null, direction);
+						else if (Random.value < 0.2f) CreateWall(tile, otherTile, direction);
+						else CreatePassage(tile, otherTile, direction);
 					}
 					else {
 						CreateWall(tile, null, direction);
@@ -106,6 +110,8 @@ public class Board : MonoBehaviour {
 	public bool ContainsCoordinates(IntVector2 coordinate) {
 		return coordinate.x >= 0 && coordinate.x < size.x && coordinate.y >= 0 && coordinate.y < size.y;
 	}
+
+
 
 	public void Move(BoardDirection direction) {
 		List<TileEntity> tileEntities = null;
@@ -467,14 +473,26 @@ public class Board : MonoBehaviour {
 		}
 	}
 	
-	private Tile CreateTile(IntVector2 coordinates, Transform newParent, bool withSprite) {
+	private Tile CreateTile(IntVector2 coordinates, Transform newParent) {
 		Tile newTile = Instantiate(tilePrefab) as Tile;
 		newTile.Initialize();
 		newTile.name = "Tile " + coordinates.x + ", " + coordinates.y;
 		newTile.coordinates = coordinates;
 		newTile.transform.parent = newParent;
 		newTile.transform.position = GetTilePosition(coordinates);
-		if (withSprite) newTile.InitializeSprite();
+		newTile.InitializeSprite();
+		
+		return newTile;
+	}
+
+	private Tile CreateBlockedTile(IntVector2 coordinates, Transform newParent) {
+		Tile newTile = Instantiate(blockedTilePrefab) as Tile;
+		newTile.Initialize();
+		newTile.name = "Blocked Tile " + coordinates.x + ", " + coordinates.y;
+		newTile.coordinates = coordinates;
+		newTile.transform.parent = newParent;
+		newTile.transform.position = GetTilePosition(coordinates);
+		newTile.InitializeSprite();
 		
 		return newTile;
 	}

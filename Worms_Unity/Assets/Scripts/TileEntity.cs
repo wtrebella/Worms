@@ -18,7 +18,7 @@ public abstract class TileEntity : MonoBehaviour {
 		}
 		else if (tileEntityType == TileEntityType.WormHead) {
 			foreach (TileEntity t in tileEntities) {
-				if (t.tileEntityType == TileEntityType.WormBodyPart || t.tileEntityType == TileEntityType.WormHead) return false;
+				if (t.tileEntityType == TileEntityType.WormBodyPart) return false;
 			}
 		}
 		else if (tileEntityType == TileEntityType.WormBodyPart) {

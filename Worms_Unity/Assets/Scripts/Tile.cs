@@ -2,7 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum TileType {
+	Tile,
+	BlockedTile
+}
+
 public class Tile : MonoBehaviour {
+	public TileType tileType;
 	public tk2dSprite tileSpritePrefab;
 	public IntVector2 coordinates;
 	public List<TileEntity> tileEntities;

@@ -52,6 +52,16 @@
      <Compile Include="Assets\Scripts\EnemyManager.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\IntVector2.cs" />
+     <Compile Include="Assets\Scripts\Map Editor Scripts\MapEditorDirection.cs" />
+     <Compile Include="Assets\Scripts\Map Editor Scripts\MapEditorTile.cs" />
+     <Compile Include="Assets\Scripts\Map Editor Scripts\MapEditorTileData.cs" />
+     <Compile Include="Assets\Scripts\Map Editor Scripts\MapEditorWall.cs" />
+     <Compile Include="Assets\Scripts\Map Editor Scripts\MapEditorWallData.cs" />
+     <Compile Include="Assets\Scripts\Map Editor Scripts\MapEditorWorm.cs" />
+     <Compile Include="Assets\Scripts\Map Editor Scripts\MapEditorWormData.cs" />
+     <Compile Include="Assets\Scripts\Map Editor Scripts\PuzzleData.cs" />
+     <Compile Include="Assets\Scripts\Map Editor Scripts\ScriptableObjectUtility.cs" />
+     <Compile Include="Assets\Scripts\MapCreator.cs" />
      <Compile Include="Assets\Scripts\Tile.cs" />
      <Compile Include="Assets\Scripts\TileEdge.cs" />
      <Compile Include="Assets\Scripts\TileEntity.cs" />
