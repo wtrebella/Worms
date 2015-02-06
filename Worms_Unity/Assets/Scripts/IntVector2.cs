@@ -9,10 +9,8 @@ public struct IntVector2 {
 		}
 	}
 
-	[SerializeField]
 	public int x, y;
 
-	[SerializeField]
 	public IntVector2 (int x, int z) {
 		this.x = x;
 		this.y = z;

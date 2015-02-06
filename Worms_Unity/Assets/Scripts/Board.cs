@@ -59,7 +59,7 @@ public class Board : MonoBehaviour {
 		tiles = new Tile[size.x, size.y];
 		for (int x = 0; x < size.x; x++) {
 			for (int y = 0; y < size.y; y++) {
-				MapEditorTileData tileData = puzzleData.tiles[x, y];
+				MapEditorTileData tileData = puzzleData.tiles[y * size.x + x];
 
 				if (tileData.tileType == MapEditorTileType.BlockedTile) tiles[x, y] = CreateBlockedTile(new IntVector2(x, y), tileHolder.transform);
 				else if (tileData.tileType == MapEditorTileType.Tile) tiles[x, y] = CreateTile(new IntVector2(x, y), tileHolder.transform);

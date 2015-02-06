@@ -24,10 +24,12 @@ public class MapCreator : MonoBehaviour {
 	public IntVector2 size;
 	public MapEditorTile[,] tiles;
 
+	private static MapCreator instance;
 	private List<MapEditorWorm> worms;
 	private State state = State.Tile;
 
 	void Start () {
+		instance = this;
 		Initialize();
 	}
 	
@@ -48,21 +50,37 @@ public class MapCreator : MonoBehaviour {
 		switchStateButton.GetComponentInChildren<Text>().text = state.ToString();
 	}
 
-	public void ExportData() {
-		PuzzleData puzzleData = ScriptableObjectUtility.CreateAsset<PuzzleData>();
-		puzzleData.size = size;
-		puzzleData.tiles = new MapEditorTileData[puzzleData.size.x, puzzleData.size.y];
-		for (int x = 0; x < puzzleData.size.x; x++) {
-			for (int y = 0; y < puzzleData.size.y; y++) {
-				puzzleData.tiles[x, y] = tiles[x, y].GetDataVersion();
+	[UnityEditor.MenuItem( "Puzzle/Create New Puzzle", false, 10 )]
+	public static void ExportData() {
+		PuzzleData asset = ScriptableObject.CreateInstance<PuzzleData> ();
+		
+		string path = AssetDatabase.GetAssetPath (Selection.activeObject);
+		if (path == "") 
+		{
+			path = "Assets/Puzzles";
+		} 
+		else if (Path.GetExtension (path) != "") 
+		{
+			path = path.Replace (Path.GetFileName (AssetDatabase.GetAssetPath (Selection.activeObject)), "");
+		}
+		
+		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/New " + typeof(PuzzleData).ToString() + ".asset");
+
+		AssetDatabase.CreateAsset (asset, assetPathAndName);
+		AssetDatabase.RenameAsset(assetPathAndName, "Puzzle");
+
+		asset.size = instance.size;
+		asset.tiles = new MapEditorTileData[asset.size.x * asset.size.y];
+		for (int x = 0; x < asset.size.x; x++) {
+			for (int y = 0; y < asset.size.y; y++) {
+				asset.tiles[y * asset.size.x + x] = instance.tiles[x, y].GetDataVersion();
 			}
 		}
-		puzzleData.testString = "blah";
-		puzzleData.name = "Test";
+
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
 		EditorUtility.FocusProjectWindow ();
-		Selection.activeObject = puzzleData;
+		Selection.activeObject = asset;
 	}
 
 	Vector3 GetPosition(IntVector2 coordinates) {
