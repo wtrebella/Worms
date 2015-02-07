@@ -6,9 +6,9 @@ using System;
 [Serializable]
 public class MapEditorTileData {
 	public IntVector2 coordinates;
-	public List<MapEditorWallData> walls = new List<MapEditorWallData>();
+	public List<MapEditorWallData> walls;
 	public MapEditorWormData worm;
-	public MapEditorTileType tileType;
+	public TileType tileType;
 
 	public MapEditorTileData() {
 

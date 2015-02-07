@@ -4,8 +4,8 @@ using System;
 
 [Serializable]
 public class MapEditorWormData {
-	public MapEditorDirection direction;
-	public WormType wormType;
+	public BoardDirection direction = BoardDirection.NONE;
+	public WormType wormType = WormType.NONE;
 
 	public MapEditorWormData() {
 

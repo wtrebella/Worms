@@ -11,6 +11,7 @@ public class Board : MonoBehaviour {
 	public Tile blockedTilePrefab;
 	public TilePassage passagePrefab;
 	public TileWall wallPrefab;
+	public Worm wormPrefab;
 	public tk2dSprite enemyIndicatorPrefab;
 
 	public Tile[,] tiles;
@@ -19,23 +20,6 @@ public class Board : MonoBehaviour {
 	private GameObject enemyIndicatorHolder;
 
 	private IntVector2 size;
-
-	private BoardDirection lastDirection = BoardDirection.NONE;
-
-	private IntVector2 nextEnemyCoordsLeftSide;
-	private IntVector2 nextEnemyCoordsRightSide;
-	private IntVector2 nextEnemyCoordsTopSide;
-	private IntVector2 nextEnemyCoordsBottomSide;
-
-	private List<Tile> enemyEntryTilesLeftSide;
-	private List<Tile> enemyEntryTilesRightSide;
-	private List<Tile> enemyEntryTilesTopSide;
-	private List<Tile> enemyEntryTilesBottomSide;
-
-	private tk2dSprite enemyIndicatorLeftSide;
-	private tk2dSprite enemyIndicatorRightSide;
-	private tk2dSprite enemyIndicatorTopSide;
-	private tk2dSprite enemyIndicatorBottomSide;
 
 	void Awake() {
 		instance = this;
@@ -61,35 +45,56 @@ public class Board : MonoBehaviour {
 			for (int y = 0; y < size.y; y++) {
 				MapEditorTileData tileData = puzzleData.tiles[y * size.x + x];
 
-				if (tileData.tileType == MapEditorTileType.BlockedTile) tiles[x, y] = CreateBlockedTile(new IntVector2(x, y), tileHolder.transform);
-				else if (tileData.tileType == MapEditorTileType.Tile) tiles[x, y] = CreateTile(new IntVector2(x, y), tileHolder.transform);
+				if (tileData.tileType == TileType.Blocked) tiles[x, y] = CreateBlockedTile(new IntVector2(x, y), tileHolder.transform);
+				else if (tileData.tileType == TileType.Tile) tiles[x, y] = CreateTile(new IntVector2(x, y), tileHolder.transform);
 			}
 		}
 		
-//		for (int x = 0; x < size.x; x++) {
-//			for (int y = 0; y < size.y; y++) {
-//				Tile tile = GetTile(new IntVector2(x, y));
-//				if (tile.tileType == TileType.BlockedTile) continue;
-//				for (int i = 0; i < BoardDirections.Count; i++) {
-//					BoardDirection direction = (BoardDirection)i;
-//					if (tile.GetDirectionIsInitialized(direction)) continue;
-//					
-//					IntVector2 neighborCoordinates = tile.coordinates + direction.ToIntVector2();
-//					if (ContainsCoordinates(neighborCoordinates)) {
-//						Tile otherTile = GetTile(neighborCoordinates);
-//						if (otherTile.tileType == TileType.BlockedTile) CreateWall(tile, null, direction);
-//						else if (Random.value < 0.2f) CreateWall(tile, otherTile, direction);
-//						else CreatePassage(tile, otherTile, direction);
-//					}
-//					else {
-//						CreateWall(tile, null, direction);
-//					}
-//				}
-//			}
-//		}
+		for (int x = 0; x < size.x; x++) {
+			for (int y = 0; y < size.y; y++) {
+				Tile tile = GetTile(new IntVector2(x, y));
+				if (tile.tileType == TileType.Blocked) continue;
+
+				MapEditorTileData tileData = puzzleData.tiles[y * size.x + x];
+
+				for (int i = 0; i < BoardDirections.Count; i++) {
+					BoardDirection direction = (BoardDirection)i;
+
+					if (tile.GetDirectionIsInitialized(direction)) continue;
+
+					IntVector2 neighborCoordinates = tile.coordinates + direction.ToIntVector2();
+					Tile neighborTile = null;
+					
+					if (ContainsCoordinates(neighborCoordinates)) neighborTile = GetTile(neighborCoordinates);
+					
+					MapEditorWallData wallData = null;
+					foreach (MapEditorWallData w in tileData.walls) {
+						if (w.direction == direction) {
+							wallData = w;
+							break;
+						}
+					}
+
+					if (wallData != null) CreateWall(tile, neighborTile, direction);
+					else if (neighborTile != null) CreatePassage(tile, neighborTile, direction);
+				}
+
+				if (tileData.worm != null && tileData.worm.wormType != WormType.NONE) {
+					Color color = Color.white;
+
+					if (tileData.worm.wormType == WormType.Worm1) color = new Color(83f / 255f, 148f / 255f, 255f / 255f);
+					else if (tileData.worm.wormType == WormType.Worm2) color = new Color(234f / 255f, 35f / 255f, 63f / 255f);
+					else if (tileData.worm.wormType == WormType.Worm3) color = new Color(58f / 255f, 194f / 255f, 93f / 255f);
+					else if (tileData.worm.wormType == WormType.Worm4) color = new Color(141f / 255f, 90f / 255f, 194f / 255f);
+
+					Worm worm = Instantiate(wormPrefab) as Worm;
+					worm.Initialize(tile, tileData.worm.direction, color);
+				}
+			}
+		}
 	}
 
-	public void Generate() {
+	public void GenerateRandom() {
 		tileHolder = new GameObject("Tiles");
 		tileHolder.transform.parent = transform;
 		tileHolder.transform.localPosition = Vector3.zero;
@@ -109,7 +114,7 @@ public class Board : MonoBehaviour {
 		for (int x = 0; x < size.x; x++) {
 			for (int y = 0; y < size.y; y++) {
 				Tile tile = GetTile(new IntVector2(x, y));
-				if (tile.tileType == TileType.BlockedTile) continue;
+				if (tile.tileType == TileType.Blocked) continue;
 				for (int i = 0; i < BoardDirections.Count; i++) {
 					BoardDirection direction = (BoardDirection)i;
 					if (tile.GetDirectionIsInitialized(direction)) continue;
@@ -117,7 +122,7 @@ public class Board : MonoBehaviour {
 					IntVector2 neighborCoordinates = tile.coordinates + direction.ToIntVector2();
 					if (ContainsCoordinates(neighborCoordinates)) {
 						Tile otherTile = GetTile(neighborCoordinates);
-						if (otherTile.tileType == TileType.BlockedTile) CreateWall(tile, null, direction);
+						if (otherTile.tileType == TileType.Blocked) CreateWall(tile, null, direction);
 						else if (Random.value < 0.2f) CreateWall(tile, otherTile, direction);
 						else CreatePassage(tile, otherTile, direction);
 					}
@@ -127,6 +132,17 @@ public class Board : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public bool CheckWinConditions() {
+		for (int x = 0; x < size.x; x++) {
+			for (int y = 0; y < size.y; y++) {
+				Tile tile = GetTile(new IntVector2(x, y));
+				if (!tile.IsCompleted()) return false;
+			}
+		}
+
+		return true;
 	}
 
 	public IntVector2 RandomCoordinates {
@@ -181,8 +197,6 @@ public class Board : MonoBehaviour {
 				foreach (TileEntity tileEntity in tileEntities) tileEntity.Move(direction);
 			}
 		}
-
-		lastDirection = direction;
 	}
 
 	public List<TileEntity> GetMovableTileEntitiesInRow(BoardDirection direction, int row) {
@@ -195,12 +209,15 @@ public class Board : MonoBehaviour {
 		if (direction == BoardDirection.Right) {
 			for (int i = size.x - 1; i >= 0; i--) {
 				Tile tile = GetTile(new IntVector2(i, row));
+				Tile otherTile = GetTile(tile.coordinates + direction.ToIntVector2());
+
 				TileEdge edge = tile.GetEdge(direction);
 				bool isWall = edge is TileWall;
 
 				if (tile.tileEntities.Count > 0) {
 					foreach (TileEntity tileEntity in tile.tileEntities) {
-						if (!isWall && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities)) movableEntities.Add(tileEntity);
+						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities);
+						if (canMove) movableEntities.Add(tileEntity);
 						else tempPreviousTileEntities.Add(tileEntity);
 					}
 				}
@@ -214,13 +231,15 @@ public class Board : MonoBehaviour {
 		else if (direction == BoardDirection.Left) {
 			for (int i = 0; i < size.x; i++) {
 				Tile tile = GetTile(new IntVector2(i, row));
+				Tile otherTile = GetTile(tile.coordinates + direction.ToIntVector2());
 
 				TileEdge edge = tile.GetEdge(direction);
 				bool isWall = edge is TileWall;
 				
 				if (tile.tileEntities.Count > 0) {
 					foreach (TileEntity tileEntity in tile.tileEntities) {
-						if (!isWall && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities)) movableEntities.Add(tileEntity);
+						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities);
+						if (canMove) movableEntities.Add(tileEntity);
 						else tempPreviousTileEntities.Add(tileEntity);
 					}
 				}
@@ -244,12 +263,15 @@ public class Board : MonoBehaviour {
 		if (direction == BoardDirection.Up) {
 			for (int i = size.y - 1; i >= 0; i--) {
 				Tile tile = GetTile(new IntVector2(column, i));
+				Tile otherTile = GetTile(tile.coordinates + direction.ToIntVector2());
+
 				TileEdge edge = tile.GetEdge(direction);
 				bool isWall = edge is TileWall;
 				
 				if (tile.tileEntities.Count > 0) {
 					foreach (TileEntity tileEntity in tile.tileEntities) {
-						if (!isWall && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities)) movableEntities.Add(tileEntity);
+						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities);
+						if (canMove) movableEntities.Add(tileEntity);
 						else tempPreviousTileEntities.Add(tileEntity);
 					}
 				}
@@ -263,12 +285,15 @@ public class Board : MonoBehaviour {
 		else if (direction == BoardDirection.Down) {
 			for (int i = 0; i < size.y; i++) {
 				Tile tile = GetTile(new IntVector2(column, i));
+				Tile otherTile = GetTile(tile.coordinates + direction.ToIntVector2());
+
 				TileEdge edge = tile.GetEdge(direction);
 				bool isWall = edge is TileWall;
 				
 				if (tile.tileEntities.Count > 0) {
 					foreach (TileEntity tileEntity in tile.tileEntities) {
-						if (!isWall && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities)) movableEntities.Add(tileEntity);
+						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities);
+						if (canMove) movableEntities.Add(tileEntity);
 						else tempPreviousTileEntities.Add(tileEntity);
 					}
 				}
@@ -282,104 +307,6 @@ public class Board : MonoBehaviour {
 		return movableEntities;
 	}
 
-	public List<TileEntity> GetTileEntitiesInFirstTileIfRowIsMoved(BoardDirection direction, int row) {
-		if (direction == BoardDirection.Down || direction == BoardDirection.Up || direction == BoardDirection.NONE) Debug.LogError("can't use direction " + direction.ToString() + " in row");
-		
-		List<TileEntity> previousTileEntities = new List<TileEntity>();
-		List<TileEntity> tempPreviousTileEntities = new List<TileEntity>();
-		
-		if (direction == BoardDirection.Right) {
-			for (int i = size.x - 1; i >= 0; i--) {
-				Tile tile = GetTile(new IntVector2(i, row));
-				TileEdge edge = tile.GetEdge(direction);
-				bool isWall = edge is TileWall;
-				
-				if (tile.tileEntities.Count > 0) {
-					foreach (TileEntity tileEntity in tile.tileEntities) {
-						if (isWall || !TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities)) tempPreviousTileEntities.Add(tileEntity);
-					}
-				}
-				
-				previousTileEntities.Clear();
-				foreach (TileEntity t in tempPreviousTileEntities) previousTileEntities.Add(t);
-				tempPreviousTileEntities.Clear();
-
-				if (i == 0) return previousTileEntities;
-			}
-		}
-		
-		else if (direction == BoardDirection.Left) {
-			for (int i = 0; i < size.x; i++) {
-				Tile tile = GetTile(new IntVector2(i, row));
-				TileEdge edge = tile.GetEdge(direction);
-				bool isWall = edge is TileWall;
-				
-				if (tile.tileEntities.Count > 0) {
-					foreach (TileEntity tileEntity in tile.tileEntities) {
-						if (isWall || !TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities)) tempPreviousTileEntities.Add(tileEntity);
-					}
-				}
-				
-				previousTileEntities.Clear();
-				foreach (TileEntity t in tempPreviousTileEntities) previousTileEntities.Add(t);
-				tempPreviousTileEntities.Clear();
-
-				if (i == size.x - 1) return previousTileEntities;
-			}
-		}
-		
-		return previousTileEntities;
-	}
-
-	public List<TileEntity> GetTileEntitiesInFirstTileIfColumnIsMoved(BoardDirection direction, int column) {
-		if (direction == BoardDirection.Right || direction == BoardDirection.Left || direction == BoardDirection.NONE) Debug.LogError("can't use direction " + direction.ToString() + " in column");
-		
-		List<TileEntity> previousTileEntities = new List<TileEntity>();
-		List<TileEntity> tempPreviousTileEntities = new List<TileEntity>();
-		
-		if (direction == BoardDirection.Up) {
-			for (int i = size.y - 1; i >= 0; i--) {
-				Tile tile = GetTile(new IntVector2(column, i));
-				TileEdge edge = tile.GetEdge(direction);
-				bool isWall = edge is TileWall;
-				
-				if (tile.tileEntities.Count > 0) {
-					foreach (TileEntity tileEntity in tile.tileEntities) {
-						if (isWall || !TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities)) tempPreviousTileEntities.Add(tileEntity);
-					}
-				}
-				
-				previousTileEntities.Clear();
-				foreach (TileEntity t in tempPreviousTileEntities) previousTileEntities.Add(t);
-				tempPreviousTileEntities.Clear();
-
-				if (i == 0) return previousTileEntities;
-			}
-		}
-		
-		else if (direction == BoardDirection.Down) {
-			for (int i = 0; i < size.y; i++) {
-				Tile tile = GetTile(new IntVector2(column, i));
-				TileEdge edge = tile.GetEdge(direction);
-				bool isWall = edge is TileWall;
-				
-				if (tile.tileEntities.Count > 0) {
-					foreach (TileEntity tileEntity in tile.tileEntities) {
-						if (isWall || !TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities)) tempPreviousTileEntities.Add(tileEntity);
-					}
-				}
-				
-				previousTileEntities.Clear();
-				foreach (TileEntity t in tempPreviousTileEntities) previousTileEntities.Add(t);
-				tempPreviousTileEntities.Clear();
-
-				if (i == size.y - 1) return previousTileEntities;
-			}
-		}
-		
-		return previousTileEntities;
-	}
-
 	public bool TileEntityCanMove(TileEntity entity, BoardDirection direction) {
 		List<TileEntity> movables = null;
 
@@ -388,114 +315,6 @@ public class Board : MonoBehaviour {
 		else Debug.LogError("no direction!");
 
 		return movables.Contains(entity);
-	}
-
-	public void ValidateNextEnemyPositions() {
-		if (ContainsCoordinates(nextEnemyCoordsLeftSide)) {
-			var firstTileEntities = GetTileEntitiesInFirstTileIfRowIsMoved(BoardDirection.Right, nextEnemyCoordsLeftSide.y);
-			if (!TileEntity.TileEntityTypeCanEnterTileWithTileEntities(TileEntityType.Enemy, firstTileEntities)) UpdateNextEnemyPositions(BoardDirection.Right);
-		}
-
-		if (ContainsCoordinates(nextEnemyCoordsRightSide)) {
-			var firstTileEntities = GetTileEntitiesInFirstTileIfRowIsMoved(BoardDirection.Left, nextEnemyCoordsRightSide.y);
-			if (!TileEntity.TileEntityTypeCanEnterTileWithTileEntities(TileEntityType.Enemy, firstTileEntities)) UpdateNextEnemyPositions(BoardDirection.Left);
-		}
-
-		if (ContainsCoordinates(nextEnemyCoordsBottomSide)) {
-			var firstTileEntities = GetTileEntitiesInFirstTileIfColumnIsMoved(BoardDirection.Up, nextEnemyCoordsBottomSide.x);
-			if (!TileEntity.TileEntityTypeCanEnterTileWithTileEntities(TileEntityType.Enemy, firstTileEntities)) UpdateNextEnemyPositions(BoardDirection.Up);
-		}
-
-		if (ContainsCoordinates(nextEnemyCoordsTopSide)) {
-			var firstTileEntities = GetTileEntitiesInFirstTileIfColumnIsMoved(BoardDirection.Down, nextEnemyCoordsTopSide.x);
-			if (!TileEntity.TileEntityTypeCanEnterTileWithTileEntities(TileEntityType.Enemy, firstTileEntities)) UpdateNextEnemyPositions(BoardDirection.Down);
-		}
-	}
-	
-	public void UpdateNextEnemyPositions(BoardDirection direction) {
-		if (direction == BoardDirection.Right) {
-			if (enemyIndicatorLeftSide == null) {
-				enemyIndicatorLeftSide = Instantiate(enemyIndicatorPrefab) as tk2dSprite;
-				enemyIndicatorLeftSide.transform.parent = enemyIndicatorHolder.transform;
-			}
-			if (enemyEntryTilesLeftSide == null) enemyEntryTilesLeftSide = new List<Tile>();
-
-			enemyEntryTilesLeftSide.Clear();
-
-			for (int y = 0; y < size.y; y++) {
-				Tile tile = GetTile(new IntVector2(0, y));
-				var firstTileEntities = GetTileEntitiesInFirstTileIfRowIsMoved(direction, y);
-				if (TileEntity.TileEntityTypeCanEnterTileWithTileEntities(TileEntityType.Enemy, firstTileEntities))	enemyEntryTilesLeftSide.Add(tile);
-			}
-
-			if (enemyEntryTilesLeftSide.Count > 0) nextEnemyCoordsLeftSide = enemyEntryTilesLeftSide[Random.Range(0, enemyEntryTilesLeftSide.Count)].coordinates;
-			else nextEnemyCoordsLeftSide = new IntVector2(-10, -10);
-
-			enemyIndicatorLeftSide.transform.position = GetTilePosition(new IntVector2(nextEnemyCoordsLeftSide.x - 1, nextEnemyCoordsLeftSide.y));
-		}
-
-		else if (direction == BoardDirection.Left) {
-			if (enemyIndicatorRightSide == null) {
-				enemyIndicatorRightSide = Instantiate(enemyIndicatorPrefab) as tk2dSprite;
-				enemyIndicatorRightSide.transform.parent = enemyIndicatorHolder.transform;
-			}
-			if (enemyEntryTilesRightSide == null) enemyEntryTilesRightSide = new List<Tile>();
-
-			enemyEntryTilesRightSide.Clear();
-
-			for (int y = 0; y < size.y; y++) {
-				Tile tile = GetTile(new IntVector2(size.x - 1, y));
-				var firstTileEntities = GetTileEntitiesInFirstTileIfRowIsMoved(direction, y);
-				if (TileEntity.TileEntityTypeCanEnterTileWithTileEntities(TileEntityType.Enemy, firstTileEntities))	enemyEntryTilesRightSide.Add(tile);
-			}
-
-			if (enemyEntryTilesRightSide.Count > 0) nextEnemyCoordsRightSide = enemyEntryTilesRightSide[Random.Range(0, enemyEntryTilesRightSide.Count)].coordinates;
-			else nextEnemyCoordsRightSide = new IntVector2(-10, -10);
-
-			enemyIndicatorRightSide.transform.position = GetTilePosition(new IntVector2(nextEnemyCoordsRightSide.x + 1, nextEnemyCoordsRightSide.y));
-		}
-
-		else if (direction == BoardDirection.Down) {
-			if (enemyIndicatorTopSide == null) {
-				enemyIndicatorTopSide = Instantiate(enemyIndicatorPrefab) as tk2dSprite;
-				enemyIndicatorTopSide.transform.parent = enemyIndicatorHolder.transform;
-			}
-			if (enemyEntryTilesTopSide == null) enemyEntryTilesTopSide = new List<Tile>();
-
-			enemyEntryTilesTopSide.Clear();
-
-			for (int x = 0; x < size.x; x++) {
-				Tile tile = GetTile(new IntVector2(x, size.y - 1));
-				var firstTileEntities = GetTileEntitiesInFirstTileIfColumnIsMoved(direction, x);
-				if (TileEntity.TileEntityTypeCanEnterTileWithTileEntities(TileEntityType.Enemy, firstTileEntities))	enemyEntryTilesTopSide.Add(tile);
-			}
-
-			if (enemyEntryTilesTopSide.Count > 0) nextEnemyCoordsTopSide = enemyEntryTilesTopSide[Random.Range(0, enemyEntryTilesTopSide.Count)].coordinates;
-			else nextEnemyCoordsTopSide = new IntVector2(-10, -10);
-
-			enemyIndicatorTopSide.transform.position = GetTilePosition(new IntVector2(nextEnemyCoordsTopSide.x, nextEnemyCoordsTopSide.y + 1));
-		}
-
-		else if (direction == BoardDirection.Up) {
-			if (enemyIndicatorBottomSide == null) {
-				enemyIndicatorBottomSide = Instantiate(enemyIndicatorPrefab) as tk2dSprite;
-				enemyIndicatorBottomSide.transform.parent = enemyIndicatorHolder.transform;
-			}
-			if (enemyEntryTilesBottomSide == null) enemyEntryTilesBottomSide = new List<Tile>();
-			
-			enemyEntryTilesBottomSide.Clear();
-
-			for (int x = 0; x < size.x; x++) {
-				Tile tile = GetTile(new IntVector2(x, 0));
-				var firstTileEntities = GetTileEntitiesInFirstTileIfColumnIsMoved(direction, x);
-				if (TileEntity.TileEntityTypeCanEnterTileWithTileEntities(TileEntityType.Enemy, firstTileEntities))	enemyEntryTilesBottomSide.Add(tile);
-			}
-
-			if (enemyEntryTilesBottomSide.Count > 0) nextEnemyCoordsBottomSide = enemyEntryTilesBottomSide[Random.Range(0, enemyEntryTilesBottomSide.Count)].coordinates;
-			else nextEnemyCoordsBottomSide = new IntVector2(-10, -10);
-			
-			enemyIndicatorBottomSide.transform.position = GetTilePosition(new IntVector2(nextEnemyCoordsBottomSide.x, nextEnemyCoordsBottomSide.y - 1));
-		}
 	}
 
 	private void CreatePassage(Tile tile, Tile otherTile, BoardDirection direction) {
@@ -508,7 +327,7 @@ public class Board : MonoBehaviour {
 	private void CreateWall(Tile tile, Tile otherTile, BoardDirection direction) {
 		TileWall wall = Instantiate(wallPrefab) as TileWall;
 		wall.Initialize(tile, otherTile, direction);
-		if (otherTile != null) {
+		if (otherTile != null && otherTile.tileType != TileType.Blocked) {
 			wall = Instantiate(wallPrefab) as TileWall;
 			wall.Initialize(otherTile, tile, direction.GetOpposite());
 		}
@@ -536,28 +355,5 @@ public class Board : MonoBehaviour {
 		newTile.InitializeSprite();
 		
 		return newTile;
-	}
-
-	public void AddEnemyIfPossible(BoardDirection direction) {
-		if (direction == BoardDirection.Up) AddEnemyIfPossible(nextEnemyCoordsBottomSide);
-		else if (direction == BoardDirection.Down) AddEnemyIfPossible(nextEnemyCoordsTopSide);
-		else if (direction == BoardDirection.Right) AddEnemyIfPossible(nextEnemyCoordsLeftSide);
-		else if (direction == BoardDirection.Left) AddEnemyIfPossible(nextEnemyCoordsRightSide);
-
-		UpdateNextEnemyPositions(lastDirection);
-	}
-
-	private void OnDestroy() {
-		if (enemyIndicatorLeftSide) Destroy(enemyIndicatorLeftSide.gameObject);
-		if (enemyIndicatorRightSide) Destroy(enemyIndicatorRightSide.gameObject);
-		if (enemyIndicatorTopSide) Destroy(enemyIndicatorTopSide.gameObject);
-		if (enemyIndicatorBottomSide) Destroy(enemyIndicatorBottomSide.gameObject);
-	}
-
-	public void AddEnemyIfPossible(IntVector2 coordinates) {
-		if (!ContainsCoordinates(coordinates)) return;
-
-		Tile tile = GetTile(coordinates);
-		GameManager.instance.enemyManager.AddEnemy(tile);
 	}
 }

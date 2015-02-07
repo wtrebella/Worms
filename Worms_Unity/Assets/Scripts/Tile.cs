@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public enum TileType {
 	Tile,
-	BlockedTile
+	Blocked
 }
 
 public class Tile : MonoBehaviour {
@@ -29,6 +29,16 @@ public class Tile : MonoBehaviour {
 		get {
 			return initializedEdgeCount == BoardDirections.Count;
 		}
+	}
+
+	public bool IsCompleted() {
+		if (tileType == TileType.Blocked) return true;
+
+		foreach (TileEntity t in tileEntities) {
+			if (t.tileEntityType == TileEntityType.WormHead || t.tileEntityType == TileEntityType.WormBodyPart) return true;
+		}
+
+		return false;
 	}
 
 	private TileEdge[] edges = new TileEdge[BoardDirections.Count];

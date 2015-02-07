@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class MapEditorWall : MonoBehaviour {
-	public MapEditorDirection direction {get; private set;}
+	public BoardDirection direction {get; private set;}
 
-	public void SetDirection(MapEditorDirection direction) {
+	public void SetDirection(BoardDirection direction) {
 		this.direction = direction;
 		
 		transform.eulerAngles = new Vector3(0, 0, (int)direction * -90);

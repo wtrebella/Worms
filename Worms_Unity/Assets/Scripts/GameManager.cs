@@ -1,17 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum GameState {
+	Playing,
+	Win
+}
+
 public class GameManager : MonoBehaviour {
 	public static GameManager instance;
+
+	public GameUIManager gameUIManager;
 
 	public PuzzleData puzzleToLoad;
 
 	public Board boardPrefab;
 	public Worm wormPrefab;
-	public EnemyManager enemyManagerPrefab;
-	
+
 	public Board board;
-	public EnemyManager enemyManager;
+
+	public GameState gameState = GameState.Playing;
 
 	private void Awake() {
 		instance = this;
@@ -24,45 +31,33 @@ public class GameManager : MonoBehaviour {
 	private void Update () {
 		if (Input.GetKeyDown(KeyCode.Space)) RestartGame();
 
-		BoardDirection direction = BoardDirection.NONE;
+		if (gameState == GameState.Playing) {
+			BoardDirection direction = BoardDirection.NONE;
 
-		if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
-		else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
-		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
-		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
+			if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
+			else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
+			else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
+			else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
 
-		if (direction != BoardDirection.NONE) {
-			board.Move(direction);
+			if (direction != BoardDirection.NONE) {
+				board.Move(direction);
+				if (board.CheckWinConditions()) WinGame();
+			}
 		}
 	}
-	
+
+	private void WinGame() {
+		gameState = GameState.Win;
+		gameUIManager.HandleWin();
+	}
+
 	private void BeginGame () {
+		gameUIManager.HandleBeginGame();
+
 		board = Instantiate(boardPrefab) as Board;
 		board.Generate(puzzleToLoad);
 
-//		Worm worm = Instantiate(wormPrefab) as Worm;
-//		BoardDirection startDirection = BoardDirections.RandomValue;
-//		IntVector2 startCoordinates = board.RandomCoordinates;
-//		Tile startTile = board.GetTile(startCoordinates);
-//		worm.Initialize(startTile, startDirection, new Color(0.1f, 0.3f, 0.9f));
-//
-//		worm = Instantiate(wormPrefab) as Worm;
-//		startDirection = BoardDirections.RandomValue;
-//		startCoordinates = board.RandomCoordinates;
-//		startTile = board.GetTile(startCoordinates);
-//		worm.Initialize(startTile, startDirection, new Color(0.9f, 0.1f, 0.2f));
-//
-//		worm = Instantiate(wormPrefab) as Worm;
-//		startDirection = BoardDirections.RandomValue;
-//		startCoordinates = board.RandomCoordinates;
-//		startTile = board.GetTile(startCoordinates);
-//		worm.Initialize(startTile, startDirection, new Color(0.1f, 0.8f, 0.4f));
-//
-//		worm = Instantiate(wormPrefab) as Worm;
-//		startDirection = BoardDirections.RandomValue;
-//		startCoordinates = board.RandomCoordinates;
-//		startTile = board.GetTile(startCoordinates);
-//		worm.Initialize(startTile, startDirection, new Color(0.6f, 0.1f, 0.6f));
+		gameState = GameState.Playing;
 	}
 	
 	private void RestartGame () {

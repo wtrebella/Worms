@@ -37,6 +37,7 @@ public static class BoardDirections {
 	};
 	
 	public static BoardDirection GetOpposite (this BoardDirection direction) {
+		if (direction == BoardDirection.NONE) return BoardDirection.NONE;
 		return opposites[(int)direction];
 	}
 

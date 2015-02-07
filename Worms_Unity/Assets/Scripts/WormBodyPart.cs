@@ -17,6 +17,7 @@ public class WormBodyPart : TileEntity {
 
 	private void SetDirection(BoardDirection newDirection) {
 		direction = newDirection;
+		if (direction == BoardDirection.NONE) return;
 		transform.localRotation = direction.ToRotation();
 	}
 

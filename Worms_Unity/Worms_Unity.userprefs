@@ -1,14 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Board.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Map Editor Scripts/MapCreator.cs">
     <Files>
-      <File FileName="Assets/Scripts/Map Editor Scripts/MapCreator.cs" Line="73" Column="38" />
-      <File FileName="Assets/Scripts/Map Editor Scripts/PuzzleData.cs" Line="10" Column="26" />
-      <File FileName="Assets/Scripts/Board.cs" Line="62" Column="51" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/IntVector2.cs" Line="14" Column="1" />
-      <File FileName="Assets/Scripts/Map Editor Scripts/MapEditorTileData.cs" Line="7" Column="33" />
-      <File FileName="Assets/Scripts/Map Editor Scripts/MapEditorWormData.cs" Line="5" Column="15" />
+      <File FileName="Assets/Scripts/GameUIManager.cs" Line="8" Column="26" />
+      <File FileName="Assets/Scripts/Board.cs" Line="48" Column="47" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="35" Column="15" />
+      <File FileName="Assets/Scripts/Worm.cs" Line="57" Column="55" />
+      <File FileName="Assets/Scripts/Tile.cs" Line="36" Column="3" />
+      <File FileName="Assets/Scripts/Map Editor Scripts/MapCreator.cs" Line="252" Column="32" />
+      <File FileName="Assets/Scripts/Map Editor Scripts/MapEditorTile.cs" Line="16" Column="27" />
+      <File FileName="Assets/Scripts/Map Editor Scripts/MapEditorTileData.cs" Line="11" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

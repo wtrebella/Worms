@@ -14,7 +14,7 @@ public class WormHead : TileEntity {
 		transform.parent = worm.transform;
 		SetTile(tile);
 		SetDirection(newDirection);
-		worm.HandleHeadMoved(null, tile, newDirection);
+		worm.HandleHeadMoved(null, tile, BoardDirection.NONE);
 	}
 
 	private void SetDirection(BoardDirection newDirection) {
