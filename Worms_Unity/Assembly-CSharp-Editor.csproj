@@ -51,6 +51,8 @@
      <Compile Include="Assets\Scripts\Event Delegate List\Editor\EventDelegateEditor.cs" />
      <Compile Include="Assets\Scripts\Event Delegate List\Editor\EventDelegateEditorTools.cs" />
      <Compile Include="Assets\Scripts\Event Delegate List\Editor\PropertyBindingEditor.cs" />
+     <Compile Include="Assets\Scripts\Event Delegate List\Editor\PropertyReferenceDrawer.cs" />
+     <Compile Include="Assets\Scripts\Map Editor\Editor\MapCreator.cs" />
      <Compile Include="Assets\Scripts\Map Editor\Editor\PuzzleDataEditor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Editor\Camera\tk2dCameraAnchorEditor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Editor\Camera\tk2dCameraEditor.cs" />

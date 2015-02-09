@@ -50,7 +50,6 @@
      <Compile Include="Assets\Scripts\Event Delegate List\EventDelegateTools.cs" />
      <Compile Include="Assets\Scripts\Event Delegate List\PropertyBinding.cs" />
      <Compile Include="Assets\Scripts\Event Delegate List\PropertyReference.cs" />
-     <Compile Include="Assets\Scripts\Event Delegate List\PropertyReferenceDrawer.cs" />
      <Compile Include="Assets\Scripts\Game\Board.cs" />
      <Compile Include="Assets\Scripts\Game\BoardDirection.cs" />
      <Compile Include="Assets\Scripts\Game\Enemy.cs" />
@@ -68,7 +67,6 @@
      <Compile Include="Assets\Scripts\Game\Worm.cs" />
      <Compile Include="Assets\Scripts\Game\WormBodyPart.cs" />
      <Compile Include="Assets\Scripts\Game\WormHead.cs" />
-     <Compile Include="Assets\Scripts\Map Editor\MapCreator.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorTile.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorTileData.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorWall.cs" />

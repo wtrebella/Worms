@@ -29,22 +29,6 @@ public class SwipeEventSystem : MonoBehaviour {
 	
 	}
 
-	public void Up() {
-		Debug.Log("Up, " + (Input.mousePosition.y - initialTouchPos.y) + ", " + totalSwipeTime);
-	}
-
-	public void Right() {
-		Debug.Log("Right, " + (Input.mousePosition.x - initialTouchPos.x) + ", " + totalSwipeTime);
-	}
-
-	public void Down() {
-		Debug.Log("Down, " + (Input.mousePosition.y - initialTouchPos.y) + ", " + totalSwipeTime);
-	}
-
-	public void Left() {
-		Debug.Log("Left, " + (Input.mousePosition.x - initialTouchPos.x) + ", " + totalSwipeTime);
-	}
-	
 	void Update () {
 		UpdateSwipeDetection();
 	}
@@ -63,6 +47,10 @@ public class SwipeEventSystem : MonoBehaviour {
 
 	void OnSwipeLeft() {
 		EventDelegate.Execute(onSwipeLeft);
+	}
+
+	public void CancelSwipe() {
+		isSwiping = false;
 	}
 
 	void UpdateSwipeDetection() {

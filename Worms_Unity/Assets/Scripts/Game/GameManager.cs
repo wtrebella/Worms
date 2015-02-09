@@ -9,6 +9,7 @@ public enum GameState {
 public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 
+	public SwipeEventSystem swipeEventSystem;
 	public GameUIManager gameUIManager;
 
 	public PuzzleData puzzleToLoad;
@@ -32,18 +33,31 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Space)) RestartGame();
 
 		if (gameState == GameState.Playing) {
-			BoardDirection direction = BoardDirection.NONE;
-
-			if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
-			else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
-			else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
-			else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
-
-			if (direction != BoardDirection.NONE) {
-				board.Move(direction);
-				if (board.CheckWinConditions()) WinGame();
-			}
+			if (Input.GetKeyDown(KeyCode.UpArrow)) MoveUp();
+			else if (Input.GetKeyDown(KeyCode.RightArrow)) MoveRight();
+			else if (Input.GetKeyDown(KeyCode.DownArrow)) MoveDown();
+			else if (Input.GetKeyDown(KeyCode.LeftArrow)) MoveLeft();
 		}
+	}
+
+	public void MoveUp() {
+		board.Move(BoardDirection.Up);
+		if (board.CheckWinConditions()) WinGame();
+	}
+	
+	public void MoveRight() {
+		board.Move(BoardDirection.Right);
+		if (board.CheckWinConditions()) WinGame();
+	}
+	
+	public void MoveDown() {
+		board.Move(BoardDirection.Down);
+		if (board.CheckWinConditions()) WinGame();
+	}
+	
+	public void MoveLeft() {
+		board.Move(BoardDirection.Left);
+		if (board.CheckWinConditions()) WinGame();
 	}
 
 	private void WinGame() {
@@ -60,7 +74,8 @@ public class GameManager : MonoBehaviour {
 		gameState = GameState.Playing;
 	}
 	
-	private void RestartGame () {
+	public void RestartGame () {
+		swipeEventSystem.CancelSwipe();
 		Destroy(board.gameObject);
 		BeginGame();
 	}
