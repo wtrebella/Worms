@@ -21,27 +21,39 @@ MonoBehaviour:
     spriteNames:
     - tile
     - wall
-    - 
+    - snowTile
     - wormPart
     - wormHead
     - blockedTile
     - wormPartNub
+    - roadSpoke
+    - roadStraight
+    - roadCurved
+    - roadBlank
     spriteTextureGUIDs:
     - 8700254b1b7e8438db7451b9339ef213
     - 1ad4b22b17db24f6a9e456017d2df5db
-    - 
+    - 5d58c3b4248834987b4fc55b4c3382bb
     - c2ec58758a15d45bca41053d43df549c
     - 9640acb8762554f0b81daf2071f01abc
     - 25911819f6f4941de9d76ebb1b4f8eaa
     - 5371edfbb7d314516966a4e2ad3bf087
+    - c8924ac73514b4395a70fc8dead50288
+    - f9ebed936d60645aa8e1e4fa05d5b664
+    - fe68e3417198b4103bf19bc96325604b
+    - 38552b64ee881492fba67d3f7c4d09e0
     spriteTextureTimeStamps:
     - 1423439097
     - 1423439097
-    - 0
+    - 1423488018
+    - 1423487606
     - 1423439097
     - 1423439097
     - 1423439097
-    - 1423439097
+    - 1423490062
+    - 1423490229
+    - 1423490238
+    - 1423490756
     managedSpriteCollection: 0
     loadable: 0
     assetName: 

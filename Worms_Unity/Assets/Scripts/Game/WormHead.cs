@@ -12,9 +12,10 @@ public class WormHead : TileEntity {
 		GetComponentInChildren<tk2dSprite>().color = color;
 		tileEntityType = TileEntityType.WormHead;
 		transform.parent = worm.transform;
+		direction = BoardDirection.NONE;
 		SetTile(tile);
-		SetDirection(newDirection);
-		worm.HandleHeadMoved(null, tile, BoardDirection.NONE);
+		if (newDirection != BoardDirection.NONE) transform.localRotation = newDirection.ToRotation();
+		worm.HandleHeadMoved(null, tile, BoardDirection.NONE, BoardDirection.NONE);
 	}
 
 	private void SetDirection(BoardDirection newDirection) {
@@ -33,9 +34,10 @@ public class WormHead : TileEntity {
 		if (currentTile == null) Debug.LogError("can't move an entity before it has a tile");
 
 		Tile previousTile = currentTile;
+		BoardDirection previousDirection = direction;
 		SetDirection(newDirection);
 		SetTile(Board.instance.GetTile(currentTile.coordinates + newDirection.ToIntVector2()));
-		worm.HandleHeadMoved(previousTile, currentTile, newDirection);
+		worm.HandleHeadMoved(previousTile, currentTile, previousDirection, newDirection);
 	}
 
 	public override void RemoveFromTile() {

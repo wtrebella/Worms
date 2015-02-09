@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 404416}
   - 114: {fileID: 11404416}
   m_Layer: 0
-  m_Name: Worm Body Part Nub
+  m_Name: Road Straight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ GameObject:
   - 23: {fileID: 2304416}
   - 114: {fileID: 11404418}
   m_Layer: 0
-  m_Name: Worm Body Part Sprite
+  m_Name: Road Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ Renderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
 --- !u!33 &3304416
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -114,7 +114,7 @@ MonoBehaviour:
   collection: {fileID: 11413916, guid: d5be941d10b9b428eaca054a8c77d40e, type: 2}
   _color: {r: 1, g: 1, b: 1, a: 1}
   _scale: {x: 1, y: 1, z: 1}
-  _spriteId: 6
+  _spriteId: 8
   boxCollider2D: {fileID: 0}
   polygonCollider2D: []
   edgeCollider2D: []
@@ -122,7 +122,7 @@ MonoBehaviour:
   meshCollider: {fileID: 0}
   meshColliderPositions: []
   meshColliderMesh: {fileID: 0}
-  renderLayer: 1
+  renderLayer: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
