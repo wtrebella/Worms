@@ -20,6 +20,8 @@ public class Tile : MonoBehaviour {
 	}
 
 	public void InitializeSprite() {
+		if (tileSpritePrefab == null) return;
+
 		tk2dSprite s = Instantiate(tileSpritePrefab) as tk2dSprite;
 		s.transform.parent = transform;
 		s.transform.localPosition = Vector3.zero;

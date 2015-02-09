@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c150df111581542af85c2c0f655b4ad8, type: 3}
+  m_Name: Level 001
+  m_EditorClassIdentifier: 
+  size:
+    x: 1
+    y: 6
+  tiles:
+  - coordinates:
+      x: 0
+      y: 0
+    walls:
+    - direction: 1
+    - direction: 2
+    - direction: 3
+    worm:
+      direction: 0
+      wormType: 0
+    tileType: 0
+  - coordinates:
+      x: 0
+      y: 1
+    walls:
+    - direction: 1
+    - direction: 3
+    worm:
+      direction: 4
+      wormType: 4
+    tileType: 0
+  - coordinates:
+      x: 0
+      y: 2
+    walls:
+    - direction: 1
+    - direction: 3
+    worm:
+      direction: 4
+      wormType: 4
+    tileType: 0
+  - coordinates:
+      x: 0
+      y: 3
+    walls:
+    - direction: 1
+    - direction: 3
+    worm:
+      direction: 4
+      wormType: 4
+    tileType: 0
+  - coordinates:
+      x: 0
+      y: 4
+    walls:
+    - direction: 1
+    - direction: 3
+    worm:
+      direction: 4
+      wormType: 4
+    tileType: 0
+  - coordinates:
+      x: 0
+      y: 5
+    walls:
+    - direction: 0
+    - direction: 1
+    - direction: 3
+    worm:
+      direction: 4
+      wormType: 4
+    tileType: 0

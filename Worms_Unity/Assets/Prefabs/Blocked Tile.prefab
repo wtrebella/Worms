@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 1
-  tileSpritePrefab: {fileID: 11412456, guid: c7c364519beec48c6adbb7eaa03d074a, type: 2}
+  tileSpritePrefab: {fileID: 0}
   coordinates:
     x: 0
     y: 0

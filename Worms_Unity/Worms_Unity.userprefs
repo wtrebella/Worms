@@ -1,11 +1,38 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/SwipeEventSystem.cs">
     <Files>
-      <File FileName="Assets/Scripts/Editor/SwipeEventSystemEditor.cs" Line="15" Column="104" />
-      <File FileName="Assets/Scripts/Game/GameManager.cs" Line="34" Column="40" />
-      <File FileName="Assets/Scripts/Game/SwipeEventSystem.cs" Line="30" Column="3" />
+      <File FileName="Assets/Scripts/Game/PuzzleManager.cs" Line="10" Column="64" />
+      <File FileName="Assets/Scripts/Game/GameManager.cs" Line="45" Column="3" />
+      <File FileName="Assets/Scripts/Game/SwipeEventSystem.cs" Line="80" Column="1" />
+      <File FileName="Assets/Scripts/Game/Board.cs" Line="36" Column="29" />
+      <File FileName="Assets/Scripts/Map Editor/MapCreator.cs" Line="20" Column="16" />
+      <File FileName="Assets/Scripts/Map Editor/Editor/PuzzleDataEditor.cs" Line="23" Column="14" />
+      <File FileName="Assets/Scripts/Game/GameUIManager.cs" Line="21" Column="54" />
+      <File FileName="Assets/Scripts/Game/Tile.cs" Line="27" Column="18" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Scripts" expanded="True">
+              <Node name="Game" expanded="True">
+                <Node name="SwipeEventSystem.cs" selected="True" />
+              </Node>
+              <Node name="Map Editor" expanded="True" />
+            </Node>
+          </Node>
+          <Node name="Assembly-CSharp-Editor" expanded="True">
+            <Node name="Scripts" expanded="True">
+              <Node name="Editor" expanded="True" />
+              <Node name="Map Editor" expanded="True">
+                <Node name="Editor" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

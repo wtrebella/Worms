@@ -77,7 +77,6 @@ public class SwipeEventSystem : MonoBehaviour {
 							else OnSwipeDown();
 						}
 					}
-					else Debug.Log(totalSwipeDistance + ", " + totalSwipeTime);
 
 					isSwiping = false;
 				}

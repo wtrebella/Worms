@@ -11,26 +11,43 @@ public class GameManager : MonoBehaviour {
 
 	public SwipeEventSystem swipeEventSystem;
 	public GameUIManager gameUIManager;
-
-	public PuzzleData puzzleToLoad;
-
+	public PuzzleManager puzzleManager;
 	public Board boardPrefab;
-	public Worm wormPrefab;
 
-	public Board board;
+	[Range(-1, 25)]
+	public int puzzleToLoad = -1;
 
-	public GameState gameState = GameState.Playing;
+	public GameState gameState {get; private set;}
+	public Board board {get; private set;}
+	public int currentPuzzleIndex {get; private set;}
+
+	public void LoadPuzzle(int puzzleIndex) {
+		currentPuzzleIndex = puzzleIndex;
+		StartOrRestartGame();
+	}
+
+	public void LoadNextPuzzle() {
+		LoadPuzzle(currentPuzzleIndex + 1);
+	}
+
+	public void LoadPreviousPuzzle() {
+		LoadPuzzle(currentPuzzleIndex - 1);
+	}
 
 	private void Awake() {
 		instance = this;
+		currentPuzzleIndex = puzzleToLoad;
+		gameState = GameState.Playing;
 	}
 
 	private void Start () {
-		BeginGame();
+		if (currentPuzzleIndex < 0 || currentPuzzleIndex >= puzzleManager.puzzles.Length) currentPuzzleIndex = 0;
+
+		LoadPuzzle(currentPuzzleIndex);
 	}
-	
+
 	private void Update () {
-		if (Input.GetKeyDown(KeyCode.Space)) RestartGame();
+		if (Input.GetKeyDown(KeyCode.Space)) StartOrRestartGame();
 
 		if (gameState == GameState.Playing) {
 			if (Input.GetKeyDown(KeyCode.UpArrow)) MoveUp();
@@ -64,19 +81,18 @@ public class GameManager : MonoBehaviour {
 		gameState = GameState.Win;
 		gameUIManager.HandleWin();
 	}
-
-	private void BeginGame () {
-		gameUIManager.HandleBeginGame();
+	
+	public void StartOrRestartGame () {
+		swipeEventSystem.CancelSwipe();
+		if (board != null) Destroy(board.gameObject);
+	
+		PuzzleData puzzle = puzzleManager.GetPuzzle(currentPuzzleIndex);
 
 		board = Instantiate(boardPrefab) as Board;
-		board.Generate(puzzleToLoad);
-
+		board.Generate(puzzle);
+		
 		gameState = GameState.Playing;
-	}
-	
-	public void RestartGame () {
-		swipeEventSystem.CancelSwipe();
-		Destroy(board.gameObject);
-		BeginGame();
+
+		gameUIManager.HandlePuzzleLoaded(currentPuzzleIndex, puzzle);
 	}
 }
