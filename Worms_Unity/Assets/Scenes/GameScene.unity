@@ -326,7 +326,7 @@ MonoBehaviour:
   gameUIManager: {fileID: 588391255}
   puzzleManager: {fileID: 201394711}
   boardPrefab: {fileID: 11425006, guid: f873992256273494d9c1a275a108305c, type: 2}
-  puzzleToLoad: -1
+  puzzleToLoad: 6
 --- !u!4 &395372738
 Transform:
   m_ObjectHideFlags: 0

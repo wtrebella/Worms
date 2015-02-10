@@ -3,25 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Worm : MonoBehaviour {
+	public WormType wormType {get; private set;}
 	public WormBodyPart roadSpokePrefab;
 	public WormBodyPart roadStraightPrefab;
 	public WormBodyPart roadCurvedPrefab;
 	public WormBodyPart roadBlankPrefab;
-	public WormHead wormHeadPartPrefab;
+	public WormHead wormHead1Prefab;
+	public WormHead wormHead2Prefab;
+	public WormHead wormHead3Prefab;
+	public WormHead wormHead4Prefab;
 	public List<WormBodyPart> bodyParts;
 	public WormHead head;
 
+	private bool hasMoved = false;
+
 	private Color color;
 	
-	public void Initialize(Tile tile, BoardDirection direction, Color color) {
+	public void Initialize(Tile tile, BoardDirection direction, Color color, WormType wormType) {
 		this.color = color;
+		this.wormType = wormType;
 		transform.parent = Board.instance.transform;
 		transform.localPosition = Vector3.zero;
 
 		bodyParts = new List<WormBodyPart>();
 
-		head = Instantiate(wormHeadPartPrefab) as WormHead;
-		head.Initialize(this, tile, direction, color); 
+		if (wormType == WormType.Worm1) head = Instantiate(wormHead1Prefab) as WormHead;
+		else if (wormType == WormType.Worm2) head = Instantiate(wormHead2Prefab) as WormHead;
+		else if (wormType == WormType.Worm3) head = Instantiate(wormHead3Prefab) as WormHead;
+		else if (wormType == WormType.Worm4) head = Instantiate(wormHead4Prefab) as WormHead;
+
+		if (head != null) head.Initialize(this, tile, direction); 
 	}
 
 	public void PlaceBodyPartSpoke(Tile tile, BoardDirection direction) {
@@ -88,9 +99,13 @@ public class Worm : MonoBehaviour {
 	
 	public void HandleHeadMoved(Tile previousTile, Tile currentTile, BoardDirection previousDirection, BoardDirection newDirection) {
 		if (previousTile != null) {
+			if (!hasMoved) {
+				PlaceBodyPartSpoke(previousTile, newDirection.GetOpposite());
+				hasMoved = true;
+			}
 			PlaceBodyPartSpoke(previousTile, newDirection);
 			PlaceBodyPartCenter(previousTile, previousDirection, newDirection);
-			PlaceBodyPartCenter(currentTile, BoardDirection.NONE, BoardDirection.NONE);
+//			PlaceBodyPartCenter(currentTile, BoardDirection.NONE, BoardDirection.NONE);
 			PlaceBodyPartSpoke(currentTile, newDirection.GetOpposite());
 		}
 		else PlaceBodyPartCenter(currentTile, BoardDirection.NONE, BoardDirection.NONE);

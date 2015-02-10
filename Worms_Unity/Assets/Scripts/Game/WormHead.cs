@@ -7,9 +7,8 @@ public class WormHead : TileEntity {
 
 	private Worm worm;
 
-	public void Initialize(Worm worm, Tile tile, BoardDirection newDirection, Color color) {
+	public void Initialize(Worm worm, Tile tile, BoardDirection newDirection) {
 		this.worm = worm;
-		GetComponentInChildren<tk2dSprite>().color = color;
 		tileEntityType = TileEntityType.WormHead;
 		transform.parent = worm.transform;
 		direction = BoardDirection.NONE;

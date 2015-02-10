@@ -82,13 +82,13 @@ public class Board : MonoBehaviour {
 				if (tileData.worm != null && tileData.worm.wormType != WormType.NONE) {
 					Color color = Color.white;
 
-					if (tileData.worm.wormType == WormType.Worm1) color = new Color(83f / 255f, 148f / 255f, 255f / 255f);
-					else if (tileData.worm.wormType == WormType.Worm2) color = new Color(234f / 255f, 35f / 255f, 63f / 255f);
-					else if (tileData.worm.wormType == WormType.Worm3) color = new Color(58f / 255f, 194f / 255f, 93f / 255f);
-					else if (tileData.worm.wormType == WormType.Worm4) color = new Color(141f / 255f, 90f / 255f, 194f / 255f);
+					if (tileData.worm.wormType == WormType.Worm1) color = new Color(30f / 255f, 167f / 255f, 225f / 255f);
+					else if (tileData.worm.wormType == WormType.Worm2) color = new Color(188f / 255f, 67f / 255f, 89f / 255f);
+					else if (tileData.worm.wormType == WormType.Worm3) color = new Color(69f / 255f, 186f / 255f, 106f / 255f);
+					else if (tileData.worm.wormType == WormType.Worm4) color = new Color(123f / 255f, 69f / 255f, 186f / 255f);
 
 					Worm worm = Instantiate(wormPrefab) as Worm;
-					worm.Initialize(tile, tileData.worm.direction, color);
+					worm.Initialize(tile, tileData.worm.direction, color, tileData.worm.wormType);
 				}
 			}
 		}

@@ -30,6 +30,14 @@ MonoBehaviour:
     - roadStraight
     - roadCurved
     - roadBlank
+    - car2
+    - car4
+    - car3
+    - car1
+    - paintBrush1
+    - paintBrush3
+    - paintBrush2
+    - paintBrush4
     spriteTextureGUIDs:
     - 8700254b1b7e8438db7451b9339ef213
     - 1ad4b22b17db24f6a9e456017d2df5db
@@ -42,18 +50,34 @@ MonoBehaviour:
     - f9ebed936d60645aa8e1e4fa05d5b664
     - fe68e3417198b4103bf19bc96325604b
     - 38552b64ee881492fba67d3f7c4d09e0
+    - 0aa22abb12f5a4d6a84a6ed9e3311d43
+    - 3c190729192c342f7a1ab8809ecf9e81
+    - 739917bfca79e465797005cae576bc57
+    - 82217b1cf5d0846dbb13b443b70a24cb
+    - e855ed41cc5794a33ad39c91b56ced4c
+    - 65325475f4e61450994eec80a9a901fc
+    - 6eac156faabb5463e933208b7c24a5c4
+    - 73d1af66829c44e8cb909a20731fb6a4
     spriteTextureTimeStamps:
     - 1423520125
+    - 1423579051
+    - 1423572028
     - 1423520125
     - 1423520125
     - 1423520125
     - 1423520125
+    - 1423579294
+    - 1423579306
+    - 1423579285
     - 1423520125
-    - 1423520125
-    - 1423520125
-    - 1423520125
-    - 1423520125
-    - 1423520125
+    - 1423578950
+    - 1423578935
+    - 1423578945
+    - 1423578958
+    - 1423580195
+    - 1423580341
+    - 1423580299
+    - 1423580414
     managedSpriteCollection: 0
     loadable: 0
     assetName: 
