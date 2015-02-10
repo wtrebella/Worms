@@ -13,15 +13,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size:
     x: 2
-    y: 6
+    y: 4
   tiles:
   - coordinates:
       x: 0
       y: 0
     walls:
-    - direction: 0
     - direction: 2
     - direction: 3
+    - direction: 0
     worm:
       direction: 1
       wormType: 0
@@ -40,8 +40,8 @@ MonoBehaviour:
       x: 0
       y: 1
     walls:
-    - direction: 2
     - direction: 3
+    - direction: 2
     worm:
       direction: 4
       wormType: 4
@@ -50,8 +50,8 @@ MonoBehaviour:
       x: 1
       y: 1
     walls:
-    - direction: 0
     - direction: 1
+    - direction: 0
     worm:
       direction: 4
       wormType: 4
@@ -60,8 +60,8 @@ MonoBehaviour:
       x: 0
       y: 2
     walls:
-    - direction: 0
     - direction: 3
+    - direction: 0
     worm:
       direction: 4
       wormType: 4
@@ -70,8 +70,8 @@ MonoBehaviour:
       x: 1
       y: 2
     walls:
-    - direction: 2
     - direction: 1
+    - direction: 2
     worm:
       direction: 4
       wormType: 4
@@ -80,8 +80,9 @@ MonoBehaviour:
       x: 0
       y: 3
     walls:
-    - direction: 2
+    - direction: 0
     - direction: 3
+    - direction: 2
     worm:
       direction: 4
       wormType: 4
@@ -89,47 +90,6 @@ MonoBehaviour:
   - coordinates:
       x: 1
       y: 3
-    walls:
-    - direction: 0
-    - direction: 1
-    worm:
-      direction: 4
-      wormType: 4
-    tileType: 0
-  - coordinates:
-      x: 0
-      y: 4
-    walls:
-    - direction: 0
-    - direction: 3
-    worm:
-      direction: 4
-      wormType: 4
-    tileType: 0
-  - coordinates:
-      x: 1
-      y: 4
-    walls:
-    - direction: 2
-    - direction: 1
-    worm:
-      direction: 4
-      wormType: 4
-    tileType: 0
-  - coordinates:
-      x: 0
-      y: 5
-    walls:
-    - direction: 2
-    - direction: 0
-    - direction: 3
-    worm:
-      direction: 4
-      wormType: 4
-    tileType: 0
-  - coordinates:
-      x: 1
-      y: 5
     walls:
     - direction: 0
     - direction: 1

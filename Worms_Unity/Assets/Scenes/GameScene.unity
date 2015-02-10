@@ -326,7 +326,7 @@ MonoBehaviour:
   gameUIManager: {fileID: 588391255}
   puzzleManager: {fileID: 201394711}
   boardPrefab: {fileID: 11425006, guid: f873992256273494d9c1a275a108305c, type: 2}
-  puzzleToLoad: 6
+  puzzleToLoad: -1
 --- !u!4 &395372738
 Transform:
   m_ObjectHideFlags: 0
@@ -880,7 +880,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 395372737}
-        m_MethodName: RestartGame
+        m_MethodName: StartOrRestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1107,10 +1107,10 @@ RectTransform:
   - {fileID: 847200349}
   m_Father: {fileID: 588391254}
   m_RootOrder: 0
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: -360}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: .5, y: 1}
+  m_AnchorMax: {x: .5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -56.5}
+  m_SizeDelta: {x: 70, y: 47}
   m_Pivot: {x: .5, y: .5}
 --- !u!1 &1901294730
 GameObject:

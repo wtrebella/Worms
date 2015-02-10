@@ -626,7 +626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 585104738}
-  puzzleToLoad: {fileID: 11400000, guid: cc89eba22f38346aeb478a31c4502fb9, type: 2}
+  puzzleToLoad: {fileID: 0}
   switchStateButton: {fileID: 1913983081}
   inputField: {fileID: 1555505127}
   tilePrefab: {fileID: 11428624, guid: 6eb8414ff2de943359f4d3c0dfeb3a6f, type: 2}
@@ -634,7 +634,7 @@ MonoBehaviour:
   wormPrefab: {fileID: 11459634, guid: 7868ddbe4eb5c4af58c90560f6586fd3, type: 2}
   tileSize: 100
   size:
-    x: 4
+    x: 2
     y: 4
 --- !u!4 &1753884206
 Transform:

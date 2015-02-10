@@ -43,18 +43,28 @@ MonoBehaviour:
     - fe68e3417198b4103bf19bc96325604b
     - 38552b64ee881492fba67d3f7c4d09e0
     spriteTextureTimeStamps:
-    - 1423439097
-    - 1423439097
-    - 1423488018
-    - 1423487606
-    - 1423439097
-    - 1423439097
-    - 1423439097
-    - 1423490062
-    - 1423490229
-    - 1423490238
-    - 1423490756
+    - 1423520125
+    - 1423520125
+    - 1423520125
+    - 1423520125
+    - 1423520125
+    - 1423520125
+    - 1423520125
+    - 1423520125
+    - 1423520125
+    - 1423520125
+    - 1423520125
     managedSpriteCollection: 0
     loadable: 0
     assetName: 
     version: 3
+  - name: 
+    spriteCollectionGUID: 
+    spriteCollectionDataGUID: fb51c3f09d7ac43249bd5a8e49dc1079
+    spriteNames: []
+    spriteTextureGUIDs: []
+    spriteTextureTimeStamps: []
+    managedSpriteCollection: 0
+    loadable: 0
+    assetName: 
+    version: 0

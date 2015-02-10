@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEditor;
 using System.IO;
+using UnityEditor;
 
 public enum State {
 	Tile,
@@ -90,7 +91,6 @@ public class MapCreator : MonoBehaviour {
 		}
 	}
 
-	[UnityEditor.MenuItem("Puzzle/Create New Puzzle", false, 10)]
 	public static void ExportData() {
 		PuzzleData asset;
 
@@ -98,7 +98,7 @@ public class MapCreator : MonoBehaviour {
 		else {
 			asset = ScriptableObject.CreateInstance<PuzzleData>();
 		
-			string path = "Assets/Puzzles";
+			string path = "Assets/Resources/Puzzles";
 
 			string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/New " + typeof(PuzzleData).ToString() + ".asset");
 
@@ -315,3 +315,4 @@ public class MapCreator : MonoBehaviour {
 		}
 	}
 }
+#endif

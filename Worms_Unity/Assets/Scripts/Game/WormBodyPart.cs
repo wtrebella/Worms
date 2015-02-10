@@ -8,7 +8,7 @@ public class WormBodyPart : TileEntity {
 	
 	public void Initialize(Worm worm, Tile tile, BoardDirection newDirection, Color color) {
 		this.worm = worm;
-//		GetComponentInChildren<tk2dSprite>().color = color;
+		GetComponentInChildren<tk2dSprite>().color = color;
 		tileEntityType = TileEntityType.WormBodyPart;
 		transform.parent = worm.transform;
 		SetTile(tile);
