@@ -237,7 +237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &296606566
 Renderer:
   m_ObjectHideFlags: 0
@@ -311,7 +311,7 @@ MonoBehaviour:
   tileSize: 1
   curveResolution: 8
   lineResolution: 1
-  curveRadius: .200000003
+  curveRadius: .25
   snakeFrontPrefab: {fileID: 496612, guid: 7e27f89450d994fabae43871c53e09bd, type: 2}
   snakeBackPrefab: {fileID: 482664, guid: 2182840347a5747a0a0bbb07fde62713, type: 2}
 --- !u!23 &1307463166

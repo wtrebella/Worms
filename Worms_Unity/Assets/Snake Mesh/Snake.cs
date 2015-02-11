@@ -22,6 +22,9 @@ public class Snake : MonoBehaviour {
 	private bool hasMoved = false;
 
 	void Awake() {
+		// okay so the masking is working well and the turns look good
+		// you gotta figure out a way to move the head at the same rate and in the same way as the unmasking
+
 		meshFilter = GetComponent<MeshFilter>();
 	}
 
@@ -87,7 +90,7 @@ public class Snake : MonoBehaviour {
 		}
 
 		UpdateTileOrigin(ref tileOrigin, direction2);
-		AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, 0, normalizedSpokeSize, tileOrigin, direction2);
+		AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, 0, 0.5f, tileOrigin, direction2);
 	
 		mesh.vertices = verts;
 		mesh.uv = uvs;
@@ -99,23 +102,24 @@ public class Snake : MonoBehaviour {
 		float x = 0;
 		float y = 0;
 
-		if (direction == BoardDirection.Up) {
-			x = tileSize / 2f;
-			y = tileSize * normalizedSpokeSize;
-		}
-		else if (direction == BoardDirection.Down) {
-			x = tileSize / 2f;
-			y = tileSize - (tileSize * normalizedSpokeSize);
-		}
-		else if (direction == BoardDirection.Right) {
-			x = tileSize * normalizedSpokeSize;
-			y = tileSize / 2f;
-		}
-		else if (direction == BoardDirection.Left) {
-			x = tileSize - (tileSize * normalizedSpokeSize);
-			y = tileSize / 2f;
-		}
-
+//		if (direction == BoardDirection.Up) {
+//			x = tileSize / 2f;
+//			y = tileSize * normalizedSpokeSize;
+//		}
+//		else if (direction == BoardDirection.Down) {
+//			x = tileSize / 2f;
+//			y = tileSize - (tileSize * normalizedSpokeSize);
+//		}
+//		else if (direction == BoardDirection.Right) {
+//			x = tileSize * normalizedSpokeSize;
+//			y = tileSize / 2f;
+//		}
+//		else if (direction == BoardDirection.Left) {
+//			x = tileSize - (tileSize * normalizedSpokeSize);
+//			y = tileSize / 2f;
+//		}
+		x = tileSize / 2f;
+		y = tileSize / 2f;
 		snakeFront.rotation = direction.ToRotation();
 		snakeFront.position = new Vector3(tileOrigin.x + x, tileOrigin.y + y, 0);
 	}
