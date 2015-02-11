@@ -1,17 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Snake Mesh/SnakeMesh.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Snake Mesh/SetRenderQueue.cs">
     <Files>
-      <File FileName="../../Piloteer/Propulsion_Unity/Assets/Scripts/Game/GameTasksCourse3Helper.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Game/Worm.cs" Line="97" Column="9" />
-      <File FileName="Assets/Scripts/Game/WormBodyPart.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Map Editor/MapCreator.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Game/GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Game/GameUIManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Snake Mesh/Snake.cs" Line="51" Column="87" />
+      <File FileName="Assets/Scripts/Game/WTTools.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Game/BoardDirection.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Game/WormHead.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Game/Worm.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Game/WormBodyPart.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Game/Board.cs" Line="1" Column="1" />
-      <File FileName="Assets/Snake Mesh/SnakeMesh.cs" Line="24" Column="46" />
+      <File FileName="Assets/Snake Mesh/SetRenderQueue.cs" Line="23" Column="5" />
+      <File FileName="Assets/Snake Mesh/DepthMask.shader" Line="18" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

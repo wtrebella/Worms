@@ -77,7 +77,8 @@
      <Compile Include="Assets\Scripts\Map Editor\MapEditorWorm.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorWormData.cs" />
      <Compile Include="Assets\Scripts\Map Editor\PuzzleData.cs" />
-     <Compile Include="Assets\Snake Mesh\SnakeMesh.cs" />
+     <Compile Include="Assets\Snake Mesh\SetRenderQueue.cs" />
+     <Compile Include="Assets\Snake Mesh\Snake.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCamera.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraAnchor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraUtil.cs" />
@@ -154,6 +155,7 @@
      <None Include="Assets\TK2DROOT\tk2d\Shaders\Blend2TexVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMaskSolid.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\resources\BlendVertexColor.shader" />
+     <None Include="Assets\Snake Mesh\DepthMask.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Editor\EditorUtility.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\CutoutVertexColor.shader" />
