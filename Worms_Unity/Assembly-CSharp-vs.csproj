@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\Game\TileEntityType.cs" />
      <Compile Include="Assets\Scripts\Game\TilePassage.cs" />
      <Compile Include="Assets\Scripts\Game\TileWall.cs" />
+     <Compile Include="Assets\Scripts\Game\WTTools.cs" />
      <Compile Include="Assets\Scripts\Game\Worm.cs" />
      <Compile Include="Assets\Scripts\Game\WormBodyPart.cs" />
      <Compile Include="Assets\Scripts\Game\WormHead.cs" />
@@ -76,6 +77,7 @@
      <Compile Include="Assets\Scripts\Map Editor\MapEditorWorm.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorWormData.cs" />
      <Compile Include="Assets\Scripts\Map Editor\PuzzleData.cs" />
+     <Compile Include="Assets\Snake Mesh\SnakeMesh.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCamera.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraAnchor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraUtil.cs" />

@@ -8,10 +8,7 @@ public class Worm : MonoBehaviour {
 	public WormBodyPart roadStraightPrefab;
 	public WormBodyPart roadCurvedPrefab;
 	public WormBodyPart roadBlankPrefab;
-	public WormHead wormHead1Prefab;
-	public WormHead wormHead2Prefab;
-	public WormHead wormHead3Prefab;
-	public WormHead wormHead4Prefab;
+	public WormHead wormHeadPrefab;
 	public List<WormBodyPart> bodyParts;
 	public WormHead head;
 
@@ -27,12 +24,9 @@ public class Worm : MonoBehaviour {
 
 		bodyParts = new List<WormBodyPart>();
 
-		if (wormType == WormType.Worm1) head = Instantiate(wormHead1Prefab) as WormHead;
-		else if (wormType == WormType.Worm2) head = Instantiate(wormHead2Prefab) as WormHead;
-		else if (wormType == WormType.Worm3) head = Instantiate(wormHead3Prefab) as WormHead;
-		else if (wormType == WormType.Worm4) head = Instantiate(wormHead4Prefab) as WormHead;
+		head = Instantiate(wormHeadPrefab) as WormHead;
 
-		if (head != null) head.Initialize(this, tile, direction); 
+		if (head != null) head.Initialize(this, tile, direction, color); 
 	}
 
 	public void PlaceBodyPartSpoke(Tile tile, BoardDirection direction) {
@@ -100,7 +94,7 @@ public class Worm : MonoBehaviour {
 	public void HandleHeadMoved(Tile previousTile, Tile currentTile, BoardDirection previousDirection, BoardDirection newDirection) {
 		if (previousTile != null) {
 			if (!hasMoved) {
-				PlaceBodyPartSpoke(previousTile, newDirection.GetOpposite());
+//				PlaceBodyPartSpoke(previousTile, newDirection.GetOpposite());
 				hasMoved = true;
 			}
 			PlaceBodyPartSpoke(previousTile, newDirection);

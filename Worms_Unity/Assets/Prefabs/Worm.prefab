@@ -39,14 +39,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 787aaaafa52ea4752aa5328cba1a3579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadSpokePrefab: {fileID: 11473040, guid: 2cf461b5b4e2d45919a4be30441ab046, type: 2}
+  roadSpokePrefab: {fileID: 11404416, guid: 970cca24c92a7470d84b96acc023a001, type: 2}
   roadStraightPrefab: {fileID: 11404416, guid: 5348e3b8bd3d340dd95ad7b7c410186a, type: 2}
   roadCurvedPrefab: {fileID: 11404416, guid: 1890d5d6b81c141539f8ef5e094c8a65, type: 2}
-  roadBlankPrefab: {fileID: 11473040, guid: 61123e76d1705435bb701bb3c21f5be2, type: 2}
-  wormHead1Prefab: {fileID: 11485748, guid: 5db52efd44d22439b8f7e01c56084666, type: 2}
-  wormHead2Prefab: {fileID: 11492072, guid: 88ad188eb437d42c9bde33cb46e26cd0, type: 2}
-  wormHead3Prefab: {fileID: 11470600, guid: 590090c7339f84998b8c5d882bce3671, type: 2}
-  wormHead4Prefab: {fileID: 11422588, guid: affc1190e60e84e0c9b0cb4ae4c73078, type: 2}
+  roadBlankPrefab: {fileID: 11404416, guid: c71ab87a6afbe46b48966cb4fcb93b55, type: 2}
+  wormHeadPrefab: {fileID: 11485748, guid: dcb2eef56a4e24c0ba9358f52c7153ae, type: 2}
   bodyParts: []
   head: {fileID: 0}
 --- !u!1001 &100100000

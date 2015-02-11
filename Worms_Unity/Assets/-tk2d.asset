@@ -38,6 +38,9 @@ MonoBehaviour:
     - paintBrush3
     - paintBrush2
     - paintBrush4
+    - snakeHead
+    - snakeNub
+    - snakeSpoke
     spriteTextureGUIDs:
     - 8700254b1b7e8438db7451b9339ef213
     - 1ad4b22b17db24f6a9e456017d2df5db
@@ -58,6 +61,9 @@ MonoBehaviour:
     - 65325475f4e61450994eec80a9a901fc
     - 6eac156faabb5463e933208b7c24a5c4
     - 73d1af66829c44e8cb909a20731fb6a4
+    - 920942add841d4406b2019cc91563089
+    - b58f0663113464875b3a69f2348d08b9
+    - c119d73a3cbb0446986cf01b9a0c9d41
     spriteTextureTimeStamps:
     - 1423520125
     - 1423579051
@@ -68,7 +74,7 @@ MonoBehaviour:
     - 1423520125
     - 1423579294
     - 1423579306
-    - 1423579285
+    - 1423650252
     - 1423520125
     - 1423578950
     - 1423578935
@@ -78,6 +84,9 @@ MonoBehaviour:
     - 1423580341
     - 1423580299
     - 1423580414
+    - 1423650556
+    - 1423652041
+    - 1423650640
     managedSpriteCollection: 0
     loadable: 0
     assetName: 
