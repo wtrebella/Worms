@@ -5,25 +5,51 @@ using System;
 
 public class SwipeEventSystem : MonoBehaviour {
 	[HideInInspector]
-	public List<EventDelegate> onSwipeUp;
+	public List<EventDelegate> onSwipeUpBegan;
 	[HideInInspector]
-	public List<EventDelegate> onSwipeRight;
+	public List<EventDelegate> onSwipeRightBegan;
 	[HideInInspector]
-	public List<EventDelegate> onSwipeDown;
+	public List<EventDelegate> onSwipeDownBegan;
 	[HideInInspector]
-	public List<EventDelegate> onSwipeLeft;
+	public List<EventDelegate> onSwipeLeftBegan;
+	
+	[HideInInspector]
+	public List<EventDelegate> onSwipeUpContinue;
+	[HideInInspector]
+	public List<EventDelegate> onSwipeRightContinue;
+	[HideInInspector]
+	public List<EventDelegate> onSwipeDownContinue;
+	[HideInInspector]
+	public List<EventDelegate> onSwipeLeftContinue;
+
+	[HideInInspector]
+	public List<EventDelegate> onSwipeUpEnded;
+	[HideInInspector]
+	public List<EventDelegate> onSwipeRightEnded;
+	[HideInInspector]
+	public List<EventDelegate> onSwipeDownEnded;
+	[HideInInspector]
+	public List<EventDelegate> onSwipeLeftEnded;
+
+	[HideInInspector]
+	public List<EventDelegate> onSwipeCanceled;
+
+	[HideInInspector]
+	public BoardDirection currentSwipeDirection = BoardDirection.NONE;
+
+	[HideInInspector]
+	public float currentSwipeDistance = 0;
 
 	public bool simulateTouch = true;
 	public float swipeDistance = 0.5f;
 	public float swipeTime = 0.5f;
 
+	private bool isTouching = false;
 	private bool isSwiping = false;
 	private float totalSwipeTime = 0;
 	private int swipeFingerID = 0;
-	private Vector2 swipeVector = Vector2.zero;
 	private Vector2 initialTouchPos = Vector2.zero;
-
-	private Vector2 lastMousePos = Vector2.zero;
+	private BoardDirection allowedSwipeDirection = BoardDirection.NONE;
 
 	void Start () {
 	
@@ -33,101 +59,254 @@ public class SwipeEventSystem : MonoBehaviour {
 		UpdateSwipeDetection();
 	}
 
-	void OnSwipeUp() {
-		EventDelegate.Execute(onSwipeUp);
+	void OnSwipeUpBegan() {
+		EventDelegate.Execute(onSwipeUpBegan);
+	}
+	
+	void OnSwipeRightBegan() {
+		EventDelegate.Execute(onSwipeRightBegan);
+	}
+	
+	void OnSwipeDownBegan() {
+		EventDelegate.Execute(onSwipeDownBegan);
+	}
+	
+	void OnSwipeLeftBegan() {
+		EventDelegate.Execute(onSwipeLeftBegan);
 	}
 
-	void OnSwipeRight() {
-		EventDelegate.Execute(onSwipeRight);
+	void OnSwipeUpContinue() {
+		EventDelegate.Execute(onSwipeUpContinue);
+	}
+	
+	void OnSwipeRightContinue() {
+		EventDelegate.Execute(onSwipeRightContinue);
+	}
+	
+	void OnSwipeDownContinue() {
+		EventDelegate.Execute(onSwipeDownContinue);
+	}
+	
+	void OnSwipeLeftContinue() {
+		EventDelegate.Execute(onSwipeLeftContinue);
 	}
 
-	void OnSwipeDown() {
-		EventDelegate.Execute(onSwipeDown);
+	void OnSwipeCanceled() {
+		EventDelegate.Execute(onSwipeCanceled);
 	}
 
-	void OnSwipeLeft() {
-		EventDelegate.Execute(onSwipeLeft);
+	void OnSwipeUpEnded() {
+		EventDelegate.Execute(onSwipeUpEnded);
 	}
 
-	public void CancelSwipe() {
+	void OnSwipeRightEnded() {
+		EventDelegate.Execute(onSwipeRightEnded);
+	}
+
+	void OnSwipeDownEnded() {
+		EventDelegate.Execute(onSwipeDownEnded);
+	}
+
+	void OnSwipeLeftEnded() {
+		EventDelegate.Execute(onSwipeLeftEnded);
+	}
+	
+	void CancelSwipe() {
+		if (isSwiping) {
+			OnSwipeCanceled();
+//			Debug.Log(currentSwipeDirection.ToString() + " canceled");
+		}
+
+		currentSwipeDirection = BoardDirection.NONE;
 		isSwiping = false;
+		totalSwipeTime = 0;
+	}
+
+	void EndSwipe() {
+//		Debug.Log(currentSwipeDirection.ToString() + " ended");
+
+		if (currentSwipeDirection == BoardDirection.Up) OnSwipeUpEnded();
+		else if (currentSwipeDirection == BoardDirection.Right) OnSwipeRightEnded();
+		else if (currentSwipeDirection == BoardDirection.Down) OnSwipeDownEnded();
+		else if (currentSwipeDirection == BoardDirection.Left) OnSwipeLeftEnded();
+
+		currentSwipeDirection = BoardDirection.NONE;
+		isSwiping = false;
+		totalSwipeTime = 0;
+	}
+
+	void ContinueSwipe() {
+		if (currentSwipeDirection == BoardDirection.Up) OnSwipeUpContinue();
+		else if (currentSwipeDirection == BoardDirection.Right) OnSwipeRightContinue();
+		else if (currentSwipeDirection == BoardDirection.Down) OnSwipeDownContinue();
+		else if (currentSwipeDirection == BoardDirection.Left) OnSwipeLeftContinue();
+	}
+
+	public void CancelTouch() {
+		isTouching = false;
+		allowedSwipeDirection = BoardDirection.NONE;
+
+		CancelSwipe();
+	}
+
+	public void EndTouch() {
+		isTouching = false;
+		allowedSwipeDirection = BoardDirection.NONE;
+
+		EndSwipe();
+	}
+
+	void BeginTouch() {
+		isTouching = true;
+		totalSwipeTime = 0;
+		currentSwipeDistance = 0;
+		initialTouchPos = Input.mousePosition;
+	}
+
+	void BeginSwipe(BoardDirection direction) {
+		currentSwipeDirection = direction;
+		if (allowedSwipeDirection == BoardDirection.NONE) allowedSwipeDirection = direction;
+
+		isSwiping = true;
+		if (currentSwipeDirection == BoardDirection.Up) OnSwipeUpBegan();
+		else if (currentSwipeDirection == BoardDirection.Right) OnSwipeRightBegan();
+		else if (currentSwipeDirection == BoardDirection.Down) OnSwipeDownBegan();
+		else if (currentSwipeDirection == BoardDirection.Left) OnSwipeLeftBegan();
+
+//		Debug.Log(currentSwipeDirection.ToString() + " began");
+	}
+
+	bool SwipeDirectionAllowed(BoardDirection direction) {
+		return direction != BoardDirection.NONE && (allowedSwipeDirection == BoardDirection.NONE || allowedSwipeDirection == direction);
 	}
 
 	void UpdateSwipeDetection() {
 		if (simulateTouch) {
 			Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
-			if (isSwiping) {
-				swipeVector += (mousePosition - lastMousePos);
+			if (isTouching) {
+				Vector2 currentSwipeVector = Vector2.zero;
+				currentSwipeVector.x = mousePosition.x - initialTouchPos.x;
+				currentSwipeVector.y = mousePosition.y - initialTouchPos.y;
+
 				totalSwipeTime += Time.deltaTime;
-				
-				if (Input.GetMouseButtonUp(0)) {
-					float totalSwipeDistance = swipeVector.magnitude;
-					if (totalSwipeTime >= swipeTime && totalSwipeDistance >= swipeDistance) {
+
+				if (isSwiping) {
+					if (currentSwipeDirection == BoardDirection.Right) {
+						if (currentSwipeVector.x < 0) currentSwipeVector.x = 0;
+						currentSwipeDistance = currentSwipeVector.x;
+						ContinueSwipe();
+					}
+					else if (currentSwipeDirection == BoardDirection.Left) {
+						if (currentSwipeVector.x > 0) currentSwipeVector.x = 0;
+						currentSwipeDistance = currentSwipeVector.x;
+						ContinueSwipe();
+					}
+					else if (currentSwipeDirection == BoardDirection.Up) {
+						if (currentSwipeVector.y < 0) currentSwipeVector.y = 0;
+						currentSwipeDistance = currentSwipeVector.y;
+						ContinueSwipe();
+					}
+					else if (currentSwipeDirection == BoardDirection.Down) {
+						if (currentSwipeVector.y > 0) currentSwipeVector.y = 0;
+						currentSwipeDistance = currentSwipeVector.y;
+						ContinueSwipe();
+					}
+				}
+				else {
+					if (totalSwipeTime >= swipeTime) {
+						float horVal = currentSwipeVector.x;
+						float vertVal = currentSwipeVector.y;
+
+						bool horizontalAllowed = SwipeDirectionAllowed(BoardDirection.Right) || SwipeDirectionAllowed(BoardDirection.Left);
+						bool verticalAllowed = SwipeDirectionAllowed(BoardDirection.Up) || SwipeDirectionAllowed(BoardDirection.Down);
+
 						bool horizontal;
-						if (Mathf.Abs(mousePosition.x - initialTouchPos.x) > Mathf.Abs(mousePosition.y - initialTouchPos.y)) horizontal = true;
-						else horizontal = false;
-						
+
+						if (horizontalAllowed && verticalAllowed) horizontal = Mathf.Abs(horVal) > Mathf.Abs(vertVal);
+						else horizontal = horizontalAllowed;
+
+						BoardDirection swipeDir = BoardDirection.NONE;
+
 						if (horizontal) {
-							if (Input.mousePosition.x > initialTouchPos.x) OnSwipeRight();
-							else OnSwipeLeft();
+							if (horVal > swipeDistance) swipeDir = BoardDirection.Right;
+							else if (horVal < -swipeDistance) swipeDir = BoardDirection.Left;
 						}
 						else {
-							if (Input.mousePosition.y > initialTouchPos.y) OnSwipeUp();
-							else OnSwipeDown();
+							if (vertVal > swipeDistance) swipeDir = BoardDirection.Up;
+							else if (vertVal < -swipeDistance) swipeDir = BoardDirection.Down;
 						}
-					}
 
-					isSwiping = false;
+						if (SwipeDirectionAllowed(swipeDir)) BeginSwipe(swipeDir);
+					}
 				}
-				
-				lastMousePos = Input.mousePosition;
+
+				if (Input.GetMouseButtonUp(0)) {
+					if (isSwiping) EndTouch();
+					else CancelTouch();
+				}
 			}
 			else {
-				if (Input.GetMouseButtonDown(0)) {
-					isSwiping = true;
-					totalSwipeTime = 0;
-					initialTouchPos = mousePosition;
-					swipeVector = Vector2.zero;
-				}
+				if (Input.GetMouseButtonDown(0)) BeginTouch();
 			}
 		}
 		
-		if (isSwiping) {
+		if (isTouching) {
 			if (Input.touches.Length > 0) {
 				Touch t = Input.GetTouch(swipeFingerID);
-				swipeVector += t.deltaPosition;
 				totalSwipeTime += t.deltaTime;
-				
-				if (t.phase == TouchPhase.Ended || t.phase == TouchPhase.Ended) {
-					float totalSwipeDistance = swipeVector.magnitude;
-					if (totalSwipeTime >= swipeTime && totalSwipeDistance >= swipeDistance) {
+
+				if (isSwiping) {
+					if (currentSwipeDistance < swipeDistance) {
+						CancelSwipe();
+					}
+
+					if (t.phase == TouchPhase.Ended || t.phase == TouchPhase.Ended) {
+						if (totalSwipeTime >= swipeTime && currentSwipeDistance >= swipeDistance) {
+							bool horizontal;
+							if (Mathf.Abs(t.position.x - initialTouchPos.x) > Mathf.Abs(t.position.y - initialTouchPos.y)) horizontal = true;
+							else horizontal = false;
+							
+							if (horizontal) {
+								if (t.position.x > initialTouchPos.x) OnSwipeRightEnded();
+								else OnSwipeLeftEnded();
+							}
+							else {
+								if (t.position.y > initialTouchPos.y) OnSwipeUpEnded();
+								else OnSwipeDownEnded();
+							}
+						}
+						
+						CancelTouch();
+					}
+				}
+				else {
+					if (totalSwipeTime >= swipeTime && currentSwipeDistance >= swipeDistance) {
 						bool horizontal;
 						if (Mathf.Abs(t.position.x - initialTouchPos.x) > Mathf.Abs(t.position.y - initialTouchPos.y)) horizontal = true;
 						else horizontal = false;
 						
 						if (horizontal) {
-							if (t.position.x > initialTouchPos.x) OnSwipeRight();
-							else OnSwipeLeft();
+							if (t.position.x > initialTouchPos.x) OnSwipeRightBegan();
+							else OnSwipeLeftBegan();
 						}
 						else {
-							if (t.position.y > initialTouchPos.y) OnSwipeUp();
-							else OnSwipeDown();
+							if (t.position.y > initialTouchPos.y) OnSwipeUpBegan();
+							else OnSwipeDownBegan();
 						}
 					}
 
-					isSwiping = false;
+					isSwiping = true;
 				}
 			}
 		}
 		else {
 			foreach (Touch t in Input.touches) {
 				if (t.phase == TouchPhase.Began) {
-					isSwiping = true;
+					isTouching = true;
 					totalSwipeTime = 0;
 					swipeFingerID = t.fingerId;
 					initialTouchPos = t.position;
-					swipeVector = Vector2.zero;
 					break;
 				}
 			}

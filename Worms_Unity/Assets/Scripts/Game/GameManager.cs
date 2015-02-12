@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void StartOrRestartGame () {
-		swipeEventSystem.CancelSwipe();
+		swipeEventSystem.CancelTouch();
 		if (board != null) Destroy(board.gameObject);
 	
 		PuzzleData puzzle = puzzleManager.GetPuzzle(currentPuzzleIndex);

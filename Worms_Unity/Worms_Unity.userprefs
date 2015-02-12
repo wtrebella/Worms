@@ -1,10 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Snake Mesh/Snake.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/SwipeEventSystem.cs">
     <Files>
-      <File FileName="Assets/Snake Mesh/Snake.cs" Line="118" Column="20" />
+      <File FileName="Assets/Snake Mesh/TouchManager.cs" Line="4" Column="44" />
+      <File FileName="Assets/Snake Mesh/Snake.cs" Line="29" Column="3" />
       <File FileName="Assets/Snake Mesh/MaskQuad.cs" Line="1" Column="1" />
-      <File FileName="Assets/Snake Mesh/TouchManager.cs" Line="12" Column="3" />
+      <File FileName="Assets/Scripts/Game/SwipeEventSystem.cs" Line="55" Column="2" />
+      <File FileName="Assets/Scripts/Editor/SwipeEventSystemEditor.cs" Line="37" Column="102" />
+      <File FileName="Assets/Scripts/Game/GameManager.cs" Line="86" Column="31" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

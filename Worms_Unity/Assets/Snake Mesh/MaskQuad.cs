@@ -5,7 +5,7 @@ public class MaskQuad : MonoBehaviour {
 	public float tileSize = 1;
 	public float snakeWidth = 0.5f;
 
-	private float val_ = 0;
+	private float val_ = 1;
 	public float val {
 		get {return val_;}
 		set {
@@ -35,7 +35,7 @@ public class MaskQuad : MonoBehaviour {
 	
 	private bool isDirty = false;
 	private MeshFilter meshFilter;
-	private BoardDirection previousDirection = BoardDirection.NONE;
+	public BoardDirection previousDirection = BoardDirection.NONE;
 
 	void Awake() {
 		meshFilter = GetComponent<MeshFilter>();
@@ -45,7 +45,7 @@ public class MaskQuad : MonoBehaviour {
 	}
 
 	void Start () {
-		val = 1;
+		val = 0;
 	}
 	
 	void Update () {
@@ -66,11 +66,13 @@ public class MaskQuad : MonoBehaviour {
 		Rect mainRect = new Rect();
 		Rect smallRect = new Rect();
 
+		float invertedVal = 1 - val;
 		float maxVal = 1 - ((tileSize - snakeWidth) / 2f) / tileSize;
 		if (previousDirection == direction || previousDirection == BoardDirection.NONE) maxVal = 1;
-		float mainRectVal = Mathf.Clamp(val, 0, maxVal);
+
+		float mainRectVal = Mathf.Clamp(invertedVal, 0, maxVal);
 		float smallRectVal = 1;
-		if (mainRectVal >= maxVal) smallRectVal = 1 - (((1 - maxVal) - Mathf.Min(val, 1 - val, 1 - maxVal)) / (1 - maxVal));
+		if (mainRectVal >= maxVal) smallRectVal = 1 - (((1 - maxVal) - Mathf.Min(invertedVal, 1 - invertedVal, 1 - maxVal)) / (1 - maxVal));
 
 		// main rect
 		if (dir == BoardDirection.Left) mainRect = new Rect(tileCenter.x, originPoint.y, tileSize * mainRectVal, tileSize);

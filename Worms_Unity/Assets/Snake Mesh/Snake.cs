@@ -17,9 +17,13 @@ public class Snake : MonoBehaviour {
 	private Transform snakeBack;
 	private int triIndexBase = 0;
 	private int vertIndexBase = 0;
-	private Vector3 tileOrigin = Vector3.zero;
+	private int triIndexBaseAtMoveStart = 0;
+	private int vertIndexBaseAtMoveStart = 0;
+	private Vector3 currentTileOrigin = Vector3.zero;
+	private Vector3 newTileOrigin = Vector3.zero;
 	private float spokeSize;
 	private BoardDirection previousDirection = BoardDirection.NONE;
+	private BoardDirection currentMove = BoardDirection.NONE;
 	private MeshFilter meshFilter;
 	private bool hasMoved = false;
 
@@ -49,26 +53,83 @@ public class Snake : MonoBehaviour {
 	}
 
 	void Update () {
-		BoardDirection direction = BoardDirection.NONE;
-		
-		if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
-		else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
-		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
-		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
-		
-		if (direction != BoardDirection.NONE && direction != previousDirection.GetOpposite()) Move(direction);
+//		BoardDirection direction = BoardDirection.NONE;
+//		
+//		if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
+//		else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
+//		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
+//		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
+//		
+//		if (direction != BoardDirection.NONE && direction != previousDirection.GetOpposite()) Move(direction);
 	}
 
-	void Move(BoardDirection direction) {
+	public void CancelMove() {
+		if (previousDirection != BoardDirection.NONE) snakeFront.rotation = previousDirection.ToRotation();
+
+		currentMove = BoardDirection.NONE;
+		maskQuad.direction = previousDirection.GetOpposite();
+		maskQuad.direction = previousDirection.GetOpposite();
+
+		snakeFront.position = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
+		newTileOrigin = Vector3.zero;
+		RemoveUnusedVerts();
+	}
+
+	void RemoveUnusedVerts() {
+		Mesh mesh = meshFilter.mesh;
+		
+		Vector3[] verts = mesh.vertices;
+		Vector2[] uvs = mesh.uv;
+		int[] tris = mesh.triangles;
+
+		Array.Resize<Vector3>(ref verts, vertIndexBaseAtMoveStart);
+		Array.Resize<Vector2>(ref uvs, vertIndexBaseAtMoveStart);
+		Array.Resize<int>(ref tris, triIndexBaseAtMoveStart);
+
+		mesh.triangles = tris;
+		mesh.vertices = verts;
+		mesh.uv = uvs;
+
+		mesh.RecalculateBounds();
+		mesh.RecalculateNormals();
+
+		maskQuad.val = 1;
+
+		triIndexBase = triIndexBaseAtMoveStart;
+		vertIndexBase = vertIndexBaseAtMoveStart;
+	}
+
+	public void ContinueMove(float normalizedVal) {
+		Vector3 snakeFrontFrom = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
+		Vector3 snakeFrontTo = new Vector3(newTileOrigin.x + tileSize / 2f, newTileOrigin.y + tileSize / 2f, 0);
+		Vector3 snakeFrontPos = Vector3.Lerp(snakeFrontFrom, snakeFrontTo, normalizedVal);
+		snakeFront.position = snakeFrontPos;
+		maskQuad.val = normalizedVal;
+	}
+
+	public void CommitMove() {
+		hasMoved = true;
+		previousDirection = currentMove;
+		currentMove = BoardDirection.NONE;
+		UpdateTileOrigin(ref currentTileOrigin, previousDirection);
+		snakeFront.position = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
+		maskQuad.val = 1;
+	}
+	
+	public void StartMove(BoardDirection direction) {
 		if (!hasMoved) {
 			snakeFront.rotation = direction.ToRotation();
 			snakeBack.rotation = direction.ToRotation();
-
-			hasMoved = true;
 		}
 
+		newTileOrigin = currentTileOrigin;
+		triIndexBaseAtMoveStart = triIndexBase;
+		vertIndexBaseAtMoveStart = vertIndexBase;
+
+		currentMove = direction;
+
 		BoardDirection direction1 = previousDirection;
-		BoardDirection direction2 = direction;
+		BoardDirection direction2 = currentMove;
 
 		if (direction1 == direction2.GetOpposite()) Debug.LogError("can't turn around and go back in the same way");
 		if (direction2 == BoardDirection.NONE) Debug.LogError("no direction to move towards!");
@@ -82,20 +143,20 @@ public class Snake : MonoBehaviour {
 		
 		if (direction1 == BoardDirection.NONE) {
 			direction1 = direction2;
-			AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, 0.5f, 1, tileOrigin, direction2);
+			AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, 0.5f, 1, newTileOrigin, direction2);
 		}
 		
 		else if (direction1 == direction2) {
-			AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, normalizedSpokeSize, 1, tileOrigin, direction2);
+			AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, normalizedSpokeSize, 1, newTileOrigin, direction2);
 		}
 		
 		else {
-			AddTurn(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, tileOrigin, direction1, direction2);
-			AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, 1 - normalizedSpokeSize, 1, tileOrigin, direction2);
+			AddTurn(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, newTileOrigin, direction1, direction2);
+			AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, 1 - normalizedSpokeSize, 1, newTileOrigin, direction2);
 		}
 
-		UpdateTileOrigin(ref tileOrigin, direction2);
-		AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, 0, 0.5f, tileOrigin, direction2);
+		UpdateTileOrigin(ref newTileOrigin, direction2);
+		AddLine(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, 0, 0.5f, newTileOrigin, direction2);
 	
 		mesh.vertices = verts;
 		mesh.uv = uvs;
@@ -104,24 +165,18 @@ public class Snake : MonoBehaviour {
 		mesh.RecalculateBounds();
 		mesh.RecalculateNormals();
 
-		float x = 0;
-		float y = 0;
-
-		x = tileSize / 2f;
-		y = tileSize / 2f;
 		snakeFront.rotation = direction.ToRotation();
 
-		maskQuad.val = 1;
 		maskQuad.direction = direction2.GetOpposite();
-		maskQuad.tileOrigin = tileOrigin;
-
-		Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).position(new Vector3(tileOrigin.x + x, tileOrigin.y + y, 0)));
-		Go.to(maskQuad, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).floatProp("val", 0));
+		maskQuad.tileOrigin = newTileOrigin;
+		maskQuad.val = 0;
+	
+//		Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).position(new Vector3(tileOrigin.x + x, tileOrigin.y + y, 0)));
+//		Go.to(maskQuad, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).floatProp("val", 0));
 	}
 
-	void UpdateTileOrigin(ref Vector3 tileOrigin, BoardDirection newPreviousDirection) {
-		previousDirection = newPreviousDirection;
-		IntVector2 dirIntVect = previousDirection.ToIntVector2();
+	void UpdateTileOrigin(ref Vector3 tileOrigin, BoardDirection direction) {
+		IntVector2 dirIntVect = direction.ToIntVector2();
 		Vector3 dirVect = new Vector3(dirIntVect.x, dirIntVect.y, 0);
 		tileOrigin += new Vector3(tileSize * dirVect.x, tileSize * dirVect.y, 0);
 	}
