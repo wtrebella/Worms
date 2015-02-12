@@ -24,9 +24,6 @@ public class Snake : MonoBehaviour {
 	private bool hasMoved = false;
 
 	void Awake() {
-		// okay so the masking is working well and the turns look good
-		// you gotta figure out a way to move the head at the same rate and in the same way as the unmasking
-
 		meshFilter = GetComponent<MeshFilter>();
 	}
 
