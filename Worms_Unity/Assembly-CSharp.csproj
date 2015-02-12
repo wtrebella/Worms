@@ -80,6 +80,7 @@
      <Compile Include="Assets\Snake Mesh\MaskQuad.cs" />
      <Compile Include="Assets\Snake Mesh\SetRenderQueue.cs" />
      <Compile Include="Assets\Snake Mesh\Snake.cs" />
+     <Compile Include="Assets\Snake Mesh\TouchManager.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCamera.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraAnchor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraUtil.cs" />
