@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 496612}
   - 33: {fileID: 3396612}
   - 23: {fileID: 2396612}
-  - 114: {fileID: 11421340}
   m_Layer: 0
   m_Name: Snake Front
   m_TagString: Untagged
@@ -57,18 +56,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 196612}
   m_Mesh: {fileID: 4300000, guid: 26926b83949d44c0b893c2f8ac5d73a6, type: 2}
---- !u!114 &11421340
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d006b24a1605414cb42b2d45388af07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_queues: b80b0000
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

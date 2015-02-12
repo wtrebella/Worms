@@ -10,7 +10,9 @@ public class Snake : MonoBehaviour {
 	public float curveRadius = 0.2f;
 	public Transform snakeFrontPrefab;
 	public Transform snakeBackPrefab;
+	public MaskQuad maskQuadPrefab;
 
+	private MaskQuad maskQuad;
 	private Transform snakeFront;
 	private Transform snakeBack;
 	private int triIndexBase = 0;
@@ -39,8 +41,14 @@ public class Snake : MonoBehaviour {
 		snakeFront = Instantiate(snakeFrontPrefab) as Transform;
 		snakeBack = Instantiate(snakeBackPrefab) as Transform;
 
+		snakeFront.parent = transform;
+		snakeBack.parent = transform;
+
 		snakeFront.position = new Vector3(tileSize / 2f, tileSize / 2f, 0);
 		snakeBack.position = new Vector3(tileSize / 2f, tileSize / 2f, 0);
+
+		maskQuad = Instantiate(maskQuadPrefab) as MaskQuad;
+		maskQuad.transform.parent = transform;
 	}
 
 	void Update () {
@@ -64,7 +72,7 @@ public class Snake : MonoBehaviour {
 
 		BoardDirection direction1 = previousDirection;
 		BoardDirection direction2 = direction;
-		
+
 		if (direction1 == direction2.GetOpposite()) Debug.LogError("can't turn around and go back in the same way");
 		if (direction2 == BoardDirection.NONE) Debug.LogError("no direction to move towards!");
 
@@ -102,26 +110,16 @@ public class Snake : MonoBehaviour {
 		float x = 0;
 		float y = 0;
 
-//		if (direction == BoardDirection.Up) {
-//			x = tileSize / 2f;
-//			y = tileSize * normalizedSpokeSize;
-//		}
-//		else if (direction == BoardDirection.Down) {
-//			x = tileSize / 2f;
-//			y = tileSize - (tileSize * normalizedSpokeSize);
-//		}
-//		else if (direction == BoardDirection.Right) {
-//			x = tileSize * normalizedSpokeSize;
-//			y = tileSize / 2f;
-//		}
-//		else if (direction == BoardDirection.Left) {
-//			x = tileSize - (tileSize * normalizedSpokeSize);
-//			y = tileSize / 2f;
-//		}
 		x = tileSize / 2f;
 		y = tileSize / 2f;
 		snakeFront.rotation = direction.ToRotation();
-		snakeFront.position = new Vector3(tileOrigin.x + x, tileOrigin.y + y, 0);
+
+		maskQuad.val = 1;
+		maskQuad.direction = direction2.GetOpposite();
+		maskQuad.tileOrigin = tileOrigin;
+
+		Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).position(new Vector3(tileOrigin.x + x, tileOrigin.y + y, 0)));
+		Go.to(maskQuad, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).floatProp("val", 0));
 	}
 
 	void UpdateTileOrigin(ref Vector3 tileOrigin, BoardDirection newPreviousDirection) {
