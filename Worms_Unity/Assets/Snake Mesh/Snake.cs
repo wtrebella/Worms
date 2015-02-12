@@ -52,17 +52,6 @@ public class Snake : MonoBehaviour {
 		maskQuad.transform.parent = transform;
 	}
 
-	void Update () {
-//		BoardDirection direction = BoardDirection.NONE;
-//		
-//		if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
-//		else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
-//		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
-//		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
-//		
-//		if (direction != BoardDirection.NONE && direction != previousDirection.GetOpposite()) Move(direction);
-	}
-
 	public void CancelMove() {
 		if (previousDirection != BoardDirection.NONE) snakeFront.rotation = previousDirection.ToRotation();
 

@@ -5,6 +5,7 @@ public class SnakeGameManager : MonoBehaviour {
 	public Snake snakePrefab;
 	public SwipeEventSystem swipeEventSystem;
 	public float tileSize = 1;
+	public float lerpTime = 0.3f;
 
 	private float curVal = 0;
 	private bool isMoving = false;
@@ -19,8 +20,6 @@ public class SnakeGameManager : MonoBehaviour {
 		if (isAutoMoving) swipeEventSystem.CancelTouch();
 
 		if (!isMoving) {
-			curVal = 0;
-
 			if (swipeDirection.GetOpposite() != snake.previousDirection) StartMove(swipeDirection);
 		}
 	}
@@ -56,6 +55,7 @@ public class SnakeGameManager : MonoBehaviour {
 	}
 
 	void StartMove(BoardDirection direction) {
+		curVal = 0;
 		isMoving = true;
 		snake.StartMove(direction);
 	}
@@ -76,8 +76,15 @@ public class SnakeGameManager : MonoBehaviour {
 		isMoving = true;
 		isAutoMoving = true;
 
+		float currentLerpTime = 0;
+		float t;
+
 		while (curVal > 0) {
-			curVal = Mathf.Clamp01(curVal - Time.deltaTime * 4);
+			currentLerpTime += Time.deltaTime;
+			t = currentLerpTime / lerpTime;
+			t = t * t * t * (t * (6f * t - 15f) + 10f);
+			curVal -= t;
+			curVal = Mathf.Clamp01(curVal);
 			ContinueMove(curVal);
 			yield return null;
 		}
@@ -89,8 +96,15 @@ public class SnakeGameManager : MonoBehaviour {
 		isMoving = true;
 		isAutoMoving = true;
 
+		float currentLerpTime = 0;
+		float t;
+
 		while (curVal < 1) {
-			curVal = Mathf.Clamp01(curVal + Time.deltaTime * 4);
+			currentLerpTime += Time.deltaTime;
+			t = currentLerpTime / lerpTime;
+			t = t * t * t * (t * (6f * t - 15f) + 10f);
+			curVal += t;
+			curVal = Mathf.Clamp01(curVal);
 			ContinueMove(curVal);
 			yield return null;
 		}
@@ -98,11 +112,25 @@ public class SnakeGameManager : MonoBehaviour {
 		CommitMove();
 	}
 
+	public void AutoMove(BoardDirection direction) {
+		if (isMoving || isAutoMoving) return;
+
+		StartMove(direction);
+		StartCoroutine(AutoMoveCommit());
+	}
+
 	void Start () {
 	
 	}
 	
 	void Update () {
-	
+		BoardDirection direction = BoardDirection.NONE;
+		
+		if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
+		else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
+		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
+		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
+		
+		if (direction != BoardDirection.NONE && direction != snake.previousDirection.GetOpposite() && !isMoving && !isAutoMoving) AutoMove(direction);
 	}
 }
