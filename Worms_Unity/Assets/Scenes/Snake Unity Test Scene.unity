@@ -390,6 +390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snakePrefab: {fileID: 11493008, guid: f8df490cde3dd4cd4a0f65d1cc9a1b9c, type: 2}
+  swipeEventSystem: {fileID: 1790909280}
+  tileSize: 1
 --- !u!4 &1873300505
 Transform:
   m_ObjectHideFlags: 0

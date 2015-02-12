@@ -11,6 +11,7 @@ public class Snake : MonoBehaviour {
 	public Transform snakeFrontPrefab;
 	public Transform snakeBackPrefab;
 	public MaskQuad maskQuadPrefab;
+	public BoardDirection previousDirection = BoardDirection.NONE;
 
 	private MaskQuad maskQuad;
 	private Transform snakeFront;
@@ -22,7 +23,6 @@ public class Snake : MonoBehaviour {
 	private Vector3 currentTileOrigin = Vector3.zero;
 	private Vector3 newTileOrigin = Vector3.zero;
 	private float spokeSize;
-	private BoardDirection previousDirection = BoardDirection.NONE;
 	private BoardDirection currentMove = BoardDirection.NONE;
 	private MeshFilter meshFilter;
 	private bool hasMoved = false;
