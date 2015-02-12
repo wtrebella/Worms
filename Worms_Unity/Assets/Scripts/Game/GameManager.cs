@@ -76,6 +76,23 @@ public class GameManager : MonoBehaviour {
 		board.Move(BoardDirection.Left);
 		if (board.CheckWinConditions()) WinGame();
 	}
+	
+	public void OnSwipeBegan(BoardDirection swipeDirection) {
+		if (board.tempSnake.isAutoMoving) swipeEventSystem.CancelTouch();
+		else board.OnSwipeBegan(swipeDirection);
+	}
+	
+	public void OnSwipeContinue(BoardDirection swipeDirection, float swipePixelDistance) {
+		board.OnSwipeContinue(swipeDirection, swipePixelDistance);
+	}
+	
+	public void OnSwipeEnded(float swipePixelDistance) {
+		board.OnSwipeEnded(swipePixelDistance);
+	}
+	
+	public void OnSwipeCanceled() {
+		board.OnSwipeCanceled();
+	}
 
 	private void WinGame() {
 		gameState = GameState.Win;
@@ -90,7 +107,7 @@ public class GameManager : MonoBehaviour {
 
 		board = Instantiate(boardPrefab) as Board;
 		board.Generate(puzzle);
-		
+
 		gameState = GameState.Playing;
 
 		gameUIManager.HandlePuzzleLoaded(currentPuzzleIndex, puzzle);

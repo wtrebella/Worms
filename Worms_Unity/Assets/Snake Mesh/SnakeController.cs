@@ -1,26 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SnakeGameManager : MonoBehaviour {
-	public Snake snakePrefab;
-	public SwipeEventSystem swipeEventSystem;
+[RequireComponent(typeof(SnakeSprite))]
+public class SnakeController : MonoBehaviour {
 	public float tileSize = 1;
 	public float lerpTime = 0.3f;
 
 	private float curVal = 0;
-	private bool isMoving = false;
-	private bool isAutoMoving = false;
-	private Snake snake;
+	public bool isMoving {get; private set;}
+	public bool isAutoMoving {get; private set;}
+	private SnakeSprite snakeSprite;
 
 	void Awake() {
-		snake = Instantiate(snakePrefab) as Snake;
+		isMoving = false;
+		isAutoMoving = false;
+		snakeSprite = GetComponentInChildren<SnakeSprite>();
 	}
 
 	public void OnSwipeBegan(BoardDirection swipeDirection) {
-		if (isAutoMoving) swipeEventSystem.CancelTouch();
-
 		if (!isMoving) {
-			if (swipeDirection.GetOpposite() != snake.previousDirection) StartMove(swipeDirection);
+			if (swipeDirection.GetOpposite() != snakeSprite.previousDirection) StartMove(swipeDirection);
 		}
 	}
 
@@ -51,25 +50,25 @@ public class SnakeGameManager : MonoBehaviour {
 	}
 	
 	void ContinueMove(float swipeDistance) {
-		snake.ContinueMove(swipeDistance);
+		snakeSprite.ContinueMove(swipeDistance);
 	}
 
 	void StartMove(BoardDirection direction) {
 		curVal = 0;
 		isMoving = true;
-		snake.StartMove(direction);
+		snakeSprite.StartMove(direction);
 	}
 	
 	void CommitMove() {
 		isMoving = false;
 		isAutoMoving = false;
-		snake.CommitMove();
+		snakeSprite.CommitMove();
 	}
 	
 	void CancelMove() {
 		isMoving = false;
 		isAutoMoving = false;
-		snake.CancelMove();
+		snakeSprite.CancelMove();
 	}
 	
 	IEnumerator AutoMoveCancel() {
@@ -131,6 +130,6 @@ public class SnakeGameManager : MonoBehaviour {
 		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
 		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
 		
-		if (direction != BoardDirection.NONE && direction != snake.previousDirection.GetOpposite() && !isMoving && !isAutoMoving) AutoMove(direction);
+		if (direction != BoardDirection.NONE && direction != snakeSprite.previousDirection.GetOpposite() && !isMoving && !isAutoMoving) AutoMove(direction);
 	}
 }

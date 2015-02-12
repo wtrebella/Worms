@@ -249,35 +249,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onSwipeUpBegan:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeBegan
     mParameters:
     - obj: {fileID: 1790909280}
       field: currentSwipeDirection
     oneShot: 0
   onSwipeRightBegan:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeBegan
     mParameters:
     - obj: {fileID: 1790909280}
       field: currentSwipeDirection
     oneShot: 0
   onSwipeDownBegan:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeBegan
     mParameters:
     - obj: {fileID: 1790909280}
       field: currentSwipeDirection
     oneShot: 0
   onSwipeLeftBegan:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeBegan
     mParameters:
     - obj: {fileID: 1790909280}
       field: currentSwipeDirection
     oneShot: 0
   onSwipeUpContinue:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeContinue
     mParameters:
     - obj: {fileID: 1790909280}
@@ -286,7 +286,7 @@ MonoBehaviour:
       field: currentSwipeDistance
     oneShot: 0
   onSwipeRightContinue:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeContinue
     mParameters:
     - obj: {fileID: 1790909280}
@@ -295,7 +295,7 @@ MonoBehaviour:
       field: currentSwipeDistance
     oneShot: 0
   onSwipeDownContinue:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeContinue
     mParameters:
     - obj: {fileID: 1790909280}
@@ -304,7 +304,7 @@ MonoBehaviour:
       field: currentSwipeDistance
     oneShot: 0
   onSwipeLeftContinue:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeContinue
     mParameters:
     - obj: {fileID: 1790909280}
@@ -313,35 +313,35 @@ MonoBehaviour:
       field: currentSwipeDistance
     oneShot: 0
   onSwipeUpEnded:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeEnded
     mParameters:
     - obj: {fileID: 1790909280}
       field: currentSwipeDistance
     oneShot: 0
   onSwipeRightEnded:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeEnded
     mParameters:
     - obj: {fileID: 1790909280}
       field: currentSwipeDistance
     oneShot: 0
   onSwipeDownEnded:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeEnded
     mParameters:
     - obj: {fileID: 1790909280}
       field: currentSwipeDistance
     oneShot: 0
   onSwipeLeftEnded:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeEnded
     mParameters:
     - obj: {fileID: 1790909280}
       field: currentSwipeDistance
     oneShot: 0
   onSwipeCanceled:
-  - mTarget: {fileID: 1873300504}
+  - mTarget: {fileID: 0}
     mMethodName: OnSwipeCanceled
     mParameters: []
     oneShot: 0
@@ -362,45 +362,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
---- !u!1 &1873300503
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1873300505}
-  - 114: {fileID: 1873300504}
-  m_Layer: 0
-  m_Name: Snake Game Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1873300504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1873300503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09bc44eadccf84175aaef58cf790a5ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snakePrefab: {fileID: 11493008, guid: f8df490cde3dd4cd4a0f65d1cc9a1b9c, type: 2}
-  swipeEventSystem: {fileID: 1790909280}
-  tileSize: 1
---- !u!4 &1873300505
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1873300503}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3

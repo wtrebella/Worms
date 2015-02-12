@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class Snake : MonoBehaviour {
+public class SnakeSprite : MonoBehaviour {
 	public float snakeWidth = 1;
 	public float tileSize = 1.6f;
 	public int curveResolution = 10;
@@ -45,8 +45,8 @@ public class Snake : MonoBehaviour {
 		snakeFront.parent = transform;
 		snakeBack.parent = transform;
 
-		snakeFront.position = new Vector3(tileSize / 2f, tileSize / 2f, 0);
-		snakeBack.position = new Vector3(tileSize / 2f, tileSize / 2f, 0);
+		snakeFront.localPosition = new Vector3(tileSize / 2f, tileSize / 2f, 0);
+		snakeBack.localPosition = new Vector3(tileSize / 2f, tileSize / 2f, 0);
 
 		maskQuad = Instantiate(maskQuadPrefab) as MaskQuad;
 		maskQuad.transform.parent = transform;
@@ -59,7 +59,7 @@ public class Snake : MonoBehaviour {
 		maskQuad.direction = previousDirection.GetOpposite();
 		maskQuad.direction = previousDirection.GetOpposite();
 
-		snakeFront.position = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
+		snakeFront.localPosition = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
 		newTileOrigin = Vector3.zero;
 		RemoveUnusedVerts();
 	}
@@ -92,7 +92,7 @@ public class Snake : MonoBehaviour {
 		Vector3 snakeFrontFrom = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
 		Vector3 snakeFrontTo = new Vector3(newTileOrigin.x + tileSize / 2f, newTileOrigin.y + tileSize / 2f, 0);
 		Vector3 snakeFrontPos = Vector3.Lerp(snakeFrontFrom, snakeFrontTo, normalizedVal);
-		snakeFront.position = snakeFrontPos;
+		snakeFront.localPosition = snakeFrontPos;
 		maskQuad.val = normalizedVal;
 	}
 
@@ -101,7 +101,7 @@ public class Snake : MonoBehaviour {
 		previousDirection = currentMove;
 		currentMove = BoardDirection.NONE;
 		UpdateTileOrigin(ref currentTileOrigin, previousDirection);
-		snakeFront.position = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
+		snakeFront.localPosition = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
 		maskQuad.val = 1;
 	}
 	
@@ -159,9 +159,6 @@ public class Snake : MonoBehaviour {
 		maskQuad.direction = direction2.GetOpposite();
 		maskQuad.tileOrigin = newTileOrigin;
 		maskQuad.val = 0;
-	
-//		Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).position(new Vector3(tileOrigin.x + x, tileOrigin.y + y, 0)));
-//		Go.to(maskQuad, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).floatProp("val", 0));
 	}
 
 	void UpdateTileOrigin(ref Vector3 tileOrigin, BoardDirection direction) {

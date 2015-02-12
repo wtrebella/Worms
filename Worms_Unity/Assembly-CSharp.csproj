@@ -79,8 +79,8 @@
      <Compile Include="Assets\Scripts\Map Editor\PuzzleData.cs" />
      <Compile Include="Assets\Snake Mesh\MaskQuad.cs" />
      <Compile Include="Assets\Snake Mesh\SetRenderQueue.cs" />
-     <Compile Include="Assets\Snake Mesh\Snake.cs" />
-     <Compile Include="Assets\Snake Mesh\SnakeGameManager.cs" />
+     <Compile Include="Assets\Snake Mesh\SnakeController.cs" />
+     <Compile Include="Assets\Snake Mesh\SnakeSprite.cs" />
      <Compile Include="Assets\Snake Mesh\TouchManager.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCamera.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraAnchor.cs" />

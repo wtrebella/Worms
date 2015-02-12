@@ -5,24 +5,28 @@ using System.Collections.Generic;
 public class Board : MonoBehaviour {
 	public static Board instance;
 
-	public int tileSize = 100;
+	public int tileSize = 1;
 
 	public Tile tilePrefab;
 	public Tile blockedTilePrefab;
 	public TilePassage passagePrefab;
 	public TileWall wallPrefab;
+	public SnakeController snakeControllerPrefab;
 	public Worm wormPrefab;
-	public tk2dSprite enemyIndicatorPrefab;
+
+	[HideInInspector]
+	public SnakeController tempSnake;
 
 	public Tile[,] tiles;
 
 	private GameObject tileHolder;
-	private GameObject enemyIndicatorHolder;
 
 	private IntVector2 size;
 
 	void Awake() {
 		instance = this;
+
+		tempSnake = Instantiate(snakeControllerPrefab) as SnakeController;
 	}
 
 	void Start () {
@@ -89,6 +93,7 @@ public class Board : MonoBehaviour {
 
 					Worm worm = Instantiate(wormPrefab) as Worm;
 					worm.Initialize(tile, tileData.worm.direction, color, tileData.worm.wormType);
+					worm.gameObject.SetActive(false);
 				}
 			}
 		}
@@ -98,10 +103,6 @@ public class Board : MonoBehaviour {
 		tileHolder = new GameObject("Tiles");
 		tileHolder.transform.parent = transform;
 		tileHolder.transform.localPosition = Vector3.zero;
-
-		enemyIndicatorHolder = new GameObject("Enemy Indicators");
-		enemyIndicatorHolder.transform.parent = transform;
-		enemyIndicatorHolder.transform.localPosition = Vector3.zero;
 
 		tiles = new Tile[size.x, size.y];
 		for (int x = 0; x < size.x; x++) {
@@ -132,6 +133,22 @@ public class Board : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public void OnSwipeBegan(BoardDirection swipeDirection) {
+		tempSnake.OnSwipeBegan(swipeDirection);
+	}
+	
+	public void OnSwipeContinue(BoardDirection swipeDirection, float swipePixelDistance) {
+		tempSnake.OnSwipeContinue(swipeDirection, swipePixelDistance);
+	}
+	
+	public void OnSwipeEnded(float swipePixelDistance) {
+		tempSnake.OnSwipeEnded(swipePixelDistance);
+	}
+	
+	public void OnSwipeCanceled() {
+		tempSnake.OnSwipeCanceled();
 	}
 
 	public bool CheckWinConditions() {
