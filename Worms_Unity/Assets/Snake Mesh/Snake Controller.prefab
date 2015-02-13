@@ -72,6 +72,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileSize: 1
   lerpTime: .150000006
+  snakeSprite: {fileID: 0}
 --- !u!114 &11493006
 MonoBehaviour:
   m_ObjectHideFlags: 1

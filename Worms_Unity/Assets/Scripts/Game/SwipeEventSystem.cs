@@ -111,8 +111,8 @@ public class SwipeEventSystem : MonoBehaviour {
 		EventDelegate.Execute(onSwipeLeftEnded);
 	}
 	
-	void CancelSwipe() {
-		if (isSwiping) OnSwipeCanceled();
+	void CancelSwipe(bool useCallbacks = true) {
+		if (isSwiping && useCallbacks) OnSwipeCanceled();
 
 		currentSwipeDirection = BoardDirection.NONE;
 		isSwiping = false;
@@ -137,11 +137,11 @@ public class SwipeEventSystem : MonoBehaviour {
 		else if (currentSwipeDirection == BoardDirection.Left) OnSwipeLeftContinue();
 	}
 
-	public void CancelTouch() {
+	public void CancelTouch(bool useCallbacks = true) {
 		isTouching = false;
 		allowedSwipeDirection = BoardDirection.NONE;
 
-		CancelSwipe();
+		CancelSwipe(useCallbacks);
 	}
 
 	public void EndTouch() {

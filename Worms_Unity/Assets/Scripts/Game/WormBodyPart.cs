@@ -35,8 +35,24 @@ public class WormBodyPart : TileEntity {
 		if (!tile.tileEntities.Contains(this)) tile.tileEntities.Add(this);
 		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
 	}
+
+	public override void OnSwipeBegan(BoardDirection swipeDirection) {
+
+	}
 	
-	public override void Move(BoardDirection newDirection) {
+	public override void OnSwipeContinue(BoardDirection swipeDirection, float swipePixelDistance) {
+
+	}
+	
+	public override void OnSwipeEnded(float swipePixelDistance) {
+
+	}
+	
+	public override void OnSwipeCanceled() {
+
+	}
+	
+	public override void AutoMove(BoardDirection newDirection) {
 		if (currentTile == null) Debug.LogError("can't move an entity before it has a tile");
 		
 		SetTile(Board.instance.GetTile(currentTile.coordinates + newDirection.ToIntVector2()));

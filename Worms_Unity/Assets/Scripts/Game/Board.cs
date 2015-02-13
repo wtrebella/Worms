@@ -13,20 +13,14 @@ public class Board : MonoBehaviour {
 	public TileWall wallPrefab;
 	public SnakeController snakeControllerPrefab;
 	public Worm wormPrefab;
-
-	[HideInInspector]
-	public SnakeController tempSnake;
-
 	public Tile[,] tiles;
+	public IntVector2 size {get; private set;}
 
 	private GameObject tileHolder;
 
-	private IntVector2 size;
 
 	void Awake() {
 		instance = this;
-
-//		tempSnake = Instantiate(snakeControllerPrefab) as SnakeController;
 	}
 
 	void Start () {
@@ -134,20 +128,82 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	public bool EntitiesAreMoving() {
+		foreach (Tile tile in tiles) {
+			foreach (TileEntity tileEntity in tile.tileEntities) {
+				if (tileEntity.isAutoMoving || tileEntity.isMoving) return true;
+			}
+		}
+
+		return false;
+	}
+
 	public void OnSwipeBegan(BoardDirection swipeDirection) {
-		tempSnake.OnSwipeBegan(swipeDirection);
+		List<TileEntity> tileEntities = null;
+
+		if (swipeDirection == BoardDirection.Up || swipeDirection == BoardDirection.Down) {
+			for (int x = 0; x < size.x; x++) {
+				tileEntities = GetMovableTileEntitiesInColumn(swipeDirection, x);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeBegan(swipeDirection);
+			}
+		}
+		else if (swipeDirection == BoardDirection.Right || swipeDirection == BoardDirection.Left) {
+			for (int y = 0; y < size.y; y++) {
+				tileEntities = GetMovableTileEntitiesInRow(swipeDirection, y);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeBegan(swipeDirection);
+			}
+		}
 	}
 	
 	public void OnSwipeContinue(BoardDirection swipeDirection, float swipePixelDistance) {
-		tempSnake.OnSwipeContinue(swipeDirection, swipePixelDistance);
+		List<TileEntity> tileEntities = null;
+		
+		if (swipeDirection == BoardDirection.Up || swipeDirection == BoardDirection.Down) {
+			for (int x = 0; x < size.x; x++) {
+				tileEntities = GetMovableTileEntitiesInColumn(swipeDirection, x);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeContinue(swipeDirection, swipePixelDistance);
+			}
+		}
+		else if (swipeDirection == BoardDirection.Right || swipeDirection == BoardDirection.Left) {
+			for (int y = 0; y < size.y; y++) {
+				tileEntities = GetMovableTileEntitiesInRow(swipeDirection, y);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeContinue(swipeDirection, swipePixelDistance);
+			}
+		}
 	}
 	
-	public void OnSwipeEnded(float swipePixelDistance) {
-		tempSnake.OnSwipeEnded(swipePixelDistance);
+	public void OnSwipeEnded(BoardDirection swipeDirection, float swipePixelDistance) {
+		List<TileEntity> tileEntities = null;
+		
+		if (swipeDirection == BoardDirection.Up || swipeDirection == BoardDirection.Down) {
+			for (int x = 0; x < size.x; x++) {
+				tileEntities = GetMovableTileEntitiesInColumn(swipeDirection, x);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeEnded(swipePixelDistance);
+			}
+		}
+		else if (swipeDirection == BoardDirection.Right || swipeDirection == BoardDirection.Left) {
+			for (int y = 0; y < size.y; y++) {
+				tileEntities = GetMovableTileEntitiesInRow(swipeDirection, y);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeEnded(swipePixelDistance);
+			}
+		}
 	}
 	
-	public void OnSwipeCanceled() {
-		tempSnake.OnSwipeCanceled();
+	public void OnSwipeCanceled(BoardDirection swipeDirection) {
+		List<TileEntity> tileEntities = null;
+		
+		if (swipeDirection == BoardDirection.Up || swipeDirection == BoardDirection.Down) {
+			for (int x = 0; x < size.x; x++) {
+				tileEntities = GetMovableTileEntitiesInColumn(swipeDirection, x);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeCanceled();
+			}
+		}
+		else if (swipeDirection == BoardDirection.Right || swipeDirection == BoardDirection.Left) {
+			for (int y = 0; y < size.y; y++) {
+				tileEntities = GetMovableTileEntitiesInRow(swipeDirection, y);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeCanceled();
+			}
+		}
 	}
 
 	public bool CheckWinConditions() {
@@ -182,37 +238,6 @@ public class Board : MonoBehaviour {
 
 	public bool ContainsCoordinates(IntVector2 coordinate) {
 		return coordinate.x >= 0 && coordinate.x < size.x && coordinate.y >= 0 && coordinate.y < size.y;
-	}
-
-
-
-	public void Move(BoardDirection direction) {
-		List<TileEntity> tileEntities = null;
-
-		if (direction == BoardDirection.Up) {
-			for (int x = 0; x < size.x; x++) {
-				tileEntities = GetMovableTileEntitiesInColumn(direction, x);
-				foreach (TileEntity tileEntity in tileEntities) tileEntity.Move(direction);
-			}
-		}
-		else if (direction == BoardDirection.Down) {
-			for (int x = 0; x < size.x; x++) {
-				tileEntities = GetMovableTileEntitiesInColumn(direction, x);
-				foreach (TileEntity tileEntity in tileEntities) tileEntity.Move(direction);
-			}
-		}
-		else if (direction == BoardDirection.Right) {
-			for (int y = 0; y < size.y; y++) {
-				tileEntities = GetMovableTileEntitiesInRow(direction, y);
-				foreach (TileEntity tileEntity in tileEntities) tileEntity.Move(direction);
-			}
-		}
-		else if (direction == BoardDirection.Left) {
-			for (int y = 0; y < size.y; y++) {
-				tileEntities = GetMovableTileEntitiesInRow(direction, y);
-				foreach (TileEntity tileEntity in tileEntities) tileEntity.Move(direction);
-			}
-		}
 	}
 
 	public List<TileEntity> GetMovableTileEntitiesInRow(BoardDirection direction, int row) {

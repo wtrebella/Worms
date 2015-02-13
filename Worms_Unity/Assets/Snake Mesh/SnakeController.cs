@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 [RequireComponent(typeof(SnakeSprite))]
 public class SnakeController : MonoBehaviour {
+	public Action SignalCommitMove;
+	public Action SignalCancelMove;
+	public Action<BoardDirection> SignalStartMove;
 	public float tileSize = 1;
 	public float lerpTime = 0.3f;
 	public SnakeSprite snakeSprite;
@@ -57,18 +61,21 @@ public class SnakeController : MonoBehaviour {
 		curVal = 0;
 		isMoving = true;
 		snakeSprite.StartMove(direction);
+		if (SignalStartMove != null) SignalStartMove(direction);
 	}
 	
 	void CommitMove() {
 		isMoving = false;
 		isAutoMoving = false;
 		snakeSprite.CommitMove();
+		if (SignalCommitMove != null) SignalCommitMove();
 	}
 	
 	void CancelMove() {
 		isMoving = false;
 		isAutoMoving = false;
 		snakeSprite.CancelMove();
+		if (SignalCancelMove != null) SignalCancelMove();
 	}
 	
 	IEnumerator AutoMoveCancel() {

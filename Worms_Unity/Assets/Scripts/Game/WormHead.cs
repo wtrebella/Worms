@@ -6,6 +6,7 @@ public class WormHead : TileEntity {
 	public BoardDirection direction {get; private set;}
 	public SnakeController snakeControllerPrefab;
 
+	private BoardDirection currentMoveDirection = BoardDirection.NONE;
 	private SnakeController snakeController;
 	private Worm worm;
 
@@ -15,6 +16,9 @@ public class WormHead : TileEntity {
 		snakeController.transform.parent = transform;
 		snakeController.transform.localPosition = Vector3.zero;
 		snakeController.snakeSprite.SetColor(color);
+		snakeController.SignalCommitMove += HandleSnakeCommitedMove;
+		snakeController.SignalCancelMove += HandleSnakeCanceledMove;
+		snakeController.SignalStartMove += HandleSnakeStartedMove;
 		tileEntityType = TileEntityType.WormHead;
 		transform.parent = worm.transform;
 		direction = BoardDirection.NONE;
@@ -29,6 +33,45 @@ public class WormHead : TileEntity {
 //		transform.localRotation = direction.ToRotation();
 	}
 
+	public override void OnSwipeBegan(BoardDirection swipeDirection) {
+		snakeController.OnSwipeBegan(swipeDirection);
+	}
+	
+	public override void OnSwipeContinue(BoardDirection swipeDirection, float swipePixelDistance) {
+		snakeController.OnSwipeContinue(swipeDirection, swipePixelDistance);
+	}
+	
+	public override void OnSwipeEnded(float swipePixelDistance) {
+		snakeController.OnSwipeEnded(swipePixelDistance);
+	}
+	
+	public override void OnSwipeCanceled() {
+		snakeController.OnSwipeCanceled();
+	}
+
+	void HandleSnakeStartedMove(BoardDirection moveDirection) {
+		currentMoveDirection = moveDirection;
+		isMoving = true;
+		if (SignalStartedMove != null) SignalStartedMove();
+	}
+
+	void HandleSnakeCommitedMove() {
+		Tile previousTile = currentTile;
+		BoardDirection previousDirection = direction;
+		SetDirection(currentMoveDirection);
+		SetTile(Board.instance.GetTile(currentTile.coordinates + currentMoveDirection.ToIntVector2()));
+		worm.HandleHeadMoved(previousTile, currentTile, previousDirection, currentMoveDirection);
+		isAutoMoving = false;
+		isMoving = false;
+		if (SignalCommitedMove != null) SignalCommitedMove();
+	}
+
+	void HandleSnakeCanceledMove() {
+		isAutoMoving = false;
+		isMoving = false;
+		if (SignalCanceledMove != null) SignalCanceledMove();
+	}
+
 	public override void SetTile(Tile tile) {
 		RemoveFromTile();
 		currentTile = tile;
@@ -36,14 +79,10 @@ public class WormHead : TileEntity {
 //		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
 	}
 	
-	public override void Move(BoardDirection newDirection) {
+	public override void AutoMove(BoardDirection newDirection) {
 		if (currentTile == null) Debug.LogError("can't move an entity before it has a tile");
-
-		Tile previousTile = currentTile;
-		BoardDirection previousDirection = direction;
-		SetDirection(newDirection);
-		SetTile(Board.instance.GetTile(currentTile.coordinates + newDirection.ToIntVector2()));
-		worm.HandleHeadMoved(previousTile, currentTile, previousDirection, newDirection);
+		isAutoMoving = true;
+		isMoving = true;
 		snakeController.AutoMove(newDirection);
 	}
 

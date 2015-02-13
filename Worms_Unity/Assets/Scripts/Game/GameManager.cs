@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum GameState {
 	Playing,
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour {
 	public GameState gameState {get; private set;}
 	public Board board {get; private set;}
 	public int currentPuzzleIndex {get; private set;}
+
+	private int currentlyMovingEntities = 0;
 
 	public void LoadPuzzle(int puzzleIndex) {
 		currentPuzzleIndex = puzzleIndex;
@@ -50,35 +53,34 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Space)) StartOrRestartGame();
 
 		if (gameState == GameState.Playing) {
-			if (Input.GetKeyDown(KeyCode.UpArrow)) MoveUp();
-			else if (Input.GetKeyDown(KeyCode.RightArrow)) MoveRight();
-			else if (Input.GetKeyDown(KeyCode.DownArrow)) MoveDown();
-			else if (Input.GetKeyDown(KeyCode.LeftArrow)) MoveLeft();
+			if (Input.GetKeyDown(KeyCode.UpArrow)) AutoMove(BoardDirection.Up);
+			else if (Input.GetKeyDown(KeyCode.RightArrow)) AutoMove(BoardDirection.Right);
+			else if (Input.GetKeyDown(KeyCode.DownArrow)) AutoMove(BoardDirection.Down);
+			else if (Input.GetKeyDown(KeyCode.LeftArrow)) AutoMove(BoardDirection.Left);
 		}
 	}
 
-	public void MoveUp() {
-		board.Move(BoardDirection.Up);
-		if (board.CheckWinConditions()) WinGame();
-	}
+	public void AutoMove(BoardDirection direction) {
+		if (currentlyMovingEntities > 0) return;
 	
-	public void MoveRight() {
-		board.Move(BoardDirection.Right);
-		if (board.CheckWinConditions()) WinGame();
-	}
-	
-	public void MoveDown() {
-		board.Move(BoardDirection.Down);
-		if (board.CheckWinConditions()) WinGame();
-	}
-	
-	public void MoveLeft() {
-		board.Move(BoardDirection.Left);
-		if (board.CheckWinConditions()) WinGame();
+		List<TileEntity> tileEntities = null;
+		
+		if (direction == BoardDirection.Up || direction == BoardDirection.Down) {
+			for (int x = 0; x < board.size.x; x++) {
+				tileEntities = board.GetMovableTileEntitiesInColumn(direction, x);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.AutoMove(direction);
+			}
+		}
+		else if (direction == BoardDirection.Right || direction == BoardDirection.Left) {
+			for (int y = 0; y < board.size.y; y++) {
+				tileEntities = board.GetMovableTileEntitiesInRow(direction, y);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.AutoMove(direction);
+			}
+		}
 	}
 	
 	public void OnSwipeBegan(BoardDirection swipeDirection) {
-		if (board.tempSnake.isAutoMoving) swipeEventSystem.CancelTouch();
+		if (currentlyMovingEntities > 0) swipeEventSystem.CancelTouch(false);
 		else board.OnSwipeBegan(swipeDirection);
 	}
 	
@@ -86,17 +88,32 @@ public class GameManager : MonoBehaviour {
 		board.OnSwipeContinue(swipeDirection, swipePixelDistance);
 	}
 	
-	public void OnSwipeEnded(float swipePixelDistance) {
-		board.OnSwipeEnded(swipePixelDistance);
+	public void OnSwipeEnded(BoardDirection swipeDirection, float swipePixelDistance) {
+		board.OnSwipeEnded(swipeDirection, swipePixelDistance);
 	}
 	
-	public void OnSwipeCanceled() {
-		board.OnSwipeCanceled();
+	public void OnSwipeCanceled(BoardDirection swipeDirection) {
+		board.OnSwipeCanceled(swipeDirection);
 	}
 
 	private void WinGame() {
 		gameState = GameState.Win;
 		gameUIManager.HandleWin();
+	}
+
+	void HandleTileEntityStartedMove() {
+		currentlyMovingEntities++;
+	}
+
+	void HandleTileEntityCanceledMove() {
+		currentlyMovingEntities--;
+	}
+
+	void HandleTileEntityCommitedMove() {
+		currentlyMovingEntities--;
+		if (currentlyMovingEntities == 0) {
+			if (board.CheckWinConditions()) WinGame();
+		}
 	}
 	
 	public void StartOrRestartGame () {
@@ -107,6 +124,14 @@ public class GameManager : MonoBehaviour {
 
 		board = Instantiate(boardPrefab) as Board;
 		board.Generate(puzzle);
+
+		foreach (Tile tile in board.tiles) {
+			foreach (TileEntity tileEntity in tile.tileEntities) {
+				tileEntity.SignalStartedMove += HandleTileEntityStartedMove;
+				tileEntity.SignalCanceledMove += HandleTileEntityCanceledMove;
+				tileEntity.SignalCommitedMove += HandleTileEntityCommitedMove;
+			}
+		}
 
 		gameState = GameState.Playing;
 

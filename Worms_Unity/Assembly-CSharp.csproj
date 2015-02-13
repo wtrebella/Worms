@@ -52,8 +52,6 @@
      <Compile Include="Assets\Scripts\Event Delegate List\PropertyReference.cs" />
      <Compile Include="Assets\Scripts\Game\Board.cs" />
      <Compile Include="Assets\Scripts\Game\BoardDirection.cs" />
-     <Compile Include="Assets\Scripts\Game\Enemy.cs" />
-     <Compile Include="Assets\Scripts\Game\EnemyManager.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager.cs" />
      <Compile Include="Assets\Scripts\Game\GameUIManager.cs" />
      <Compile Include="Assets\Scripts\Game\IntVector2.cs" />

@@ -1,12 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Snake Mesh/SnakeController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/Enemy.cs">
     <Files>
-      <File FileName="Assets/Snake Mesh/SnakeSprite.cs" Line="170" Column="72" />
-      <File FileName="Assets/Snake Mesh/SnakeController.cs" Line="19" Column="3" />
+      <File FileName="Assets/Snake Mesh/SnakeSprite.cs" Line="59" Column="12" />
+      <File FileName="Assets/Snake Mesh/SnakeController.cs" Line="26" Column="29" />
       <File FileName="Assets/Scripts/Game/SwipeEventSystem.cs" Line="112" Column="3" />
-      <File FileName="Assets/Snake Mesh/MaskQuad.cs" Line="38" Column="8" />
-      <File FileName="Assets/Scripts/Game/GameManager.cs" Line="86" Column="31" />
+      <File FileName="Assets/Snake Mesh/MaskQuad.cs" Line="51" Column="18" />
+      <File FileName="Assets/Scripts/Game/GameManager.cs" Line="71" Column="35" />
+      <File FileName="Assets/Scripts/Game/Board.cs" Line="16" Column="2" />
+      <File FileName="Assets/Scripts/Game/Tile.cs" Line="33" Column="4" />
+      <File FileName="Assets/Scripts/Game/WormHead.cs" Line="17" Column="47" />
+      <File FileName="Assets/Scripts/Game/Worm.cs" Line="76" Column="20" />
+      <File FileName="Assets/Scripts/Game/TileEntity.cs" Line="13" Column="18" />
+      <File FileName="Assets/Scripts/Game/Enemy.cs" Line="32" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
