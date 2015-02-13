@@ -44,7 +44,7 @@ public class WormBodyPart : TileEntity {
 
 	}
 	
-	public override void OnSwipeEnded(float swipePixelDistance) {
+	public override void OnSwipeEnded(float swipePixelDistance, bool ignoreDistance) {
 
 	}
 	

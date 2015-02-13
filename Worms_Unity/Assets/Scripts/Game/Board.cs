@@ -172,19 +172,19 @@ public class Board : MonoBehaviour {
 		}
 	}
 	
-	public void OnSwipeEnded(BoardDirection swipeDirection, float swipePixelDistance) {
+	public void OnSwipeEnded(BoardDirection swipeDirection, float swipePixelDistance, bool ignoreDistance) {
 		List<TileEntity> tileEntities = null;
 		
 		if (swipeDirection == BoardDirection.Up || swipeDirection == BoardDirection.Down) {
 			for (int x = 0; x < size.x; x++) {
 				tileEntities = GetMovableTileEntitiesInColumn(swipeDirection, x);
-				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeEnded(swipePixelDistance);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeEnded(swipePixelDistance, ignoreDistance);
 			}
 		}
 		else if (swipeDirection == BoardDirection.Right || swipeDirection == BoardDirection.Left) {
 			for (int y = 0; y < size.y; y++) {
 				tileEntities = GetMovableTileEntitiesInRow(swipeDirection, y);
-				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeEnded(swipePixelDistance);
+				foreach (TileEntity tileEntity in tileEntities) tileEntity.OnSwipeEnded(swipePixelDistance, ignoreDistance);
 			}
 		}
 	}
@@ -381,7 +381,6 @@ public class Board : MonoBehaviour {
 		newTile.coordinates = coordinates;
 		newTile.transform.parent = newParent;
 		Vector3 pos = GetTilePosition(coordinates);
-		pos.z += 1;
 		newTile.transform.position = pos;
 		newTile.InitializeSprite();
 		
@@ -395,7 +394,6 @@ public class Board : MonoBehaviour {
 		newTile.coordinates = coordinates;
 		newTile.transform.parent = newParent;
 		Vector3 pos = GetTilePosition(coordinates);
-		pos.z += 1;
 		newTile.transform.position = pos;
 		newTile.InitializeSprite();
 		

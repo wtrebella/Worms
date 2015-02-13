@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void Awake() {
+		Application.targetFrameRate = 60;
 		instance = this;
 		currentPuzzleIndex = puzzleToLoad;
 		gameState = GameState.Playing;
@@ -88,8 +89,8 @@ public class GameManager : MonoBehaviour {
 		board.OnSwipeContinue(swipeDirection, swipePixelDistance);
 	}
 	
-	public void OnSwipeEnded(BoardDirection swipeDirection, float swipePixelDistance) {
-		board.OnSwipeEnded(swipeDirection, swipePixelDistance);
+	public void OnSwipeEnded(BoardDirection swipeDirection, float swipePixelDistance, float swipeTime) {
+		board.OnSwipeEnded(swipeDirection, swipePixelDistance, swipeTime < swipeEventSystem.quickSwipeMaxLength);
 	}
 	
 	public void OnSwipeCanceled(BoardDirection swipeDirection) {

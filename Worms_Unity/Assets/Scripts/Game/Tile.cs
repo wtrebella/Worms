@@ -24,7 +24,7 @@ public class Tile : MonoBehaviour {
 
 		Renderer s = Instantiate(tileSpritePrefab) as Renderer;
 		s.transform.parent = transform;
-		s.transform.localPosition = Vector3.zero;
+		s.transform.localPosition = new Vector3(0, 0, 1);
 	}
 
 	public bool IsFullyInitialized {

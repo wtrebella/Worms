@@ -98,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snakeWidth: .5
   tileSize: 1
-  curveResolution: 8
+  curveResolution: 50
   lineResolution: 1
   curveRadius: .25
   snakeFrontPrefab: {fileID: 496612, guid: 7e27f89450d994fabae43871c53e09bd, type: 2}

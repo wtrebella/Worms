@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System;
 
@@ -51,6 +51,21 @@ public class SnakeSprite : MonoBehaviour {
 
 		maskQuad.transform.parent = transform;
 		maskQuad.transform.localPosition = new Vector3(-tileSize / 2f, -tileSize / 2f, -1);
+
+//		Vector3[] verts = mesh.vertices;
+//		Vector2[] uvs = mesh.uv;
+//		int[] tris = mesh.triangles;
+//
+//		AddCurve(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, new Vector3(tileSize / 2f, tileSize / 2f, 0), curveRadius, 360, 0);
+//
+//		mesh.vertices = verts;
+//		mesh.uv = uvs;
+//		mesh.triangles = tris;
+//
+//		mesh.RecalculateBounds();
+//		mesh.RecalculateNormals();
+//
+//		UnityEditor.AssetDatabase.CreateAsset(mesh, "Assets/Snake Mesh/SnakeFrontFull.asset");
 	}
 
 	public void SetColor(Color color) {
@@ -60,7 +75,7 @@ public class SnakeSprite : MonoBehaviour {
 	}
 
 	public void CancelMove() {
-		if (previousDirection != BoardDirection.NONE) snakeFront.rotation = previousDirection.ToRotation();
+		if (previousDirection != BoardDirection.NONE) Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).rotation(previousDirection.ToRotation()));
 
 		currentMove = BoardDirection.NONE;
 		maskQuad.direction = previousDirection.GetOpposite();
@@ -114,7 +129,7 @@ public class SnakeSprite : MonoBehaviour {
 	
 	public void StartMove(BoardDirection direction) {
 		if (!hasMoved) {
-			snakeFront.rotation = direction.ToRotation();
+			Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).rotation(direction.ToRotation()));
 			snakeBack.rotation = direction.ToRotation();
 		}
 
@@ -161,7 +176,7 @@ public class SnakeSprite : MonoBehaviour {
 		mesh.RecalculateBounds();
 		mesh.RecalculateNormals();
 
-		snakeFront.rotation = direction.ToRotation();
+		Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).rotation(direction.ToRotation()));
 
 		maskQuad.direction = direction2.GetOpposite();
 		maskQuad.tileOrigin = newTileOrigin;

@@ -41,8 +41,8 @@ public class WormHead : TileEntity {
 		snakeController.OnSwipeContinue(swipeDirection, swipePixelDistance);
 	}
 	
-	public override void OnSwipeEnded(float swipePixelDistance) {
-		snakeController.OnSwipeEnded(swipePixelDistance);
+	public override void OnSwipeEnded(float swipePixelDistance, bool ignoreDistance) {
+		snakeController.OnSwipeEnded(swipePixelDistance, ignoreDistance);
 	}
 	
 	public override void OnSwipeCanceled() {

@@ -15,7 +15,7 @@ public abstract class TileEntity : MonoBehaviour {
 	public abstract void SetTile(Tile tile);
 	public abstract void OnSwipeBegan(BoardDirection swipeDirection);
 	public abstract void OnSwipeContinue(BoardDirection swipeDirection, float swipePixelDistance);
-	public abstract void OnSwipeEnded(float swipePixelDistance);
+	public abstract void OnSwipeEnded(float swipePixelDistance, bool ignoreDistance);
 	public abstract void OnSwipeCanceled();
 	public abstract void AutoMove(BoardDirection newDirection);
 	public abstract void RemoveFromTile();

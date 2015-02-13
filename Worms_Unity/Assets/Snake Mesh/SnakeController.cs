@@ -37,14 +37,14 @@ public class SnakeController : MonoBehaviour {
 		curVal = normalizedVal;
 	}
 
-	public void OnSwipeEnded(float swipePixelDistance) {
+	public void OnSwipeEnded(float swipePixelDistance, bool ignoreDistance) {
 		if (!isMoving) return;
 
 		float swipeWorldDistance = swipePixelDistance * (Camera.main.orthographicSize / (Screen.height / 2.0f));
 		float normalizedVal = Mathf.Clamp01(Mathf.Abs(swipeWorldDistance) / tileSize);
 
-		if (normalizedVal < 0.5f) StartCoroutine(AutoMoveCancel());
-		else StartCoroutine(AutoMoveCommit());
+		if (normalizedVal >= 0.5f || ignoreDistance) StartCoroutine(AutoMoveCommit());
+		else StartCoroutine(AutoMoveCancel());
 	}
 
 	public void OnSwipeCanceled() {

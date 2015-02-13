@@ -40,13 +40,16 @@ public class SwipeEventSystem : MonoBehaviour {
 	[HideInInspector]
 	public float currentSwipeDistance = 0;
 
+	[HideInInspector]
+	public float totalSwipeTime = 0;
+
 	public bool simulateTouch = true;
 	public float swipeDistance = 0.5f;
-	public float swipeTime = 0.5f;
+	public float swipeDelay = 0.5f;
+	public float quickSwipeMaxLength = 0.1f;
 
 	private bool isTouching = false;
 	private bool isSwiping = false;
-	private float totalSwipeTime = 0;
 	private int swipeFingerID = 0;
 	private Vector2 initialTouchPos = Vector2.zero;
 	private BoardDirection allowedSwipeDirection = BoardDirection.NONE;
@@ -209,7 +212,7 @@ public class SwipeEventSystem : MonoBehaviour {
 					}
 				}
 				else {
-					if (totalSwipeTime >= swipeTime) {
+					if (totalSwipeTime >= swipeDelay) {
 						float horVal = currentSwipeVector.x;
 						float vertVal = currentSwipeVector.y;
 
@@ -278,7 +281,7 @@ public class SwipeEventSystem : MonoBehaviour {
 					}
 				}
 				else {
-					if (totalSwipeTime >= swipeTime) {
+					if (totalSwipeTime >= swipeDelay) {
 						float horVal = currentSwipeVector.x;
 						float vertVal = currentSwipeVector.y;
 						
