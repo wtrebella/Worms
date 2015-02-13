@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &121292
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,6 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTile: {fileID: 0}
   tileEntityType: 0
+  snakeControllerPrefab: {fileID: 11473436, guid: f8df490cde3dd4cd4a0f65d1cc9a1b9c,
+    type: 2}
 --- !u!114 &11421292
 MonoBehaviour:
   m_ObjectHideFlags: 1

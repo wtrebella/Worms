@@ -26,7 +26,7 @@ public class Board : MonoBehaviour {
 	void Awake() {
 		instance = this;
 
-		tempSnake = Instantiate(snakeControllerPrefab) as SnakeController;
+//		tempSnake = Instantiate(snakeControllerPrefab) as SnakeController;
 	}
 
 	void Start () {
@@ -93,7 +93,6 @@ public class Board : MonoBehaviour {
 
 					Worm worm = Instantiate(wormPrefab) as Worm;
 					worm.Initialize(tile, tileData.worm.direction, color, tileData.worm.wormType);
-					worm.gameObject.SetActive(false);
 				}
 			}
 		}
@@ -356,7 +355,9 @@ public class Board : MonoBehaviour {
 		newTile.name = "Tile " + coordinates.x + ", " + coordinates.y;
 		newTile.coordinates = coordinates;
 		newTile.transform.parent = newParent;
-		newTile.transform.position = GetTilePosition(coordinates);
+		Vector3 pos = GetTilePosition(coordinates);
+		pos.z += 1;
+		newTile.transform.position = pos;
 		newTile.InitializeSprite();
 		
 		return newTile;
@@ -368,7 +369,9 @@ public class Board : MonoBehaviour {
 		newTile.name = "Blocked Tile " + coordinates.x + ", " + coordinates.y;
 		newTile.coordinates = coordinates;
 		newTile.transform.parent = newParent;
-		newTile.transform.position = GetTilePosition(coordinates);
+		Vector3 pos = GetTilePosition(coordinates);
+		pos.z += 1;
+		newTile.transform.position = pos;
 		newTile.InitializeSprite();
 		
 		return newTile;

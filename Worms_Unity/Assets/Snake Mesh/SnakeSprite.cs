@@ -29,6 +29,10 @@ public class SnakeSprite : MonoBehaviour {
 
 	void Awake() {
 		meshFilter = GetComponent<MeshFilter>();
+
+		snakeFront = Instantiate(snakeFrontPrefab) as Transform;
+		snakeBack = Instantiate(snakeBackPrefab) as Transform;
+		maskQuad = Instantiate(maskQuadPrefab) as MaskQuad;
 	}
 
 	void Start () {
@@ -39,17 +43,20 @@ public class SnakeSprite : MonoBehaviour {
 		mesh.RecalculateBounds();
 		mesh.RecalculateNormals();
 
-		snakeFront = Instantiate(snakeFrontPrefab) as Transform;
-		snakeBack = Instantiate(snakeBackPrefab) as Transform;
-
 		snakeFront.parent = transform;
 		snakeBack.parent = transform;
 
-		snakeFront.localPosition = new Vector3(tileSize / 2f, tileSize / 2f, 0);
-		snakeBack.localPosition = new Vector3(tileSize / 2f, tileSize / 2f, 0);
+		snakeFront.localPosition = Vector3.zero;
+		snakeBack.localPosition = Vector3.zero;
 
-		maskQuad = Instantiate(maskQuadPrefab) as MaskQuad;
 		maskQuad.transform.parent = transform;
+		maskQuad.transform.localPosition = new Vector3(-tileSize / 2f, -tileSize / 2f, -1);
+	}
+
+	public void SetColor(Color color) {
+		renderer.material.color = color;
+		snakeFront.renderer.material.color = color;
+		snakeBack.renderer.material.color = color;
 	}
 
 	public void CancelMove() {
@@ -59,7 +66,7 @@ public class SnakeSprite : MonoBehaviour {
 		maskQuad.direction = previousDirection.GetOpposite();
 		maskQuad.direction = previousDirection.GetOpposite();
 
-		snakeFront.localPosition = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
+		snakeFront.localPosition = new Vector3(currentTileOrigin.x, currentTileOrigin.y, 0);
 		newTileOrigin = Vector3.zero;
 		RemoveUnusedVerts();
 	}
@@ -89,8 +96,8 @@ public class SnakeSprite : MonoBehaviour {
 	}
 
 	public void ContinueMove(float normalizedVal) {
-		Vector3 snakeFrontFrom = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
-		Vector3 snakeFrontTo = new Vector3(newTileOrigin.x + tileSize / 2f, newTileOrigin.y + tileSize / 2f, 0);
+		Vector3 snakeFrontFrom = new Vector3(currentTileOrigin.x, currentTileOrigin.y, 0);
+		Vector3 snakeFrontTo = new Vector3(newTileOrigin.x, newTileOrigin.y, 0);
 		Vector3 snakeFrontPos = Vector3.Lerp(snakeFrontFrom, snakeFrontTo, normalizedVal);
 		snakeFront.localPosition = snakeFrontPos;
 		maskQuad.val = normalizedVal;
@@ -101,7 +108,7 @@ public class SnakeSprite : MonoBehaviour {
 		previousDirection = currentMove;
 		currentMove = BoardDirection.NONE;
 		UpdateTileOrigin(ref currentTileOrigin, previousDirection);
-		snakeFront.localPosition = new Vector3(currentTileOrigin.x + tileSize / 2f, currentTileOrigin.y + tileSize / 2f, 0);
+		snakeFront.localPosition = new Vector3(currentTileOrigin.x, currentTileOrigin.y, 0);
 		maskQuad.val = 1;
 	}
 	
@@ -248,6 +255,13 @@ public class SnakeSprite : MonoBehaviour {
 			rect3 = new Rect(spokeSize, margin, snakeWidth - curveRadius, curveRadius);
 		}
 
+//		rect1.x -= tileSize / 2f;
+//		rect1.y -= tileSize / 2f;
+//		rect2.x -= tileSize / 2f;
+//		rect2.y -= tileSize / 2f;
+//		rect3.x -= tileSize / 2f;
+//		rect3.y -= tileSize / 2f;
+
 		AddRect(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, rect1, tileOrigin);
 		AddRect(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, rect2, tileOrigin);
 		AddRect(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, rect3, tileOrigin);
@@ -279,17 +293,17 @@ public class SnakeSprite : MonoBehaviour {
 			float a1 = curveAngleInRad / curveResolution * i;
 			float a2 = curveAngleInRad / curveResolution * (i + 1);
 			
-			v1.x = Mathf.Cos(a2 + baseAngleInRad) * r1 + curveOrigin.x;
-			v1.y = Mathf.Sin(a2 + baseAngleInRad) * r1 + curveOrigin.y;
+			v1.x = Mathf.Cos(a2 + baseAngleInRad) * r1 + curveOrigin.x - tileSize / 2f;
+			v1.y = Mathf.Sin(a2 + baseAngleInRad) * r1 + curveOrigin.y - tileSize / 2f;
 			
-			v2.x = Mathf.Cos(a1 + baseAngleInRad) * r2 + curveOrigin.x;
-			v2.y = Mathf.Sin(a1 + baseAngleInRad) * r2 + curveOrigin.y;
+			v2.x = Mathf.Cos(a1 + baseAngleInRad) * r2 + curveOrigin.x - tileSize / 2f;
+			v2.y = Mathf.Sin(a1 + baseAngleInRad) * r2 + curveOrigin.y - tileSize / 2f;
 			
-			v3.x = Mathf.Cos(a2 + baseAngleInRad) * r2 + curveOrigin.x;
-			v3.y = Mathf.Sin(a2 + baseAngleInRad) * r2 + curveOrigin.y;
+			v3.x = Mathf.Cos(a2 + baseAngleInRad) * r2 + curveOrigin.x - tileSize / 2f;
+			v3.y = Mathf.Sin(a2 + baseAngleInRad) * r2 + curveOrigin.y - tileSize / 2f;
 			
-			v4.x = Mathf.Cos(a1 + baseAngleInRad) * r1 + curveOrigin.x;
-			v4.y = Mathf.Sin(a1 + baseAngleInRad) * r1 + curveOrigin.y;
+			v4.x = Mathf.Cos(a1 + baseAngleInRad) * r1 + curveOrigin.x - tileSize / 2f;
+			v4.y = Mathf.Sin(a1 + baseAngleInRad) * r1 + curveOrigin.y - tileSize / 2f;
 			
 			verts[vertIndexBase + 0] = v1;
 			verts[vertIndexBase + 1] = v2;
@@ -328,10 +342,10 @@ public class SnakeSprite : MonoBehaviour {
 		Array.Resize<Vector2>(ref uvs, uvs.Length + 4);
 		Array.Resize<int>(ref tris, tris.Length + 6);
 		
-		Vector3 v1 = new Vector3(rect.x, rect.y);
-		Vector3 v2 = new Vector3(rect.xMax, rect.yMax);
-		Vector3 v3 = new Vector3(rect.xMax, rect.y);
-		Vector3 v4 = new Vector3(rect.x, rect.yMax);
+		Vector3 v1 = new Vector3(rect.x - tileSize / 2f, rect.y - tileSize / 2f);
+		Vector3 v2 = new Vector3(rect.xMax - tileSize / 2f, rect.yMax - tileSize / 2f);
+		Vector3 v3 = new Vector3(rect.xMax - tileSize / 2f, rect.y - tileSize / 2f);
+		Vector3 v4 = new Vector3(rect.x - tileSize / 2f, rect.yMax - tileSize / 2f);
 	
 		verts[vertIndexBase + 0] = v1 + tileOrigin;
 		verts[vertIndexBase + 1] = v2 + tileOrigin;
@@ -418,6 +432,15 @@ public class SnakeSprite : MonoBehaviour {
 				v3 = new Vector3(x1, y1);
 				v4 = new Vector3(x2, y2);
 			}
+
+			v1.x -= tileSize / 2f;
+			v1.y -= tileSize / 2f;
+			v2.x -= tileSize / 2f;
+			v2.y -= tileSize / 2f;
+			v3.x -= tileSize / 2f;
+			v3.y -= tileSize / 2f;
+			v4.x -= tileSize / 2f;
+			v4.y -= tileSize / 2f;
 			
 			verts[vertIndexBase + 0] = v1 + tileOrigin;
 			verts[vertIndexBase + 1] = v2 + tileOrigin;

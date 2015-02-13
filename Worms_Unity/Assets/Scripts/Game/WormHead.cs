@@ -4,30 +4,36 @@ using System.Collections.Generic;
 
 public class WormHead : TileEntity {
 	public BoardDirection direction {get; private set;}
+	public SnakeController snakeControllerPrefab;
 
+	private SnakeController snakeController;
 	private Worm worm;
 
 	public void Initialize(Worm worm, Tile tile, BoardDirection newDirection, Color color) {
 		this.worm = worm;
-		GetComponentInChildren<tk2dSprite>().color = color;
+		snakeController = Instantiate(snakeControllerPrefab) as SnakeController;
+		snakeController.transform.parent = transform;
+		snakeController.transform.localPosition = Vector3.zero;
+		snakeController.snakeSprite.SetColor(color);
 		tileEntityType = TileEntityType.WormHead;
 		transform.parent = worm.transform;
 		direction = BoardDirection.NONE;
 		SetTile(tile);
-		if (newDirection != BoardDirection.NONE) transform.localRotation = newDirection.ToRotation();
+		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
+//		if (newDirection != BoardDirection.NONE) transform.localRotation = newDirection.ToRotation();
 		worm.HandleHeadMoved(null, tile, BoardDirection.NONE, BoardDirection.NONE);
 	}
 
 	private void SetDirection(BoardDirection newDirection) {
 		direction = newDirection;
-		transform.localRotation = direction.ToRotation();
+//		transform.localRotation = direction.ToRotation();
 	}
 
 	public override void SetTile(Tile tile) {
 		RemoveFromTile();
 		currentTile = tile;
 		if (!tile.tileEntities.Contains(this)) tile.tileEntities.Add(this);
-		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
+//		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
 	}
 	
 	public override void Move(BoardDirection newDirection) {
@@ -38,6 +44,7 @@ public class WormHead : TileEntity {
 		SetDirection(newDirection);
 		SetTile(Board.instance.GetTile(currentTile.coordinates + newDirection.ToIntVector2()));
 		worm.HandleHeadMoved(previousTile, currentTile, previousDirection, newDirection);
+		snakeController.AutoMove(newDirection);
 	}
 
 	public override void RemoveFromTile() {

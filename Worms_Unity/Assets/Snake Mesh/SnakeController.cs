@@ -5,11 +5,11 @@ using System.Collections;
 public class SnakeController : MonoBehaviour {
 	public float tileSize = 1;
 	public float lerpTime = 0.3f;
+	public SnakeSprite snakeSprite;
 
 	private float curVal = 0;
 	public bool isMoving {get; private set;}
 	public bool isAutoMoving {get; private set;}
-	private SnakeSprite snakeSprite;
 
 	void Awake() {
 		isMoving = false;
@@ -123,13 +123,13 @@ public class SnakeController : MonoBehaviour {
 	}
 	
 	void Update () {
-		BoardDirection direction = BoardDirection.NONE;
-		
-		if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
-		else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
-		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
-		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
-		
-		if (direction != BoardDirection.NONE && direction != snakeSprite.previousDirection.GetOpposite() && !isMoving && !isAutoMoving) AutoMove(direction);
+//		BoardDirection direction = BoardDirection.NONE;
+//		
+//		if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
+//		else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
+//		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
+//		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
+//		
+//		if (direction != BoardDirection.NONE && direction != snakeSprite.previousDirection.GetOpposite() && !isMoving && !isAutoMoving) AutoMove(direction);
 	}
 }
