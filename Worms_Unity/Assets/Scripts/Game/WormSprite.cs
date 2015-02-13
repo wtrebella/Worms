@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class SnakeSprite : MonoBehaviour {
-	public float snakeWidth = 1;
+public class WormSprite : MonoBehaviour {
+	public float wormWidth = 1;
 	public float tileSize = 1.6f;
 	public int curveResolution = 10;
 	public int lineResolution = 1;
@@ -14,8 +14,8 @@ public class SnakeSprite : MonoBehaviour {
 	public BoardDirection previousDirection = BoardDirection.NONE;
 
 	private MaskQuad maskQuad;
-	private Transform snakeFront;
-	private Transform snakeBack;
+	private Transform wormFront;
+	private Transform wormBack;
 	private int triIndexBase = 0;
 	private int vertIndexBase = 0;
 	private int triIndexBaseAtMoveStart = 0;
@@ -30,24 +30,24 @@ public class SnakeSprite : MonoBehaviour {
 	void Awake() {
 		meshFilter = GetComponent<MeshFilter>();
 
-		snakeFront = Instantiate(snakeFrontPrefab) as Transform;
-		snakeBack = Instantiate(snakeBackPrefab) as Transform;
+		wormFront = Instantiate(snakeFrontPrefab) as Transform;
+		wormBack = Instantiate(snakeBackPrefab) as Transform;
 		maskQuad = Instantiate(maskQuadPrefab) as MaskQuad;
 	}
 
 	void Start () {
-		spokeSize = (tileSize - snakeWidth) / 2f;
+		spokeSize = (tileSize - wormWidth) / 2f;
 
 		Mesh mesh = new Mesh();
 		meshFilter.mesh = mesh;
 		mesh.RecalculateBounds();
 		mesh.RecalculateNormals();
 
-		snakeFront.parent = transform;
-		snakeBack.parent = transform;
+		wormFront.parent = transform;
+		wormBack.parent = transform;
 
-		snakeFront.localPosition = Vector3.zero;
-		snakeBack.localPosition = Vector3.zero;
+		wormFront.localPosition = Vector3.zero;
+		wormBack.localPosition = Vector3.zero;
 
 		maskQuad.transform.parent = transform;
 		maskQuad.transform.localPosition = new Vector3(-tileSize / 2f, -tileSize / 2f, -1);
@@ -70,18 +70,18 @@ public class SnakeSprite : MonoBehaviour {
 
 	public void SetColor(Color color) {
 		renderer.material.color = color;
-		snakeFront.renderer.material.color = color;
-		snakeBack.renderer.material.color = color;
+		wormFront.renderer.material.color = color;
+		wormBack.renderer.material.color = color;
 	}
 
 	public void CancelMove() {
-		if (previousDirection != BoardDirection.NONE) Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).rotation(previousDirection.ToRotation()));
+		if (previousDirection != BoardDirection.NONE) Go.to(wormFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).rotation(previousDirection.ToRotation()));
 
 		currentMove = BoardDirection.NONE;
 		maskQuad.direction = previousDirection.GetOpposite();
 		maskQuad.direction = previousDirection.GetOpposite();
 
-		snakeFront.localPosition = new Vector3(currentTileOrigin.x, currentTileOrigin.y, 0);
+		wormFront.localPosition = new Vector3(currentTileOrigin.x, currentTileOrigin.y, 0);
 		newTileOrigin = Vector3.zero;
 		RemoveUnusedVerts();
 	}
@@ -114,7 +114,7 @@ public class SnakeSprite : MonoBehaviour {
 		Vector3 snakeFrontFrom = new Vector3(currentTileOrigin.x, currentTileOrigin.y, 0);
 		Vector3 snakeFrontTo = new Vector3(newTileOrigin.x, newTileOrigin.y, 0);
 		Vector3 snakeFrontPos = Vector3.Lerp(snakeFrontFrom, snakeFrontTo, normalizedVal);
-		snakeFront.localPosition = snakeFrontPos;
+		wormFront.localPosition = snakeFrontPos;
 		maskQuad.val = normalizedVal;
 	}
 
@@ -123,14 +123,14 @@ public class SnakeSprite : MonoBehaviour {
 		previousDirection = currentMove;
 		currentMove = BoardDirection.NONE;
 		UpdateTileOrigin(ref currentTileOrigin, previousDirection);
-		snakeFront.localPosition = new Vector3(currentTileOrigin.x, currentTileOrigin.y, 0);
+		wormFront.localPosition = new Vector3(currentTileOrigin.x, currentTileOrigin.y, 0);
 		maskQuad.val = 1;
 	}
 	
 	public void StartMove(BoardDirection direction) {
 		if (!hasMoved) {
-			Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).rotation(direction.ToRotation()));
-			snakeBack.rotation = direction.ToRotation();
+			Go.to(wormFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).rotation(direction.ToRotation()));
+			wormBack.rotation = direction.ToRotation();
 		}
 
 		newTileOrigin = currentTileOrigin;
@@ -176,7 +176,7 @@ public class SnakeSprite : MonoBehaviour {
 		mesh.RecalculateBounds();
 		mesh.RecalculateNormals();
 
-		Go.to(snakeFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).rotation(direction.ToRotation()));
+		Go.to(wormFront, 0.15f, new GoTweenConfig().setEaseType(GoEaseType.SineInOut).rotation(direction.ToRotation()));
 
 		maskQuad.direction = direction2.GetOpposite();
 		maskQuad.tileOrigin = newTileOrigin;
@@ -190,7 +190,7 @@ public class SnakeSprite : MonoBehaviour {
 	}
 
 	void AddTurn(ref Vector3[] verts, ref Vector2[] uvs, ref int[] tris, ref int triIndexBase, ref int vertIndexBase, Vector2 tileOrigin, BoardDirection direction1, BoardDirection direction2) {
-		float margin = (tileSize - snakeWidth) / 2f;
+		float margin = (tileSize - wormWidth) / 2f;
 		float baseAngle = 0;
 		float curveAngle = 0;
 		Vector3 curveOrigin = Vector3.zero;
@@ -202,72 +202,72 @@ public class SnakeSprite : MonoBehaviour {
 			baseAngle = 180;
 			curveAngle = 90;
 			curveOrigin = tileOrigin + new Vector2(tileSize, tileSize);
-			rect1 = new Rect(margin + curveRadius, margin + curveRadius, snakeWidth - curveRadius, snakeWidth - curveRadius);
-			rect2 = new Rect(margin, margin + curveRadius, curveRadius, snakeWidth - curveRadius);
-			rect3 = new Rect(margin + curveRadius, margin, snakeWidth - curveRadius, curveRadius);
+			rect1 = new Rect(margin + curveRadius, margin + curveRadius, wormWidth - curveRadius, wormWidth - curveRadius);
+			rect2 = new Rect(margin, margin + curveRadius, curveRadius, wormWidth - curveRadius);
+			rect3 = new Rect(margin + curveRadius, margin, wormWidth - curveRadius, curveRadius);
 		}
 		
 		else if (direction1 == BoardDirection.Left && direction2 == BoardDirection.Up) {
 			baseAngle = 270;
 			curveAngle = -90;
 			curveOrigin = tileOrigin + new Vector2(tileSize, tileSize);
-			rect1 = new Rect(margin + curveRadius, margin + curveRadius, snakeWidth - curveRadius, snakeWidth - curveRadius);
-			rect2 = new Rect(margin, margin + curveRadius, curveRadius, snakeWidth - curveRadius);
-			rect3 = new Rect(margin + curveRadius, margin, snakeWidth - curveRadius, curveRadius);
+			rect1 = new Rect(margin + curveRadius, margin + curveRadius, wormWidth - curveRadius, wormWidth - curveRadius);
+			rect2 = new Rect(margin, margin + curveRadius, curveRadius, wormWidth - curveRadius);
+			rect3 = new Rect(margin + curveRadius, margin, wormWidth - curveRadius, curveRadius);
 		}
 		
 		else if (direction1 == BoardDirection.Left && direction2 == BoardDirection.Down) {
 			baseAngle = 90;
 			curveAngle = 90;
 			curveOrigin = tileOrigin + new Vector2(tileSize, 0);
-			rect1 = new Rect(margin + curveRadius, spokeSize, snakeWidth - curveRadius, snakeWidth - curveRadius);
-			rect2 = new Rect(margin, spokeSize, curveRadius, snakeWidth - curveRadius);
-			rect3 = new Rect(margin + curveRadius, spokeSize + snakeWidth - curveRadius, snakeWidth - curveRadius, curveRadius);
+			rect1 = new Rect(margin + curveRadius, spokeSize, wormWidth - curveRadius, wormWidth - curveRadius);
+			rect2 = new Rect(margin, spokeSize, curveRadius, wormWidth - curveRadius);
+			rect3 = new Rect(margin + curveRadius, spokeSize + wormWidth - curveRadius, wormWidth - curveRadius, curveRadius);
 		}
 		
 		else if (direction1 == BoardDirection.Up && direction2 == BoardDirection.Right) {
 			baseAngle = 180;
 			curveAngle = -90;
 			curveOrigin = tileOrigin + new Vector2(tileSize, 0);
-			rect1 = new Rect(margin + curveRadius, spokeSize, snakeWidth - curveRadius, snakeWidth - curveRadius);
-			rect2 = new Rect(margin, spokeSize, curveRadius, snakeWidth - curveRadius);
-			rect3 = new Rect(margin + curveRadius, spokeSize + snakeWidth - curveRadius, snakeWidth - curveRadius, curveRadius);
+			rect1 = new Rect(margin + curveRadius, spokeSize, wormWidth - curveRadius, wormWidth - curveRadius);
+			rect2 = new Rect(margin, spokeSize, curveRadius, wormWidth - curveRadius);
+			rect3 = new Rect(margin + curveRadius, spokeSize + wormWidth - curveRadius, wormWidth - curveRadius, curveRadius);
 		}
 		
 		else if (direction1 == BoardDirection.Up && direction2 == BoardDirection.Left) {
 			baseAngle = 0;
 			curveAngle = 90;
 			curveOrigin = tileOrigin;
-			rect1 = new Rect(spokeSize, spokeSize, snakeWidth - curveRadius, snakeWidth - curveRadius);
-			rect2 = new Rect(spokeSize + snakeWidth - curveRadius, spokeSize, curveRadius, snakeWidth - curveRadius);
-			rect3 = new Rect(spokeSize, spokeSize + snakeWidth - curveRadius, snakeWidth - curveRadius, curveRadius);
+			rect1 = new Rect(spokeSize, spokeSize, wormWidth - curveRadius, wormWidth - curveRadius);
+			rect2 = new Rect(spokeSize + wormWidth - curveRadius, spokeSize, curveRadius, wormWidth - curveRadius);
+			rect3 = new Rect(spokeSize, spokeSize + wormWidth - curveRadius, wormWidth - curveRadius, curveRadius);
 		}
 		
 		else if (direction1 == BoardDirection.Right && direction2 == BoardDirection.Down) {
 			baseAngle = 90;
 			curveAngle = -90;
 			curveOrigin = tileOrigin;
-			rect1 = new Rect(spokeSize, spokeSize, snakeWidth - curveRadius, snakeWidth - curveRadius);
-			rect2 = new Rect(spokeSize + snakeWidth - curveRadius, spokeSize, curveRadius, snakeWidth - curveRadius);
-			rect3 = new Rect(spokeSize, spokeSize + snakeWidth - curveRadius, snakeWidth - curveRadius, curveRadius);
+			rect1 = new Rect(spokeSize, spokeSize, wormWidth - curveRadius, wormWidth - curveRadius);
+			rect2 = new Rect(spokeSize + wormWidth - curveRadius, spokeSize, curveRadius, wormWidth - curveRadius);
+			rect3 = new Rect(spokeSize, spokeSize + wormWidth - curveRadius, wormWidth - curveRadius, curveRadius);
 		}
 		
 		else if (direction1 == BoardDirection.Right && direction2 == BoardDirection.Up) {
 			baseAngle = 270;
 			curveAngle = 90;
 			curveOrigin = tileOrigin + new Vector2(0, tileSize);
-			rect1 = new Rect(spokeSize, margin + curveRadius, snakeWidth - curveRadius, snakeWidth - curveRadius);
-			rect2 = new Rect(spokeSize + snakeWidth - curveRadius, margin + curveRadius, curveRadius, snakeWidth - curveRadius);
-			rect3 = new Rect(spokeSize, margin, snakeWidth - curveRadius, curveRadius);
+			rect1 = new Rect(spokeSize, margin + curveRadius, wormWidth - curveRadius, wormWidth - curveRadius);
+			rect2 = new Rect(spokeSize + wormWidth - curveRadius, margin + curveRadius, curveRadius, wormWidth - curveRadius);
+			rect3 = new Rect(spokeSize, margin, wormWidth - curveRadius, curveRadius);
 		}
 		
 		else if (direction1 == BoardDirection.Down && direction2 == BoardDirection.Left) {
 			baseAngle = 0;
 			curveAngle = -90;
 			curveOrigin = tileOrigin + new Vector2(0, tileSize);
-			rect1 = new Rect(spokeSize, margin + curveRadius, snakeWidth - curveRadius, snakeWidth - curveRadius);
-			rect2 = new Rect(spokeSize + snakeWidth - curveRadius, margin + curveRadius, curveRadius, snakeWidth - curveRadius);
-			rect3 = new Rect(spokeSize, margin, snakeWidth - curveRadius, curveRadius);
+			rect1 = new Rect(spokeSize, margin + curveRadius, wormWidth - curveRadius, wormWidth - curveRadius);
+			rect2 = new Rect(spokeSize + wormWidth - curveRadius, margin + curveRadius, curveRadius, wormWidth - curveRadius);
+			rect3 = new Rect(spokeSize, margin, wormWidth - curveRadius, curveRadius);
 		}
 
 //		rect1.x -= tileSize / 2f;
@@ -283,7 +283,7 @@ public class SnakeSprite : MonoBehaviour {
 		
 		Vector2 dirVect1 = new Vector2(direction1.ToIntVector2().x, direction1.ToIntVector2().y);
 		Vector2 dirVect2 = new Vector2(direction2.GetOpposite().ToIntVector2().x, direction2.GetOpposite().ToIntVector2().y);
-		curveOrigin += new Vector3((spokeSize + (snakeWidth - curveRadius)) * (dirVect1.x + dirVect2.x), (spokeSize + (snakeWidth - curveRadius)) * (dirVect1.y + dirVect2.y), 0);
+		curveOrigin += new Vector3((spokeSize + (wormWidth - curveRadius)) * (dirVect1.x + dirVect2.x), (spokeSize + (wormWidth - curveRadius)) * (dirVect1.y + dirVect2.y), 0);
 
 		AddCurve(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, curveOrigin, curveRadius, curveAngle, baseAngle);
 	}
@@ -391,7 +391,7 @@ public class SnakeSprite : MonoBehaviour {
 		Vector3 v3 = Vector3.zero;
 		Vector3 v4 = Vector3.zero;
 
-		float margin = (tileSize - snakeWidth) / 2f;
+		float margin = (tileSize - wormWidth) / 2f;
 		float x1, x2, y1, y2;
 		int newLineRes = Mathf.Max(1, (int)((float)lineResolution * (endPoint - startPoint)));
 
@@ -402,7 +402,7 @@ public class SnakeSprite : MonoBehaviour {
 
 			if (direction == BoardDirection.Up) {
 				x1 = margin;
-				x2 = margin + snakeWidth;
+				x2 = margin + wormWidth;
 				y1 = tileSize / lineResolution * i + startPoint * tileSize;
 				y2 = tileSize / lineResolution * (i + 1) - (1 - endPoint) * tileSize;
 
@@ -416,7 +416,7 @@ public class SnakeSprite : MonoBehaviour {
 				x1 = tileSize / lineResolution * i + startPoint * tileSize;
 				x2 = tileSize / lineResolution * (i + 1) - (1 - endPoint) * tileSize;
 				y1 = margin;
-				y2 = margin + snakeWidth;
+				y2 = margin + wormWidth;
 
 				v1 = new Vector3(x1, y2);
 				v2 = new Vector3(x2, y1);
@@ -426,7 +426,7 @@ public class SnakeSprite : MonoBehaviour {
 
 			else if (direction == BoardDirection.Down) {
 				x1 = margin;
-				x2 = margin + snakeWidth;
+				x2 = margin + wormWidth;
 				y1 = tileSize - (tileSize / lineResolution * i) - startPoint * tileSize;
 				y2 = tileSize - (tileSize / lineResolution * (i + 1)) + (1 - endPoint) * tileSize;
 				
@@ -440,7 +440,7 @@ public class SnakeSprite : MonoBehaviour {
 				x1 = tileSize - (tileSize / lineResolution * i) - startPoint * tileSize;
 				x2 = tileSize - (tileSize / lineResolution * (i + 1)) + (1 - endPoint) * tileSize;
 				y1 = margin;
-				y2 = margin + snakeWidth;
+				y2 = margin + wormWidth;
 				
 				v1 = new Vector3(x1, y2);
 				v2 = new Vector3(x2, y1);

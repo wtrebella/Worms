@@ -11,7 +11,7 @@ public class Board : MonoBehaviour {
 	public Tile blockedTilePrefab;
 	public TilePassage passagePrefab;
 	public TileWall wallPrefab;
-	public SnakeController snakeControllerPrefab;
+	public WormController snakeControllerPrefab;
 	public Worm wormPrefab;
 	public Tile[,] tiles;
 	public IntVector2 size {get; private set;}

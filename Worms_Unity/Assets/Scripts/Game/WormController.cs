@@ -2,14 +2,14 @@
 using System.Collections;
 using System;
 
-[RequireComponent(typeof(SnakeSprite))]
-public class SnakeController : MonoBehaviour {
+[RequireComponent(typeof(WormSprite))]
+public class WormController : MonoBehaviour {
 	public Action SignalCommitMove;
 	public Action SignalCancelMove;
 	public Action<BoardDirection> SignalStartMove;
 	public float tileSize = 1;
 	public float lerpTime = 0.3f;
-	public SnakeSprite snakeSprite;
+	public WormSprite snakeSprite;
 
 	private float curVal = 0;
 	public bool isMoving {get; private set;}
@@ -18,7 +18,7 @@ public class SnakeController : MonoBehaviour {
 	void Awake() {
 		isMoving = false;
 		isAutoMoving = false;
-		snakeSprite = GetComponentInChildren<SnakeSprite>();
+		snakeSprite = GetComponentInChildren<WormSprite>();
 	}
 
 	public void OnSwipeBegan(BoardDirection swipeDirection) {

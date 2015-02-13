@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,9 +8,9 @@ public class Worm : MonoBehaviour {
 	public WormBodyPart roadStraightPrefab;
 	public WormBodyPart roadCurvedPrefab;
 	public WormBodyPart roadBlankPrefab;
-	public WormHead wormHeadPrefab;
+	public WormTileEntityWrapper wormHeadPrefab;
 	public List<WormBodyPart> bodyParts;
-	public WormHead head;
+	public WormTileEntityWrapper head;
 
 	private bool hasMoved = false;
 
@@ -24,7 +24,7 @@ public class Worm : MonoBehaviour {
 
 		bodyParts = new List<WormBodyPart>();
 
-		head = Instantiate(wormHeadPrefab) as WormHead;
+		head = Instantiate(wormHeadPrefab) as WormTileEntityWrapper;
 
 		if (head != null) head.Initialize(this, tile, direction, color); 
 	}

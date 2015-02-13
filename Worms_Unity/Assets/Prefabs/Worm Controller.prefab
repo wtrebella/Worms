@@ -14,7 +14,7 @@ GameObject:
   - 114: {fileID: 11493006}
   - 114: {fileID: 11473436}
   m_Layer: 0
-  m_Name: Snake Controller
+  m_Name: Worm Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,12 +67,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 193008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ff72972b3e234ad691094ad8c264807, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b120d748da8d4903930a198ee1c4b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wormWidth: .5
   tileSize: 1
-  lerpTime: .150000006
-  snakeSprite: {fileID: 0}
+  curveResolution: 8
+  lineResolution: 1
+  curveRadius: .300000012
+  snakeFrontPrefab: {fileID: 496612, guid: 7e27f89450d994fabae43871c53e09bd, type: 2}
+  snakeBackPrefab: {fileID: 482664, guid: 2182840347a5747a0a0bbb07fde62713, type: 2}
+  maskQuadPrefab: {fileID: 11499594, guid: 53d5ea993e7bf45eeb3072b0041a5f23, type: 2}
+  previousDirection: 4
 --- !u!114 &11493006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,18 +99,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 193008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04022abd55de44099da704783b032c6, type: 3}
+  m_Script: {fileID: 11500000, guid: d46073a5cba954abe961c6a8642221af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeWidth: .5
   tileSize: 1
-  curveResolution: 50
-  lineResolution: 1
-  curveRadius: .25
-  snakeFrontPrefab: {fileID: 496612, guid: 7e27f89450d994fabae43871c53e09bd, type: 2}
-  snakeBackPrefab: {fileID: 482664, guid: 2182840347a5747a0a0bbb07fde62713, type: 2}
-  maskQuadPrefab: {fileID: 11499594, guid: 53d5ea993e7bf45eeb3072b0041a5f23, type: 2}
-  previousDirection: 4
+  lerpTime: .150000006
+  snakeSprite: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
