@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MaskQuad : MonoBehaviour {
 	public float tileSize = 1;
-	public float snakeWidth = 0.5f;
+	public float wormWidth = 0.5f;
 
 	private float val_ = 1;
 	public float val {
@@ -66,8 +66,9 @@ public class MaskQuad : MonoBehaviour {
 		Rect mainRect = new Rect();
 		Rect smallRect = new Rect();
 
+		float margin = (tileSize - wormWidth) / 2f;
 		float invertedVal = 1 - val;
-		float maxVal = 1 - ((tileSize - snakeWidth) / 2f) / tileSize;
+		float maxVal = 1 - ((tileSize - wormWidth) / 2f) / tileSize;
 		if (previousDirection == direction || previousDirection == BoardDirection.NONE) maxVal = 1;
 
 		float mainRectVal = Mathf.Clamp(invertedVal, 0, maxVal);
@@ -75,10 +76,10 @@ public class MaskQuad : MonoBehaviour {
 		if (mainRectVal >= maxVal) smallRectVal = 1 - (((1 - maxVal) - Mathf.Min(invertedVal, 1 - invertedVal, 1 - maxVal)) / (1 - maxVal));
 
 		// main rect
-		if (dir == BoardDirection.Left) mainRect = new Rect(tileCenter.x, originPoint.y, tileSize * mainRectVal, tileSize);
-		else if (dir == BoardDirection.Right) mainRect = new Rect(tileCenter.x - tileSize * mainRectVal, originPoint.y, tileSize * mainRectVal, tileSize);
-		else if (dir == BoardDirection.Down) mainRect = new Rect(originPoint.x, tileCenter.y, tileSize, tileSize * mainRectVal);
-		else if (dir == BoardDirection.Up) mainRect = new Rect(originPoint.x, tileCenter.y - tileSize * mainRectVal, tileSize, tileSize * mainRectVal);
+		if (dir == BoardDirection.Left) mainRect = new Rect(tileCenter.x, originPoint.y + margin, tileSize * mainRectVal, wormWidth);
+		else if (dir == BoardDirection.Right) mainRect = new Rect(tileCenter.x - tileSize * mainRectVal, originPoint.y + margin, tileSize * mainRectVal, wormWidth);
+		else if (dir == BoardDirection.Down) mainRect = new Rect(originPoint.x + margin, tileCenter.y, wormWidth, tileSize * mainRectVal);
+		else if (dir == BoardDirection.Up) mainRect = new Rect(originPoint.x + margin, tileCenter.y - tileSize * mainRectVal, wormWidth, tileSize * mainRectVal);
 
 		verts[vertIndex + 0] = new Vector3(mainRect.x, mainRect.y, transform.position.z);
 		verts[vertIndex + 1] = new Vector3(mainRect.xMax, mainRect.yMax, transform.position.z);
@@ -102,13 +103,13 @@ public class MaskQuad : MonoBehaviour {
 
 		// small rect
 		Vector3 adjustedCenter = tileCenter;
-		if (previousDirection == BoardDirection.Right) adjustedCenter.x -= snakeWidth / 2f;
-		else if (previousDirection == BoardDirection.Up) adjustedCenter.y -= snakeWidth / 2f;
+		if (previousDirection == BoardDirection.Right) adjustedCenter.x -= wormWidth / 2f;
+		else if (previousDirection == BoardDirection.Up) adjustedCenter.y -= wormWidth / 2f;
 
-		if (dir == BoardDirection.Left) smallRect = new Rect(adjustedCenter.x + tileSize - snakeWidth / 2f, adjustedCenter.y, snakeWidth / 2f * (1 - smallRectVal), snakeWidth / 2f);
-		else if (dir == BoardDirection.Right) smallRect = new Rect(adjustedCenter.x - tileSize + smallRectVal * snakeWidth / 2f, adjustedCenter.y, snakeWidth / 2f * (1 - smallRectVal), snakeWidth / 2f);
-		else if (dir == BoardDirection.Down) smallRect = new Rect(adjustedCenter.x, adjustedCenter.y + tileSize - snakeWidth / 2f, snakeWidth / 2f, snakeWidth / 2f * (1 - smallRectVal));
-		else if (dir == BoardDirection.Up) smallRect = new Rect(adjustedCenter.x, adjustedCenter.y - tileSize + smallRectVal * snakeWidth / 2f, snakeWidth / 2f, snakeWidth / 2f * (1 - smallRectVal));
+		if (dir == BoardDirection.Left) smallRect = new Rect(adjustedCenter.x + tileSize - wormWidth / 2f, adjustedCenter.y, wormWidth / 2f * (1 - smallRectVal), wormWidth / 2f);
+		else if (dir == BoardDirection.Right) smallRect = new Rect(adjustedCenter.x - tileSize + smallRectVal * wormWidth / 2f, adjustedCenter.y, wormWidth / 2f * (1 - smallRectVal), wormWidth / 2f);
+		else if (dir == BoardDirection.Down) smallRect = new Rect(adjustedCenter.x, adjustedCenter.y + tileSize - wormWidth / 2f, wormWidth / 2f, wormWidth / 2f * (1 - smallRectVal));
+		else if (dir == BoardDirection.Up) smallRect = new Rect(adjustedCenter.x, adjustedCenter.y - tileSize + smallRectVal * wormWidth / 2f, wormWidth / 2f, wormWidth / 2f * (1 - smallRectVal));
 
 		verts[vertIndex + 0] = new Vector3(smallRect.x, smallRect.y, transform.position.z);
 		verts[vertIndex + 1] = new Vector3(smallRect.xMax, smallRect.yMax, transform.position.z);

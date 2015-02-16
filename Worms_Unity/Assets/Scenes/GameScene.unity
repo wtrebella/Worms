@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swipeEventSystem: {fileID: 1558285841}
-  gameUIManager: {fileID: 0}
+  gameUIManager: {fileID: 1652870970}
   puzzleManager: {fileID: 201394711}
   boardPrefab: {fileID: 11425006, guid: f873992256273494d9c1a275a108305c, type: 2}
   puzzleToLoad: 6
