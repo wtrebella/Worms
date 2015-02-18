@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour {
 		gameUIManager.HandleWin();
 	}
 
-	void HandleTileEntityStartedMove() {
+	void HandleTileEntityStartedMove(BoardDirection direction) {
 		currentlyMovingEntities++;
 	}
 
@@ -128,9 +128,9 @@ public class GameManager : MonoBehaviour {
 
 		foreach (Tile tile in board.tiles) {
 			foreach (TileEntity tileEntity in tile.tileEntities) {
-				tileEntity.SignalStartedMove += HandleTileEntityStartedMove;
-				tileEntity.SignalCanceledMove += HandleTileEntityCanceledMove;
-				tileEntity.SignalCommitedMove += HandleTileEntityCommitedMove;
+				tileEntity.SignalStartMove += HandleTileEntityStartedMove;
+				tileEntity.SignalCancelMove += HandleTileEntityCanceledMove;
+				tileEntity.SignalCommitMove += HandleTileEntityCommitedMove;
 			}
 		}
 

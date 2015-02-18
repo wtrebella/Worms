@@ -1,15 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/Board.cs">
     <Files>
-      <File FileName="Assets/Scripts/Game/Board.cs" Line="397" Column="1" />
-      <File FileName="Assets/Scripts/Game/Tile.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Game/WormTileEntityWrapper.cs" Line="15" Column="1" />
-      <File FileName="Assets/Scripts/Game/WormBodyPart.cs" Line="11" Column="1" />
-      <File FileName="Assets/Scripts/Map Editor/MapEditorTile.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Game/WormSprite.cs" Line="33" Column="1" />
-      <File FileName="Assets/Scripts/Game/GameManager.cs" Line="139" Column="1" />
-      <File FileName="Assets/Scripts/Game/GameUIManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Game/TileEntity.cs" Line="13" Column="19" />
+      <File FileName="Assets/Scripts/Game/Worm.cs" Line="33" Column="29" />
+      <File FileName="Assets/Scripts/Game/WormBodyPart.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Game/TileEntityType.cs" Line="1" Column="29" />
+      <File FileName="Assets/Scripts/Game/Board.cs" Line="88" Column="1" />
+      <File FileName="Assets/Scripts/Game/GameManager.cs" Line="129" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -270,13 +270,6 @@ public class WormSprite : MonoBehaviour {
 			rect3 = new Rect(spokeSize, margin, wormWidth - curveRadius, curveRadius);
 		}
 
-//		rect1.x -= tileSize / 2f;
-//		rect1.y -= tileSize / 2f;
-//		rect2.x -= tileSize / 2f;
-//		rect2.y -= tileSize / 2f;
-//		rect3.x -= tileSize / 2f;
-//		rect3.y -= tileSize / 2f;
-
 		AddRect(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, rect1, tileOrigin);
 		AddRect(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, rect2, tileOrigin);
 		AddRect(ref verts, ref uvs, ref tris, ref triIndexBase, ref vertIndexBase, rect3, tileOrigin);

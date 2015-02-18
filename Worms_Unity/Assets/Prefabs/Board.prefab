@@ -39,15 +39,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671477cc9fdf14224afbc2b29c9a4e92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileSize: 1
   tilePrefab: {fileID: 11423620, guid: f071f3c16681145f3ae9bac72f682ddf, type: 2}
   blockedTilePrefab: {fileID: 11423620, guid: 482a86df260244856adead42f536d78e, type: 2}
   passagePrefab: {fileID: 11416412, guid: dcda81c958a1a4d42a7003546f366f68, type: 2}
   wallPrefab: {fileID: 11438466, guid: a5861fca85462472486892a0d4374cbf, type: 2}
-  snakeControllerPrefab: {fileID: 11473436, guid: f8df490cde3dd4cd4a0f65d1cc9a1b9c,
-    type: 2}
-  wormPrefab: {fileID: 11402984, guid: 0c718ab51cc084fca8ac608975db4c77, type: 2}
-  tempSnake: {fileID: 0}
+  wormPrefab: {fileID: 11405450, guid: f1fb9ab49e5de44b380c57ac81de9c56, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

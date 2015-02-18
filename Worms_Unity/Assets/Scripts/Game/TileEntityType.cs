@@ -1,6 +1,6 @@
-﻿public enum TileEntityType {
+public enum TileEntityType {
 	NONE,
-	WormHead,
+	Worm,
 	WormBodyPart,
-	Enemy
+	Peg
 }

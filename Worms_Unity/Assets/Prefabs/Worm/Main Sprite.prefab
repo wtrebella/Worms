@@ -10,11 +10,10 @@ GameObject:
   - 4: {fileID: 493008}
   - 33: {fileID: 3393008}
   - 23: {fileID: 2393008}
-  - 114: {fileID: 11493008}
   - 114: {fileID: 11493006}
   - 114: {fileID: 11473436}
   m_Layer: 0
-  m_Name: Worm Controller
+  m_Name: Main Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,20 +90,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_queues: b80b0000
---- !u!114 &11493008
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 193008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d46073a5cba954abe961c6a8642221af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileSize: 1
-  lerpTime: .150000006
-  snakeSprite: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

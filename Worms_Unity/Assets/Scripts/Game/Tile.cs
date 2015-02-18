@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -37,7 +37,7 @@ public class Tile : MonoBehaviour {
 		if (tileType == TileType.Blocked) return true;
 
 		foreach (TileEntity t in tileEntities) {
-			if (t.tileEntityType == TileEntityType.WormHead || t.tileEntityType == TileEntityType.WormBodyPart) return true;
+			if (t.tileEntityType == TileEntityType.Worm || t.tileEntityType == TileEntityType.WormBodyPart) return true;
 		}
 
 		return false;

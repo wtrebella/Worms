@@ -2,14 +2,13 @@
 using System.Collections;
 using System;
 
-[RequireComponent(typeof(WormSprite))]
-public class WormController : MonoBehaviour {
+public class TileEntityController : MonoBehaviour {
 	public Action SignalCommitMove;
 	public Action SignalCancelMove;
 	public Action<BoardDirection> SignalStartMove;
 	public float tileSize = 1;
 	public float lerpTime = 0.3f;
-	public WormSprite snakeSprite;
+	public TileEntity tileEntity;
 
 	private float curVal = 0;
 	public bool isMoving {get; private set;}
@@ -18,13 +17,10 @@ public class WormController : MonoBehaviour {
 	void Awake() {
 		isMoving = false;
 		isAutoMoving = false;
-		snakeSprite = GetComponentInChildren<WormSprite>();
 	}
 
 	public void OnSwipeBegan(BoardDirection swipeDirection) {
-		if (!isMoving) {
-			if (swipeDirection.GetOpposite() != snakeSprite.previousDirection) StartMove(swipeDirection);
-		}
+		if (!isMoving) StartMove(swipeDirection);
 	}
 
 	public void OnSwipeContinue(BoardDirection swipeDirection, float swipePixelDistance) {
@@ -54,27 +50,27 @@ public class WormController : MonoBehaviour {
 	}
 	
 	void ContinueMove(float swipeDistance) {
-		snakeSprite.ContinueMove(swipeDistance);
+//		tileEntity.ContinueMove(swipeDistance);
 	}
 
 	void StartMove(BoardDirection direction) {
 		curVal = 0;
 		isMoving = true;
-		snakeSprite.StartMove(direction);
+//		tileEntity.StartMove(direction);
 		if (SignalStartMove != null) SignalStartMove(direction);
 	}
 	
 	void CommitMove() {
 		isMoving = false;
 		isAutoMoving = false;
-		snakeSprite.CommitMove();
+//		tileEntity.CommitMove();
 		if (SignalCommitMove != null) SignalCommitMove();
 	}
 	
 	void CancelMove() {
 		isMoving = false;
 		isAutoMoving = false;
-		snakeSprite.CancelMove();
+//		tileEntity.CancelMove();
 		if (SignalCancelMove != null) SignalCancelMove();
 	}
 	
@@ -123,20 +119,5 @@ public class WormController : MonoBehaviour {
 
 		StartMove(direction);
 		StartCoroutine(AutoMoveCommit());
-	}
-
-	void Start () {
-	
-	}
-	
-	void Update () {
-//		BoardDirection direction = BoardDirection.NONE;
-//		
-//		if (Input.GetKeyDown(KeyCode.UpArrow)) direction = BoardDirection.Up;
-//		else if (Input.GetKeyDown(KeyCode.RightArrow)) direction = BoardDirection.Right;
-//		else if (Input.GetKeyDown(KeyCode.DownArrow)) direction = BoardDirection.Down;
-//		else if (Input.GetKeyDown(KeyCode.LeftArrow)) direction = BoardDirection.Left;
-//		
-//		if (direction != BoardDirection.NONE && direction != snakeSprite.previousDirection.GetOpposite() && !isMoving && !isAutoMoving) AutoMove(direction);
 	}
 }

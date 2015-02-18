@@ -45,7 +45,7 @@ GameObject:
   - 33: {fileID: 3396612}
   - 23: {fileID: 2396612}
   m_Layer: 0
-  m_Name: Worm Head Sprite
+  m_Name: Head Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

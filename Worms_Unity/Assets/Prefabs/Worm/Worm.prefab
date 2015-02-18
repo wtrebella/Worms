@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 421292}
   - 114: {fileID: 11405450}
   m_Layer: 0
-  m_Name: Worm Tile Entity Wrapper
+  m_Name: Worm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,12 +36,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 121292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75b55185057d3444f9a958b6b3392925, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fdd90bcad8d8466cac713110e1e37f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentTile: {fileID: 0}
   tileEntityType: 0
-  wormControllerPrefab: {fileID: 11493008, guid: f8df490cde3dd4cd4a0f65d1cc9a1b9c,
+  wormSpritePrefab: {fileID: 11473436, guid: f8df490cde3dd4cd4a0f65d1cc9a1b9c, type: 2}
+  blankBodyPartPrefab: {fileID: 11473040, guid: ab4e8959081404f1b92219af856b79f5,
     type: 2}
 --- !u!1001 &100100000
 Prefab:

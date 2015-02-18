@@ -1,20 +1,21 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 	public static Board instance;
 
-	public int tileSize = 1;
+	public static int tileSize = 1;
+	public static float lerpTime = 0.3f;
 
 	public Tile tilePrefab;
 	public Tile blockedTilePrefab;
 	public TilePassage passagePrefab;
 	public TileWall wallPrefab;
-	public WormController snakeControllerPrefab;
 	public Worm wormPrefab;
-	public Tile[,] tiles;
+
 	public IntVector2 size {get; private set;}
+	public Tile[,] tiles {get; private set;}
 
 	private GameObject tileHolder;
 
