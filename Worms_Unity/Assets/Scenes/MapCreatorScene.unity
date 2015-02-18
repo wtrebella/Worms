@@ -510,7 +510,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 3, y: 234}
+  m_AnchoredPosition: {x: 3, y: 498}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1555505127
@@ -632,10 +632,11 @@ MonoBehaviour:
   tilePrefab: {fileID: 11428624, guid: 6eb8414ff2de943359f4d3c0dfeb3a6f, type: 2}
   wallPrefab: {fileID: 11442826, guid: de256053bffd540a1899e20cc168c49d, type: 2}
   wormPrefab: {fileID: 11459634, guid: 7868ddbe4eb5c4af58c90560f6586fd3, type: 2}
+  pegPrefab: {fileID: 11459634, guid: e37a091c8b5ed42a6b7f26c9c9a6fed0, type: 2}
   tileSize: 100
   size:
-    x: 2
-    y: 4
+    x: 4
+    y: 5
 --- !u!4 &1753884206
 Transform:
   m_ObjectHideFlags: 0
@@ -681,7 +682,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 2, y: 269}
+  m_AnchoredPosition: {x: 2, y: 533}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1913983081

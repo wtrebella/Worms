@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
 		if (currentlyMovingEntities > 0) return;
 	
 		List<TileEntity> tileEntities = null;
-		
+
 		if (direction == BoardDirection.Up || direction == BoardDirection.Down) {
 			for (int x = 0; x < board.size.x; x++) {
 				tileEntities = board.GetMovableTileEntitiesInColumn(direction, x);

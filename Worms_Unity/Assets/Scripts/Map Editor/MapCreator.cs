@@ -9,7 +9,8 @@ using UnityEditor;
 public enum State {
 	Tile,
 	Wall,
-	Worm
+	Worm,
+	Peg
 }
 
 public class MapCreator : MonoBehaviour {
@@ -23,6 +24,7 @@ public class MapCreator : MonoBehaviour {
 	public MapEditorTile tilePrefab;
 	public MapEditorWall wallPrefab;
 	public MapEditorWorm wormPrefab;
+	public MapEditorPeg pegPrefab;
 
 	public int tileSize = 100;
 	public IntVector2 size;
@@ -30,6 +32,7 @@ public class MapCreator : MonoBehaviour {
 
 	private static MapCreator instance;
 	private List<MapEditorWorm> worms;
+	private List<MapEditorPeg> pegs;
 	private State state = State.Tile;
 
 	void Start () {
@@ -39,6 +42,8 @@ public class MapCreator : MonoBehaviour {
 	
 	void Initialize() {
 		worms = new List<MapEditorWorm>();
+		pegs = new List<MapEditorPeg>();
+
 		switchStateButton.GetComponentInChildren<Text>().text = state.ToString();
 
 		if (puzzleToLoad != null) Load();
@@ -130,7 +135,7 @@ public class MapCreator : MonoBehaviour {
 	}
 
 	public void SwitchState() {
-		state = (State)(((int)state + 1) % 3);
+		state = (State)(((int)state + 1) % 4);
 
 		switchStateButton.GetComponentInChildren<Text>().text = state.ToString();
 	}
@@ -223,6 +228,16 @@ public class MapCreator : MonoBehaviour {
 		worms.Add(worm);
 	}
 
+	void CreatePeg(MapEditorTile tile, PegType pegType) {
+		MapEditorPeg peg = Instantiate(pegPrefab) as MapEditorPeg;
+		peg.SetPegType(pegType);
+		peg.transform.parent = tile.transform;
+		peg.transform.localPosition = Vector3.zero;
+		tile.peg = peg;
+		
+		pegs.Add(peg);
+	}
+
 	public bool ContainsCoordinates(IntVector2 coordinate) {
 		return coordinate.x >= 0 && coordinate.x < size.x && coordinate.y >= 0 && coordinate.y < size.y;
 	}
@@ -281,6 +296,20 @@ public class MapCreator : MonoBehaviour {
 			if (clickedTile) {
 				TileType newTileType = (TileType)(((int)clickedTile.tileType + 1) % 2);
 				SetTileType(clickedTile, newTileType);
+			}
+		}
+
+		else if (state == State.Peg) {
+			if (clickedTile) {
+				MapEditorPeg peg = clickedTile.peg;
+				if (peg) {
+					clickedTile.peg = null;
+					pegs.Remove(peg);
+					Destroy(peg.gameObject);
+				}
+				else {
+					CreatePeg(clickedTile, PegType.Peg);
+				}
 			}
 		}
 

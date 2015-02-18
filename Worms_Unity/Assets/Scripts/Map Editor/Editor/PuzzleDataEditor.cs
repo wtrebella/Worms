@@ -16,9 +16,11 @@ public class PuzzleDataEditor : Editor {
 	private Texture2D wormHead2Sprite;
 	private Texture2D wormHead3Sprite;
 	private Texture2D wormHead4Sprite;
+	private Texture2D pegSprite;
 	private IntVector2 size;
 
 	void OnEnable() {
+		pegSprite = Resources.Load("Inspector Sprites/peg") as Texture2D;
 		wormHead1Sprite = Resources.Load("Inspector Sprites/wormHead1") as Texture2D;
 		wormHead2Sprite = Resources.Load("Inspector Sprites/wormHead2") as Texture2D;
 		wormHead3Sprite = Resources.Load("Inspector Sprites/wormHead3") as Texture2D;
@@ -78,15 +80,24 @@ public class PuzzleDataEditor : Editor {
 					}
 				}
 
-				if (tileData.worm != null && tileData.worm.wormType != WormType.NONE) {
+				if (tileData.peg != null && tileData.peg.pegType != PegType.NONE) {
 					textureRect = new Rect(pos.x + wormSize / 2, pos.y + wormSize / 2, wormSize, wormSize);
 					Texture2D texture = null;
 
+					texture = pegSprite;
+
+					if (texture != null) EditorGUI.DrawPreviewTexture(textureRect, texture);
+				}
+
+				if (tileData.worm != null && tileData.worm.wormType != WormType.NONE) {
+					textureRect = new Rect(pos.x + wormSize / 2, pos.y + wormSize / 2, wormSize, wormSize);
+					Texture2D texture = null;
+					
 					if (tileData.worm.wormType == WormType.Worm1) texture = wormHead1Sprite;
 					else if (tileData.worm.wormType == WormType.Worm2) texture = wormHead2Sprite;
 					else if (tileData.worm.wormType == WormType.Worm3) texture = wormHead3Sprite;
 					else if (tileData.worm.wormType == WormType.Worm4) texture = wormHead4Sprite;
-
+					
 					if (texture != null) EditorGUI.DrawPreviewTexture(textureRect, texture);
 				}
 			}

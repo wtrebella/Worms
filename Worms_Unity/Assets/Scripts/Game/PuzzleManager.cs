@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 
 public class PuzzleManager : MonoBehaviour {
+	[HideInInspector]
 	public PuzzleData[] puzzles;
 
 	void Awake() {

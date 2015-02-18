@@ -2,15 +2,23 @@
 using System.Collections;
 
 public class Peg : TileEntity {
-
 	public void Initialize(Tile tile) {
 		tileEntityType = TileEntityType.Peg;
-//		transform.parent = worm.transform;
+		transform.parent = Board.instance.transform;
 		SetTile(tile);
 	}
 	
 	public override void SetTile(Tile tile) {
 		base.SetTile(tile);
 		transform.position = Board.instance.GetTilePosition(currentTile.coordinates);
+	}
+
+	protected override void ContinueMove(float normalizedDistance) {
+		base.ContinueMove(normalizedDistance);
+
+		Vector3 curTilePos = Board.instance.GetTilePosition(currentTile.coordinates);
+		Vector3 newTilePos = Board.instance.GetTilePosition(newTile.coordinates);
+
+		transform.position = Vector3.Lerp(curTilePos, newTilePos, normalizedDistance);
 	}
 }

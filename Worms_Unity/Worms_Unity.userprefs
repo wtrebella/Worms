@@ -2,12 +2,18 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/Board.cs">
     <Files>
-      <File FileName="Assets/Scripts/Game/TileEntity.cs" Line="13" Column="19" />
-      <File FileName="Assets/Scripts/Game/Worm.cs" Line="33" Column="29" />
-      <File FileName="Assets/Scripts/Game/WormBodyPart.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Game/TileEntityType.cs" Line="1" Column="29" />
-      <File FileName="Assets/Scripts/Game/Board.cs" Line="88" Column="1" />
-      <File FileName="Assets/Scripts/Game/GameManager.cs" Line="129" Column="39" />
+      <File FileName="Assets/Scripts/Map Editor/MapCreator.cs" Line="231" Column="14" />
+      <File FileName="Assets/Scripts/Map Editor/MapEditorPeg.cs" Line="8" Column="26" />
+      <File FileName="Assets/Scripts/Map Editor/MapEditorPegData.cs" Line="12" Column="40" />
+      <File FileName="Assets/Scripts/Map Editor/MapEditorTile.cs" Line="34" Column="52" />
+      <File FileName="Assets/Scripts/Map Editor/MapEditorWallData.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Map Editor/MapEditorWorm.cs" Line="21" Column="2" />
+      <File FileName="Assets/Scripts/Map Editor/MapEditorWormData.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Map Editor/MapEditorTileData.cs" Line="11" Column="30" />
+      <File FileName="Assets/Scripts/Map Editor/Editor/PuzzleDataEditor.cs" Line="92" Column="76" />
+      <File FileName="Assets/Scripts/Game/Board.cs" Line="382" Column="83" />
+      <File FileName="Assets/Scripts/Game/PuzzleManager.cs" Line="6" Column="19" />
+      <File FileName="Assets/Scripts/Game/TileEdge.cs" Line="22" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

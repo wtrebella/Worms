@@ -326,7 +326,7 @@ MonoBehaviour:
   gameUIManager: {fileID: 1652870970}
   puzzleManager: {fileID: 201394711}
   boardPrefab: {fileID: 11425006, guid: f873992256273494d9c1a275a108305c, type: 2}
-  puzzleToLoad: 6
+  puzzleToLoad: 4
 --- !u!4 &395372738
 Transform:
   m_ObjectHideFlags: 0
@@ -696,7 +696,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .220588207, g: .220588207, b: .220588207, a: .0196078438}
+  m_BackGroundColor: {r: .595588207, g: .595588207, b: .595588207, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0

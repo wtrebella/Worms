@@ -37,7 +37,9 @@ public class Tile : MonoBehaviour {
 		if (tileType == TileType.Blocked) return true;
 
 		foreach (TileEntity t in tileEntities) {
-			if (t.tileEntityType == TileEntityType.Worm || t.tileEntityType == TileEntityType.WormBodyPart) return true;
+			if (t.tileEntityType == TileEntityType.Worm ||
+			    t.tileEntityType == TileEntityType.WormBodyPart ||
+			    t.tileEntityType == TileEntityType.Peg) return true;
 		}
 
 		return false;

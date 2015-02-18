@@ -85,7 +85,6 @@ public class Worm : TileEntity {
 //		Tile previousTile = currentTile;
 //		BoardDirection previousDirection = direction;
 		SetDirection(currentMoveDirection);
-		SetTile(Board.instance.GetTile(currentTile.coordinates + currentMoveDirection.ToIntVector2()));
 		PlaceBlankBodyPart(currentTile);
 		wormSprite.CommitMove();
 	}

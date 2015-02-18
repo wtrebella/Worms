@@ -6,6 +6,7 @@ public class MapEditorTile : MonoBehaviour {
 	public IntVector2 coordinates;
 	public List<MapEditorWall> walls = new List<MapEditorWall>();
 	public MapEditorWorm worm;
+	public MapEditorPeg peg;
 	public TileType tileType {get; private set;}
 
 	public void SetTileType(TileType tileType) {
@@ -30,6 +31,7 @@ public class MapEditorTile : MonoBehaviour {
 		data.tileType = tileType;
 		data.coordinates = coordinates;
 		if (worm != null) data.worm = worm.GetDataVersion();
+		if (peg != null) data.peg = peg.GetDataVersion();
 
 		List<MapEditorWallData> wallData = new List<MapEditorWallData>();
 		foreach (MapEditorWall wall in walls) wallData.Add(wall.GetDataVersion());

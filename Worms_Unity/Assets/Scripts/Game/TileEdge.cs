@@ -15,4 +15,11 @@ public abstract class TileEdge : MonoBehaviour {
 		transform.localPosition = Vector3.zero;
 		transform.localRotation = direction.ToRotation();
 	}
+
+	public void Initialize (Vector3 position, BoardDirection direction) {
+		this.direction = direction;
+		transform.parent = Board.instance.transform;
+		transform.position = position;
+		transform.localRotation = direction.ToRotation();
+	}
 }

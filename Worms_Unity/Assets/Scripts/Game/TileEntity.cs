@@ -17,11 +17,15 @@ public abstract class TileEntity : MonoBehaviour {
 	public Action<float> SignalContinueMove;
 	public Action<BoardDirection> SignalStartMove;
 
-	protected float curVal = 0;
+	protected Tile newTile;
+
+	private float curVal = 0;
 
 	virtual protected void StartMove(BoardDirection direction) {
 		curVal = 0;
 		isMoving = true;
+		newTile = Board.instance.GetTile(currentTile.coordinates + direction.ToIntVector2());
+
 		if (SignalStartMove != null) SignalStartMove(direction);
 	}
 
@@ -32,6 +36,7 @@ public abstract class TileEntity : MonoBehaviour {
 	virtual protected void CommitMove() {
 		isMoving = false;
 		isAutoMoving = false;
+		SetTile(newTile);
 		if (SignalCommitMove != null) SignalCommitMove();
 	}
 	
@@ -44,6 +49,7 @@ public abstract class TileEntity : MonoBehaviour {
 	virtual public void SetTile(Tile tile) {
 		RemoveFromTile();
 		currentTile = tile;
+
 		if (!tile.tileEntities.Contains(this)) tile.tileEntities.Add(this);
 	}
 
@@ -133,10 +139,15 @@ public abstract class TileEntity : MonoBehaviour {
 		CommitMove();
 	}
 
-	public static bool TileEntityTypeCanEnterTileWithTileEntities(TileEntityType tileEntityType, List<TileEntity> tileEntities) {
+	public static bool TileEntityCanMoveToTile(TileEntityType tileEntityType, List<TileEntity> tileEntities) {
 		if (tileEntityType == TileEntityType.Worm) {
 			foreach (TileEntity t in tileEntities) {
-				if (t.tileEntityType == TileEntityType.WormBodyPart) return false;
+				if (t.tileEntityType == TileEntityType.WormBodyPart || t.tileEntityType == TileEntityType.Peg) return false;
+			}
+		}
+		else if (tileEntityType == TileEntityType.Peg) {
+			foreach (TileEntity t in tileEntities) {
+				if (t.tileEntityType == TileEntityType.WormBodyPart || t.tileEntityType == TileEntityType.Worm || t.tileEntityType == TileEntityType.Peg) return false;
 			}
 		}
 		else if (tileEntityType == TileEntityType.WormBodyPart) {

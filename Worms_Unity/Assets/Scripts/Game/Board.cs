@@ -12,6 +12,7 @@ public class Board : MonoBehaviour {
 	public Tile blockedTilePrefab;
 	public TilePassage passagePrefab;
 	public TileWall wallPrefab;
+	public Peg pegPrefab;
 	public Worm wormPrefab;
 
 	public IntVector2 size {get; private set;}
@@ -88,6 +89,11 @@ public class Board : MonoBehaviour {
 
 					Worm worm = Instantiate(wormPrefab) as Worm;
 					worm.Initialize(tile, tileData.worm.direction, color, tileData.worm.wormType);
+				}
+
+				if (tileData.peg != null && tileData.peg.pegType != PegType.NONE) {
+					Peg peg = Instantiate(pegPrefab) as Peg;
+					peg.Initialize(tile);
 				}
 			}
 		}
@@ -258,7 +264,7 @@ public class Board : MonoBehaviour {
 
 				if (tile.tileEntities.Count > 0) {
 					foreach (TileEntity tileEntity in tile.tileEntities) {
-						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities);
+						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityCanMoveToTile(tileEntity.tileEntityType, previousTileEntities);
 						if (canMove) movableEntities.Add(tileEntity);
 						else tempPreviousTileEntities.Add(tileEntity);
 					}
@@ -280,7 +286,7 @@ public class Board : MonoBehaviour {
 				
 				if (tile.tileEntities.Count > 0) {
 					foreach (TileEntity tileEntity in tile.tileEntities) {
-						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities);
+						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityCanMoveToTile(tileEntity.tileEntityType, previousTileEntities);
 						if (canMove) movableEntities.Add(tileEntity);
 						else tempPreviousTileEntities.Add(tileEntity);
 					}
@@ -312,7 +318,7 @@ public class Board : MonoBehaviour {
 				
 				if (tile.tileEntities.Count > 0) {
 					foreach (TileEntity tileEntity in tile.tileEntities) {
-						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities);
+						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityCanMoveToTile(tileEntity.tileEntityType, previousTileEntities);
 						if (canMove) movableEntities.Add(tileEntity);
 						else tempPreviousTileEntities.Add(tileEntity);
 					}
@@ -334,7 +340,7 @@ public class Board : MonoBehaviour {
 				
 				if (tile.tileEntities.Count > 0) {
 					foreach (TileEntity tileEntity in tile.tileEntities) {
-						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityTypeCanEnterTileWithTileEntities(tileEntity.tileEntityType, previousTileEntities);
+						bool canMove = !isWall && otherTile != null && otherTile.tileType != TileType.Blocked && TileEntity.TileEntityCanMoveToTile(tileEntity.tileEntityType, previousTileEntities);
 						if (canMove) movableEntities.Add(tileEntity);
 						else tempPreviousTileEntities.Add(tileEntity);
 					}
@@ -369,10 +375,11 @@ public class Board : MonoBehaviour {
 	private void CreateWall(Tile tile, Tile otherTile, BoardDirection direction) {
 		TileWall wall = Instantiate(wallPrefab) as TileWall;
 		wall.Initialize(tile, otherTile, direction);
-		if (otherTile != null && otherTile.tileType != TileType.Blocked) {
-			wall = Instantiate(wallPrefab) as TileWall;
-			wall.Initialize(otherTile, tile, direction.GetOpposite());
-		}
+
+		wall = Instantiate(wallPrefab) as TileWall;
+
+		if (otherTile != null && otherTile.tileType != TileType.Blocked) wall.Initialize(otherTile, tile, direction.GetOpposite());
+		else wall.Initialize(GetTilePosition(tile.coordinates + direction.ToIntVector2()), direction.GetOpposite());
 	}
 	
 	private Tile CreateTile(IntVector2 coordinates, Transform newParent) {

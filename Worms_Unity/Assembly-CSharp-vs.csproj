@@ -73,6 +73,8 @@
      <Compile Include="Assets\Scripts\Game\WormBodyPart.cs" />
      <Compile Include="Assets\Scripts\Game\WormSprite.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapCreator.cs" />
+     <Compile Include="Assets\Scripts\Map Editor\MapEditorPeg.cs" />
+     <Compile Include="Assets\Scripts\Map Editor\MapEditorPegData.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorTile.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorTileData.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorWall.cs" />
