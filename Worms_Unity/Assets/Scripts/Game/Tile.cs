@@ -39,7 +39,8 @@ public class Tile : MonoBehaviour {
 		foreach (TileEntity t in tileEntities) {
 			if (t.tileEntityType == TileEntityType.Worm ||
 			    t.tileEntityType == TileEntityType.WormBodyPart ||
-			    t.tileEntityType == TileEntityType.Peg) return true;
+			    t.tileEntityType == TileEntityType.Peg ||
+			    t.tileEntityType == TileEntityType.DeathTrap) return true;
 		}
 
 		return false;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public enum GameState {
 	Playing,
+	Lose,
 	Win
 }
 
@@ -97,9 +98,13 @@ public class GameManager : MonoBehaviour {
 		board.OnSwipeCanceled(swipeDirection);
 	}
 
-	private void WinGame() {
+	public void WinGame() {
 		gameState = GameState.Win;
 		gameUIManager.HandleWin();
+	}
+
+	public void EndGame() {
+		gameState = GameState.Lose;
 	}
 
 	void HandleTileEntityStartedMove(BoardDirection direction) {

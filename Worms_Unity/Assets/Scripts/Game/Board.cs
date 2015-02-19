@@ -13,6 +13,7 @@ public class Board : MonoBehaviour {
 	public TilePassage passagePrefab;
 	public TileWall wallPrefab;
 	public Peg pegPrefab;
+	public DeathTrap deathTrapPrefab;
 	public Worm wormPrefab;
 
 	public IntVector2 size {get; private set;}
@@ -89,14 +90,25 @@ public class Board : MonoBehaviour {
 
 					Worm worm = Instantiate(wormPrefab) as Worm;
 					worm.Initialize(tile, tileData.worm.direction, color, tileData.worm.wormType);
+					worm.SignalWormDied += HandleWormDied;
 				}
 
-				if (tileData.peg != null && tileData.peg.pegType != PegType.NONE) {
-					Peg peg = Instantiate(pegPrefab) as Peg;
-					peg.Initialize(tile);
+				if (tileData.tileEntity != null && tileData.tileEntity.tileEntityType != TileEntityType.NONE) {
+					if (tileData.tileEntity.tileEntityType == TileEntityType.Peg) {
+						Peg peg = Instantiate(pegPrefab) as Peg;
+						peg.Initialize(tile);
+					}
+					else if (tileData.tileEntity.tileEntityType == TileEntityType.DeathTrap) {
+						DeathTrap deathTrap = Instantiate(deathTrapPrefab) as DeathTrap;
+						deathTrap.Initialize(tile);
+					}
 				}
 			}
 		}
+	}
+
+	void HandleWormDied() {
+		GameManager.instance.EndGame();
 	}
 
 	public void GenerateRandom() {

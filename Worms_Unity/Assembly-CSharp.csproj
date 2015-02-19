@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\Event Delegate List\PropertyReference.cs" />
      <Compile Include="Assets\Scripts\Game\Board.cs" />
      <Compile Include="Assets\Scripts\Game\BoardDirection.cs" />
+     <Compile Include="Assets\Scripts\Game\DeathTrap.cs" />
      <Compile Include="Assets\Scripts\Game\FramerateIndicator.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager.cs" />
      <Compile Include="Assets\Scripts\Game\GameUIManager.cs" />
@@ -73,8 +74,8 @@
      <Compile Include="Assets\Scripts\Game\WormBodyPart.cs" />
      <Compile Include="Assets\Scripts\Game\WormSprite.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapCreator.cs" />
-     <Compile Include="Assets\Scripts\Map Editor\MapEditorPeg.cs" />
-     <Compile Include="Assets\Scripts\Map Editor\MapEditorPegData.cs" />
+     <Compile Include="Assets\Scripts\Map Editor\MapEditorGenericTileEntity.cs" />
+     <Compile Include="Assets\Scripts\Map Editor\MapEditorGenericTileEntityData.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorTile.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorTileData.cs" />
      <Compile Include="Assets\Scripts\Map Editor\MapEditorWall.cs" />

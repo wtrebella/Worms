@@ -9,18 +9,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c150df111581542af85c2c0f655b4ad8, type: 3}
-  m_Name: Level 005
+  m_Name: Level 006
   m_EditorClassIdentifier: 
   size:
-    x: 4
-    y: 5
+    x: 3
+    y: 4
   tiles:
   - coordinates:
       x: 0
       y: 0
+    walls: []
+    worm:
+      direction: 4
+      wormType: 4
+    tileEntity:
+      tileEntityType: 0
+    tileType: 1
+  - coordinates:
+      x: 1
+      y: 0
     walls:
     - direction: 2
     - direction: 3
+    - direction: 1
     worm:
       direction: 0
       wormType: 0
@@ -28,78 +39,9 @@ MonoBehaviour:
       tileEntityType: 0
     tileType: 0
   - coordinates:
-      x: 1
-      y: 0
-    walls:
-    - direction: 2
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
       x: 2
       y: 0
-    walls:
-    - direction: 2
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 3
-    tileType: 0
-  - coordinates:
-      x: 3
-      y: 0
-    walls:
-    - direction: 1
-    - direction: 2
-    - direction: 0
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 0
-      y: 1
-    walls:
-    - direction: 3
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 1
-      y: 1
     walls: []
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 2
-      y: 1
-    walls:
-    - direction: 1
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 3
-      y: 1
-    walls:
-    - direction: 3
-    - direction: 2
     worm:
       direction: 4
       wormType: 4
@@ -108,86 +50,8 @@ MonoBehaviour:
     tileType: 1
   - coordinates:
       x: 0
-      y: 2
-    walls:
-    - direction: 3
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 1
-      y: 2
+      y: 1
     walls: []
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 2
-      y: 2
-    walls: []
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 3
-    tileType: 0
-  - coordinates:
-      x: 3
-      y: 2
-    walls:
-    - direction: 1
-    - direction: 2
-    - direction: 0
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 0
-      y: 3
-    walls:
-    - direction: 3
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 1
-      y: 3
-    walls: []
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 2
-      y: 3
-    walls:
-    - direction: 1
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 0
-    tileType: 0
-  - coordinates:
-      x: 3
-      y: 3
-    walls:
-    - direction: 3
-    - direction: 2
     worm:
       direction: 4
       wormType: 4
@@ -195,10 +59,9 @@ MonoBehaviour:
       tileEntityType: 0
     tileType: 1
   - coordinates:
-      x: 0
-      y: 4
+      x: 1
+      y: 1
     walls:
-    - direction: 0
     - direction: 3
     worm:
       direction: 4
@@ -207,8 +70,65 @@ MonoBehaviour:
       tileEntityType: 0
     tileType: 0
   - coordinates:
+      x: 2
+      y: 1
+    walls:
+    - direction: 1
+    - direction: 2
+    worm:
+      direction: 4
+      wormType: 4
+    tileEntity:
+      tileEntityType: 0
+    tileType: 0
+  - coordinates:
+      x: 0
+      y: 2
+    walls:
+    - direction: 3
+    - direction: 2
+    worm:
+      direction: 0
+      wormType: 1
+    tileEntity:
+      tileEntityType: 0
+    tileType: 0
+  - coordinates:
       x: 1
-      y: 4
+      y: 2
+    walls: []
+    worm:
+      direction: 4
+      wormType: 4
+    tileEntity:
+      tileEntityType: 0
+    tileType: 0
+  - coordinates:
+      x: 2
+      y: 2
+    walls:
+    - direction: 1
+    worm:
+      direction: 4
+      wormType: 4
+    tileEntity:
+      tileEntityType: 0
+    tileType: 0
+  - coordinates:
+      x: 0
+      y: 3
+    walls:
+    - direction: 0
+    - direction: 3
+    worm:
+      direction: 4
+      wormType: 4
+    tileEntity:
+      tileEntityType: 4
+    tileType: 0
+  - coordinates:
+      x: 1
+      y: 3
     walls:
     - direction: 0
     worm:
@@ -219,22 +139,10 @@ MonoBehaviour:
     tileType: 0
   - coordinates:
       x: 2
-      y: 4
-    walls:
-    - direction: 0
-    worm:
-      direction: 4
-      wormType: 4
-    tileEntity:
-      tileEntityType: 3
-    tileType: 0
-  - coordinates:
-      x: 3
-      y: 4
+      y: 3
     walls:
     - direction: 0
     - direction: 1
-    - direction: 2
     worm:
       direction: 4
       wormType: 4

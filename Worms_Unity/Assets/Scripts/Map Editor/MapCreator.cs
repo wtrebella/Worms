@@ -10,7 +10,9 @@ public enum State {
 	Tile,
 	Wall,
 	Worm,
-	Peg
+	Peg,
+	DeathTrap,
+	MAX
 }
 
 public class MapCreator : MonoBehaviour {
@@ -24,7 +26,8 @@ public class MapCreator : MonoBehaviour {
 	public MapEditorTile tilePrefab;
 	public MapEditorWall wallPrefab;
 	public MapEditorWorm wormPrefab;
-	public MapEditorPeg pegPrefab;
+	public MapEditorGenericTileEntity pegPrefab;
+	public MapEditorGenericTileEntity deathTrapPrefab;
 
 	public int tileSize = 100;
 	public IntVector2 size;
@@ -32,7 +35,7 @@ public class MapCreator : MonoBehaviour {
 
 	private static MapCreator instance;
 	private List<MapEditorWorm> worms;
-	private List<MapEditorPeg> pegs;
+	private List<MapEditorGenericTileEntity> tileEntities;
 	private State state = State.Tile;
 
 	void Start () {
@@ -42,7 +45,7 @@ public class MapCreator : MonoBehaviour {
 	
 	void Initialize() {
 		worms = new List<MapEditorWorm>();
-		pegs = new List<MapEditorPeg>();
+		tileEntities = new List<MapEditorGenericTileEntity>();
 
 		switchStateButton.GetComponentInChildren<Text>().text = state.ToString();
 
@@ -135,7 +138,7 @@ public class MapCreator : MonoBehaviour {
 	}
 
 	public void SwitchState() {
-		state = (State)(((int)state + 1) % 4);
+		state = (State)(((int)state + 1) % ((int)State.MAX));
 
 		switchStateButton.GetComponentInChildren<Text>().text = state.ToString();
 	}
@@ -228,14 +231,18 @@ public class MapCreator : MonoBehaviour {
 		worms.Add(worm);
 	}
 
-	void CreatePeg(MapEditorTile tile, PegType pegType) {
-		MapEditorPeg peg = Instantiate(pegPrefab) as MapEditorPeg;
-		peg.SetPegType(pegType);
-		peg.transform.parent = tile.transform;
-		peg.transform.localPosition = Vector3.zero;
-		tile.peg = peg;
+	void CreateTileEntity(MapEditorTile tile, TileEntityType tileEntityType) {
+		MapEditorGenericTileEntity prefab = null;
+		if (tileEntityType == TileEntityType.Peg) prefab = pegPrefab;
+		else if (tileEntityType == TileEntityType.DeathTrap) prefab = deathTrapPrefab;
+
+		MapEditorGenericTileEntity tileEntity = Instantiate(prefab) as MapEditorGenericTileEntity;
+		tileEntity.SetTileEntityType(tileEntityType);
+		tileEntity.transform.parent = tile.transform;
+		tileEntity.transform.localPosition = Vector3.zero;
+		tile.tileEntity = tileEntity;
 		
-		pegs.Add(peg);
+		tileEntities.Add(tileEntity);
 	}
 
 	public bool ContainsCoordinates(IntVector2 coordinate) {
@@ -301,14 +308,28 @@ public class MapCreator : MonoBehaviour {
 
 		else if (state == State.Peg) {
 			if (clickedTile) {
-				MapEditorPeg peg = clickedTile.peg;
-				if (peg) {
-					clickedTile.peg = null;
-					pegs.Remove(peg);
+				MapEditorGenericTileEntity peg = clickedTile.tileEntity;
+				if (peg != null && peg.tileEntityType == TileEntityType.Peg) {
+					clickedTile.tileEntity = null;
+					tileEntities.Remove(peg);
 					Destroy(peg.gameObject);
 				}
 				else {
-					CreatePeg(clickedTile, PegType.Peg);
+					CreateTileEntity(clickedTile, TileEntityType.Peg);
+				}
+			}
+		}
+
+		else if (state == State.DeathTrap) {
+			if (clickedTile) {
+				MapEditorGenericTileEntity deathTrap = clickedTile.tileEntity;
+				if (deathTrap != null && deathTrap.tileEntityType == TileEntityType.DeathTrap) {
+					clickedTile.tileEntity = null;
+					tileEntities.Remove(deathTrap);
+					Destroy(deathTrap.gameObject);
+				}
+				else {
+					CreateTileEntity(clickedTile, TileEntityType.DeathTrap);
 				}
 			}
 		}

@@ -1,12 +1,20 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class MapEditorTile : MonoBehaviour {
+	[HideInInspector]
 	public IntVector2 coordinates;
+
+	[HideInInspector]
 	public List<MapEditorWall> walls = new List<MapEditorWall>();
+
+	[HideInInspector]
 	public MapEditorWorm worm;
-	public MapEditorPeg peg;
+
+	[HideInInspector]
+	public MapEditorGenericTileEntity tileEntity;
+
 	public TileType tileType {get; private set;}
 
 	public void SetTileType(TileType tileType) {
@@ -31,7 +39,7 @@ public class MapEditorTile : MonoBehaviour {
 		data.tileType = tileType;
 		data.coordinates = coordinates;
 		if (worm != null) data.worm = worm.GetDataVersion();
-		if (peg != null) data.peg = peg.GetDataVersion();
+		if (tileEntity != null) data.tileEntity = tileEntity.GetDataVersion();
 
 		List<MapEditorWallData> wallData = new List<MapEditorWallData>();
 		foreach (MapEditorWall wall in walls) wallData.Add(wall.GetDataVersion());

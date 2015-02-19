@@ -42,6 +42,7 @@ MonoBehaviour:
     - snakeNub
     - snakeSpoke
     - peg
+    - deathTrap
     spriteTextureGUIDs:
     - 8700254b1b7e8438db7451b9339ef213
     - 1ad4b22b17db24f6a9e456017d2df5db
@@ -66,6 +67,7 @@ MonoBehaviour:
     - b58f0663113464875b3a69f2348d08b9
     - c119d73a3cbb0446986cf01b9a0c9d41
     - d83cf7b89525641429b4325839363103
+    - 90c1988a5439e4109880e6138ca0360d
     spriteTextureTimeStamps:
     - 1423730766
     - 1423730766
@@ -89,7 +91,8 @@ MonoBehaviour:
     - 1423730766
     - 1423730766
     - 1423730766
-    - 1424265919
+    - 1424345437
+    - 1424345537
     managedSpriteCollection: 0
     loadable: 0
     assetName: 

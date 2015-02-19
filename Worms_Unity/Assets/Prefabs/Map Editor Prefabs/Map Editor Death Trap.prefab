@@ -13,7 +13,7 @@ GameObject:
   - 33: {fileID: 3359632}
   - 114: {fileID: 11459632}
   m_Layer: 0
-  m_Name: Map Editor Peg
+  m_Name: Map Editor Death Trap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
   collection: {fileID: 11413916, guid: d5be941d10b9b428eaca054a8c77d40e, type: 2}
   _color: {r: 1, g: 1, b: 1, a: 1}
   _scale: {x: 1, y: 1, z: 1}
-  _spriteId: 22
+  _spriteId: 23
   boxCollider2D: {fileID: 0}
   polygonCollider2D: []
   edgeCollider2D: []

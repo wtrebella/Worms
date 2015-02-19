@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEditor;
 
@@ -8,7 +8,6 @@ public class PuzzleDataEditor : Editor {
 	private const int wallThickness = 4;
 	private const int wormSize = 20;
 
-	private Texture2D blockedTileSprite;
 	private Texture2D tileSprite;
 	private Texture2D wallSprite;
 	private Texture2D wallRotatedSprite;
@@ -16,18 +15,17 @@ public class PuzzleDataEditor : Editor {
 	private Texture2D wormHead2Sprite;
 	private Texture2D wormHead3Sprite;
 	private Texture2D wormHead4Sprite;
-	private Texture2D pegSprite;
+	private Texture2D genericTileEntitySprite;
 	private IntVector2 size;
 
 	void OnEnable() {
-		pegSprite = Resources.Load("Inspector Sprites/peg") as Texture2D;
+		genericTileEntitySprite = Resources.Load("Inspector Sprites/genericTileEntity") as Texture2D;
 		wormHead1Sprite = Resources.Load("Inspector Sprites/wormHead1") as Texture2D;
 		wormHead2Sprite = Resources.Load("Inspector Sprites/wormHead2") as Texture2D;
 		wormHead3Sprite = Resources.Load("Inspector Sprites/wormHead3") as Texture2D;
 		wormHead4Sprite = Resources.Load("Inspector Sprites/wormHead4") as Texture2D;
 		wallSprite = Resources.Load("Inspector Sprites/wall") as Texture2D;
 		wallRotatedSprite = Resources.Load("Inspector Sprites/wallRotated") as Texture2D;
-		blockedTileSprite = Resources.Load("Inspector Sprites/blockedTile") as Texture2D;
 		tileSprite = Resources.Load("Inspector Sprites/tile") as Texture2D;
 	}
 
@@ -46,7 +44,6 @@ public class PuzzleDataEditor : Editor {
 				Vector2 pos = GetPosition(new IntVector2(x, y));
 				Rect textureRect = new Rect(pos.x, pos.y, tileSize, tileSize);
 				if (tileData.tileType == TileType.Tile) EditorGUI.DrawPreviewTexture(textureRect, tileSprite);
-				else if (tileData.tileType == TileType.Blocked) EditorGUI.DrawPreviewTexture(textureRect, blockedTileSprite);
 
 				foreach (MapEditorWallData wall in tileData.walls) {
 					Vector2 wallSize = new Vector2();
@@ -80,13 +77,15 @@ public class PuzzleDataEditor : Editor {
 					}
 				}
 
-				if (tileData.peg != null && tileData.peg.pegType != PegType.NONE) {
+				if (tileData.tileEntity != null && tileData.tileEntity.tileEntityType != TileEntityType.NONE) {
 					textureRect = new Rect(pos.x + wormSize / 2, pos.y + wormSize / 2, wormSize, wormSize);
-					Texture2D texture = null;
+					Texture2D texture = genericTileEntitySprite;
+					Material mat = new Material(Shader.Find("Diffuse"));
+					mat.SetTexture(0, texture);
+					if (tileData.tileEntity.tileEntityType == TileEntityType.Peg) mat.color = new Color(0.7f, 0.7f, 0.7f);
+					else if (tileData.tileEntity.tileEntityType == TileEntityType.DeathTrap) mat.color = new Color(1f, 0.1f, 0.2f);
 
-					texture = pegSprite;
-
-					if (texture != null) EditorGUI.DrawPreviewTexture(textureRect, texture);
+					if (texture != null) EditorGUI.DrawPreviewTexture(textureRect, texture, mat);
 				}
 
 				if (tileData.worm != null && tileData.worm.wormType != WormType.NONE) {

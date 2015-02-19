@@ -142,17 +142,19 @@ public abstract class TileEntity : MonoBehaviour {
 	public static bool TileEntityCanMoveToTile(TileEntityType tileEntityType, List<TileEntity> tileEntities) {
 		if (tileEntityType == TileEntityType.Worm) {
 			foreach (TileEntity t in tileEntities) {
-				if (t.tileEntityType == TileEntityType.WormBodyPart || t.tileEntityType == TileEntityType.Peg) return false;
+				if (t.tileEntityType == TileEntityType.WormBodyPart ||
+				    t.tileEntityType == TileEntityType.Peg) return false;
 			}
 		}
 		else if (tileEntityType == TileEntityType.Peg) {
 			foreach (TileEntity t in tileEntities) {
-				if (t.tileEntityType == TileEntityType.WormBodyPart || t.tileEntityType == TileEntityType.Worm || t.tileEntityType == TileEntityType.Peg) return false;
+				if (t.tileEntityType == TileEntityType.WormBodyPart ||
+				    t.tileEntityType == TileEntityType.Worm ||
+				    t.tileEntityType == TileEntityType.Peg) return false;
 			}
 		}
-		else if (tileEntityType == TileEntityType.WormBodyPart) {
-			return false;
-		}
+		else if (tileEntityType == TileEntityType.DeathTrap) return false;
+		else if (tileEntityType == TileEntityType.WormBodyPart) return false;
 		
 		return true;
 	}

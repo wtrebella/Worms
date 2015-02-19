@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -8,7 +8,7 @@ public class MapEditorTileData {
 	public IntVector2 coordinates;
 	public List<MapEditorWallData> walls;
 	public MapEditorWormData worm;
-	public MapEditorPegData peg;
+	public MapEditorGenericTileEntityData tileEntity;
 	public TileType tileType;
 
 	public MapEditorTileData() {

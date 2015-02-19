@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Worm : TileEntity {
+	public Action SignalWormDied;
 	public WormSprite wormSpritePrefab;
 	public WormBodyPart blankBodyPartPrefab;
 
@@ -82,11 +84,15 @@ public class Worm : TileEntity {
 	protected override void CommitMove() {
 		base.CommitMove();
 
-//		Tile previousTile = currentTile;
-//		BoardDirection previousDirection = direction;
 		SetDirection(currentMoveDirection);
 		PlaceBlankBodyPart(currentTile);
 		wormSprite.CommitMove();
+
+		DeathTrap deathTrap = currentTile.GetTileEntity(TileEntityType.DeathTrap) as DeathTrap;
+		if (deathTrap != null) {
+			if (SignalWormDied != null) SignalWormDied();
+			Destroy(gameObject);
+		}
 	}
 	
 	protected override void CancelMove() {
