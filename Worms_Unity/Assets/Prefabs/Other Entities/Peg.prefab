@@ -12,6 +12,7 @@ GameObject:
   - 33: {fileID: 3325774}
   - 114: {fileID: 11425778}
   - 114: {fileID: 11425774}
+  - 114: {fileID: 11447508}
   m_Layer: 0
   m_Name: Peg
   m_TagString: Untagged
@@ -50,7 +51,7 @@ Renderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
 --- !u!33 &3325774
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -93,7 +94,19 @@ MonoBehaviour:
   meshCollider: {fileID: 0}
   meshColliderPositions: []
   meshColliderMesh: {fileID: 0}
-  renderLayer: 1
+  renderLayer: 0
+--- !u!114 &11447508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d006b24a1605414cb42b2d45388af07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_queues: d2070000
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

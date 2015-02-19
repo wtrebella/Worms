@@ -626,7 +626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 585104738}
-  puzzleToLoad: {fileID: 0}
+  puzzleToLoad: {fileID: 11400000, guid: 7b80dab2bfcc2422c86abf88e0d64f1e, type: 2}
   switchStateButton: {fileID: 1913983081}
   inputField: {fileID: 1555505127}
   tilePrefab: {fileID: 11428624, guid: 6eb8414ff2de943359f4d3c0dfeb3a6f, type: 2}

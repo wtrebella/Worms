@@ -12,6 +12,7 @@ GameObject:
   - 23: {fileID: 2334280}
   - 33: {fileID: 3334280}
   - 114: {fileID: 11434280}
+  - 114: {fileID: 11403588}
   m_Layer: 0
   m_Name: Death Trap
   m_TagString: Untagged
@@ -58,6 +59,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134280}
   m_Mesh: {fileID: 0}
+--- !u!114 &11403588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d006b24a1605414cb42b2d45388af07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_queues: d2070000
 --- !u!114 &11434278
 MonoBehaviour:
   m_ObjectHideFlags: 1
