@@ -9,8 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 499594}
   - 33: {fileID: 3399594}
-  - 23: {fileID: 2399594}
   - 114: {fileID: 11499594}
+  - 23: {fileID: 2390092}
   m_Layer: 0
   m_Name: Mask Quad
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2399594
+--- !u!23 &2390092
 Renderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -68,8 +68,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd12829b7514469bb6404871219ca48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileSize: 1
-  wormWidth: .5
   previousDirection: 4
 --- !u!1001 &100100000
 Prefab:

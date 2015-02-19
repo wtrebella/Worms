@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System;
 
 public class Worm : TileEntity {
+	public static float wormWidth = 50;
+
 	public Action SignalWormDied;
 	public WormSprite wormSpritePrefab;
 	public WormBodyPart blankBodyPartPrefab;

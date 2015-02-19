@@ -9,7 +9,7 @@ public enum TileType {
 
 public class Tile : MonoBehaviour {
 	public TileType tileType;
-	public Renderer tileSpritePrefab;
+	public tk2dSprite tileSpritePrefab;
 	public IntVector2 coordinates;
 	public List<TileEntity> tileEntities;
 
@@ -22,7 +22,7 @@ public class Tile : MonoBehaviour {
 	public void InitializeSprite() {
 		if (tileSpritePrefab == null) return;
 
-		Renderer s = Instantiate(tileSpritePrefab) as Renderer;
+		tk2dSprite s = Instantiate(tileSpritePrefab) as tk2dSprite;
 		s.transform.parent = transform;
 		s.transform.localPosition = new Vector3(0, 0, 1);
 	}

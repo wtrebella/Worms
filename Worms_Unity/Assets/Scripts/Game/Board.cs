@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Board : MonoBehaviour {
 	public static Board instance;
 
-	public static int tileSize = 1;
+	public static int tileSize = 100;
 	public static float lerpTime = 0.3f;
 
 	public Tile tilePrefab;

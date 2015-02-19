@@ -43,8 +43,8 @@ MonoBehaviour:
   blockedTilePrefab: {fileID: 11423620, guid: 482a86df260244856adead42f536d78e, type: 2}
   passagePrefab: {fileID: 11416412, guid: dcda81c958a1a4d42a7003546f366f68, type: 2}
   wallPrefab: {fileID: 11438466, guid: a5861fca85462472486892a0d4374cbf, type: 2}
-  pegPrefab: {fileID: 11400182, guid: cceee236bba2a4500ab3c0ed95983eaa, type: 2}
-  deathTrapPrefab: {fileID: 11400182, guid: fdfb3e4bde98d4e23aad14329f07d579, type: 2}
+  pegPrefab: {fileID: 11425774, guid: cceee236bba2a4500ab3c0ed95983eaa, type: 2}
+  deathTrapPrefab: {fileID: 11434278, guid: 422e41cde6a6c40e6b16e937d65dacb8, type: 2}
   wormPrefab: {fileID: 11405450, guid: f1fb9ab49e5de44b380c57ac81de9c56, type: 2}
 --- !u!1001 &100100000
 Prefab:

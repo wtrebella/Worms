@@ -82,19 +82,27 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void OnSwipeBegan(BoardDirection swipeDirection) {
+		if (gameState != GameState.Playing) return;
+
 		if (currentlyMovingEntities > 0) swipeEventSystem.CancelTouch(false);
 		else board.OnSwipeBegan(swipeDirection);
 	}
 	
 	public void OnSwipeContinue(BoardDirection swipeDirection, float swipePixelDistance) {
+		if (gameState != GameState.Playing) return;
+
 		board.OnSwipeContinue(swipeDirection, swipePixelDistance);
 	}
 	
 	public void OnSwipeEnded(BoardDirection swipeDirection, float swipePixelDistance, float swipeTime) {
+		if (gameState != GameState.Playing) return;
+
 		board.OnSwipeEnded(swipeDirection, swipePixelDistance, swipeTime < swipeEventSystem.quickSwipeMaxLength);
 	}
 	
 	public void OnSwipeCanceled(BoardDirection swipeDirection) {
+		if (gameState != GameState.Playing) return;
+
 		board.OnSwipeCanceled(swipeDirection);
 	}
 

@@ -19,12 +19,12 @@ MonoBehaviour:
     spriteCollectionGUID: 83f121d18701b42f79bf099b8b59b450
     spriteCollectionDataGUID: d5be941d10b9b428eaca054a8c77d40e
     spriteNames:
-    - tile
-    - wall
+    - 
+    - 
     - snowTile
     - wormPart
     - wormHead
-    - blockedTile
+    - 
     - wormPartNub
     - roadSpoke
     - roadStraight
@@ -44,12 +44,12 @@ MonoBehaviour:
     - peg
     - deathTrap
     spriteTextureGUIDs:
-    - 8700254b1b7e8438db7451b9339ef213
-    - 1ad4b22b17db24f6a9e456017d2df5db
+    - 
+    - 
     - 5d58c3b4248834987b4fc55b4c3382bb
     - c2ec58758a15d45bca41053d43df549c
     - 9640acb8762554f0b81daf2071f01abc
-    - 25911819f6f4941de9d76ebb1b4f8eaa
+    - 
     - 5371edfbb7d314516966a4e2ad3bf087
     - c8924ac73514b4395a70fc8dead50288
     - f9ebed936d60645aa8e1e4fa05d5b664
@@ -69,6 +69,12 @@ MonoBehaviour:
     - d83cf7b89525641429b4325839363103
     - 90c1988a5439e4109880e6138ca0360d
     spriteTextureTimeStamps:
+    - 0
+    - 0
+    - 1423730766
+    - 1423730766
+    - 1423730766
+    - 0
     - 1423730766
     - 1423730766
     - 1423730766
@@ -85,13 +91,7 @@ MonoBehaviour:
     - 1423730766
     - 1423730766
     - 1423730766
-    - 1423730766
-    - 1423730766
-    - 1423730766
-    - 1423730766
-    - 1423730766
-    - 1423730766
-    - 1424345437
+    - 1424354780
     - 1424345537
     managedSpriteCollection: 0
     loadable: 0
@@ -107,3 +107,31 @@ MonoBehaviour:
     loadable: 0
     assetName: 
     version: 0
+  - name: Point
+    spriteCollectionGUID: 2cdd840ba5d3049538d8a0b1667f16dc
+    spriteCollectionDataGUID: 3bac6184e929c42e0bc509b9ed988f97
+    spriteNames:
+    - tile
+    - wall
+    - peg
+    - deathTrap
+    - wormHead
+    - wormButt
+    spriteTextureGUIDs:
+    - 2bfb9d868f9854d6fb17c5005d2229ae
+    - ad5bcb52d74db441b8e6ae00d62b76c5
+    - d83cf7b89525641429b4325839363103
+    - 90c1988a5439e4109880e6138ca0360d
+    - e520ebc1691504dd88c08a99c171ee48
+    - 73b88c82de94f44a081d23f9dc6ae713
+    spriteTextureTimeStamps:
+    - 1424353996
+    - 1424270122
+    - 1424354780
+    - 1424345537
+    - 1424355780
+    - 1424356104
+    managedSpriteCollection: 0
+    loadable: 0
+    assetName: 
+    version: 3
