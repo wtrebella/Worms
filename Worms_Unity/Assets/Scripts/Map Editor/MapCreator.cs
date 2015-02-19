@@ -95,6 +95,7 @@ public class MapCreator : MonoBehaviour {
 
 				foreach (MapEditorWallData wallData in tileData.walls) CreateWall(tile, wallData.direction, false);
 				if (tileData.worm != null && tileData.worm.wormType != WormType.NONE) CreateWorm(tile, tileData.worm.direction, tileData.worm.wormType);
+				if (tileData.tileEntity != null && tileData.tileEntity.tileEntityType != TileEntityType.NONE) CreateTileEntity(tile, tileData.tileEntity.tileEntityType);
 			}
 		}
 	}

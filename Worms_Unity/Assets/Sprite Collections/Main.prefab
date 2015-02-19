@@ -61,18 +61,18 @@ MonoBehaviour:
   forcedTextureWidth: 2048
   forcedTextureHeight: 2048
   textureCompression: 0
-  atlasWidth: 256
+  atlasWidth: 512
   atlasHeight: 512
   forceSquareAtlas: 0
-  atlasWastage: 11.1373901
+  atlasWastage: 47.631073
   allowMultipleAtlases: 0
   removeDuplicates: 1
   textureParams:
-  - name: 
+  - name: blockedTile
     disableTrimming: 0
     additive: 0
     scale: {x: 1, y: 1, z: 1}
-    texture: {fileID: 0}
+    texture: {fileID: 2800000, guid: 44d49b91e3a034283a0cba682b4bc470, type: 3}
     materialId: 0
     anchor: 4
     anchorX: 0
@@ -109,11 +109,11 @@ MonoBehaviour:
     colliderSmoothSphereCollisions: 0
     colliderColor: 0
     attachPoints: []
-  - name: 
+  - name: tile
     disableTrimming: 0
     additive: 0
     scale: {x: 1, y: 1, z: 1}
-    texture: {fileID: 0}
+    texture: {fileID: 2800000, guid: 2bfb9d868f9854d6fb17c5005d2229ae, type: 3}
     materialId: 0
     anchor: 4
     anchorX: 0

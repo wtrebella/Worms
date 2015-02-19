@@ -19,8 +19,8 @@ MonoBehaviour:
     spriteCollectionGUID: 83f121d18701b42f79bf099b8b59b450
     spriteCollectionDataGUID: d5be941d10b9b428eaca054a8c77d40e
     spriteNames:
-    - 
-    - 
+    - blockedTile
+    - tile
     - snowTile
     - wormPart
     - wormHead
@@ -44,8 +44,8 @@ MonoBehaviour:
     - peg
     - deathTrap
     spriteTextureGUIDs:
-    - 
-    - 
+    - 44d49b91e3a034283a0cba682b4bc470
+    - 2bfb9d868f9854d6fb17c5005d2229ae
     - 5d58c3b4248834987b4fc55b4c3382bb
     - c2ec58758a15d45bca41053d43df549c
     - 9640acb8762554f0b81daf2071f01abc
@@ -69,8 +69,8 @@ MonoBehaviour:
     - d83cf7b89525641429b4325839363103
     - 90c1988a5439e4109880e6138ca0360d
     spriteTextureTimeStamps:
-    - 0
-    - 0
+    - 1423730766
+    - 1424353996
     - 1423730766
     - 1423730766
     - 1423730766
@@ -117,6 +117,7 @@ MonoBehaviour:
     - deathTrap
     - wormHead
     - wormButt
+    - blockedTile
     spriteTextureGUIDs:
     - 2bfb9d868f9854d6fb17c5005d2229ae
     - ad5bcb52d74db441b8e6ae00d62b76c5
@@ -124,6 +125,7 @@ MonoBehaviour:
     - 90c1988a5439e4109880e6138ca0360d
     - e520ebc1691504dd88c08a99c171ee48
     - 73b88c82de94f44a081d23f9dc6ae713
+    - 44d49b91e3a034283a0cba682b4bc470
     spriteTextureTimeStamps:
     - 1424353996
     - 1424270122
@@ -131,6 +133,7 @@ MonoBehaviour:
     - 1424345537
     - 1424355780
     - 1424356104
+    - 1423730766
     managedSpriteCollection: 0
     loadable: 0
     assetName: 

@@ -44,7 +44,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 3b1d68335a9d44607a944168e9514267, type: 2}
+  - {fileID: 2100000, guid: 2958428f3280e4a579ad356b55d324a5, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fac570381f34f647b768dc5a5aa1364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collection: {fileID: 11413916, guid: d5be941d10b9b428eaca054a8c77d40e, type: 2}
+  collection: {fileID: 11484902, guid: 3bac6184e929c42e0bc509b9ed988f97, type: 2}
   _color: {r: 1, g: 1, b: 1, a: 1}
   _scale: {x: 1, y: 1, z: 1}
   _spriteId: 0
@@ -110,6 +110,7 @@ MonoBehaviour:
     y: 0
   walls: []
   worm: {fileID: 0}
+  tileEntity: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
