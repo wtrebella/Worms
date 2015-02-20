@@ -21,4 +21,14 @@ public class Peg : TileEntity {
 
 		transform.position = Vector3.Lerp(curTilePos, newTilePos, normalizedDistance);
 	}
+
+	protected override void CommitMove() {
+		base.CommitMove();
+
+//		DeathTrap deathTrap = currentTile.GetTileEntity(TileEntityType.DeathTrap) as DeathTrap;
+//		if (deathTrap != null) {
+//			RemoveFromTile();
+//			Destroy(gameObject);
+//		}
+	}
 }

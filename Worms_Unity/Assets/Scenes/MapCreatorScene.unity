@@ -236,7 +236,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .580882311, g: .580882311, b: .580882311, a: .0196078438}
+  m_BackGroundColor: {r: .654901981, g: .654901981, b: .654901981, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -510,7 +510,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 3, y: 498}
+  m_AnchoredPosition: {x: 3, y: 300}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1555505127
@@ -626,7 +626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 585104738}
-  puzzleToLoad: {fileID: 11400000, guid: 7b80dab2bfcc2422c86abf88e0d64f1e, type: 2}
+  puzzleToLoad: {fileID: 11400000, guid: 0e071d0f3f46341cc8b3072b1f416287, type: 2}
   switchStateButton: {fileID: 1913983081}
   inputField: {fileID: 1555505127}
   tilePrefab: {fileID: 11428624, guid: 6eb8414ff2de943359f4d3c0dfeb3a6f, type: 2}
@@ -636,8 +636,8 @@ MonoBehaviour:
   deathTrapPrefab: {fileID: 11459634, guid: df7c516a91d344e44aa08ad9fbad9050, type: 2}
   tileSize: 100
   size:
-    x: 3
-    y: 4
+    x: 5
+    y: 8
 --- !u!4 &1753884206
 Transform:
   m_ObjectHideFlags: 0
@@ -683,7 +683,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 2, y: 533}
+  m_AnchoredPosition: {x: 2, y: 335}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1913983081
